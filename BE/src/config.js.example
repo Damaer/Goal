@@ -1,0 +1,8 @@
+module.exports = {
+	COOKIE_SECRET: 'goal',
+	DB: 'goal',
+	HOST: 'localhost',
+	PORT: 27017,
+	USERNAME: '',
+	PASSWORD: ''
+};

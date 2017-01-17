@@ -16,8 +16,6 @@ mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl)
 
 process.on('uncaughtException', function (err) {
-	res.status(500);
-	res.json({code: 10500, msg: 'server error'});
   console.log('Caught exception: ', err);
 });
 

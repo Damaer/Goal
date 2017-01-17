@@ -45,7 +45,8 @@ exports.update = (req, res, next) => {
 }
 
 exports.delete = (req, res, next) => {
-	User.remove({id: req.params.id}, err => {
+	console.log(req.params.id);
+	User.remove({_id: req.params.id}, err => {
 		if (err) {
 			res.json({code: 10404, msg: '删除失败: 未找到要删除的用户'});
 		} else {

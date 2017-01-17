@@ -17,11 +17,13 @@ let UserSchema = new Schema({
 	},
 	email: {
 		type: String,
-		unique: true
+		unique: true,
+		sparse: true
 	},
 	phone: {
 		type: String,
-		unique: true
+		unique: true,
+		sparse: true
 	},
 	avatar: {
 		type: String,

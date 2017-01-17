@@ -16,7 +16,9 @@ mongoose.Promise = global.Promise;
 mongoose.connect(dbUrl)
 
 process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ', err);
+	res.status(500);
+	res.json({code: 10500, msg: 'server error'});
+  console.log('Caught exception: ', err);
 });
 
 var app = express();
@@ -38,8 +40,8 @@ if (app.get('env') === 'dev') {
 	app.set('showStackError', true)
 	app.locals.pretty = true
 	app.use((err, req, res, next) => {
-		res.status(err,status || 500);
-		res.json({message: err.message, error: err})
+		res.status(err.status || 500);
+		res.json({msg: err.message, error: err})
 	});
 }
 

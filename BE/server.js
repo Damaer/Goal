@@ -1,5 +1,5 @@
 var app = require('./dist/app');
-var debug = require('debug')('blog:server');
+var debug = require('debug')('goal:server');
 var http = require('http');
 
 /**

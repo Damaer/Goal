@@ -41,7 +41,15 @@ exports.read = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-	res.json({code: 104040, msg: '功能开发中...'});
+	res.json({code: 10404, msg: '功能开发中'});
+}
+
+exports.update_email = (req, res, next) => {
+	res.json({code: 10404, msg: '功能开发中...'});
+}
+ 
+exports.update_phone = (req, res, next) => {
+	res.json({code: 10404, msg: '功能开发中...'});
 }
 
 exports.delete = (req, res, next) => {

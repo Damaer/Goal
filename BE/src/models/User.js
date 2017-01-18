@@ -61,7 +61,7 @@ UserSchema.pre('save', function(next) {
 	}
 
 	let hash = bcrypt.hashSync(this.password);
-	this.password =  hash;
+	this.password = hash;
 
 	next();
 })
@@ -74,7 +74,7 @@ UserSchema.methods = {
 			if (isMatch) {
 				resolve();
 			} else {
-				reject("password error");
+				reject({code: 10404, msg: "账号或密码错误"});
 			}
 		})
 	}

@@ -42,7 +42,7 @@ exports.login = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
-	let tokenString = req.headers.Authorization;
+	let tokenString = req.headers.authorization;
 	if (tokenString) {
 		Token.findOne({token: tokenString}, (err, token) => {
 			token.used = true;
@@ -93,7 +93,7 @@ exports.auth = (req, res, next) => {
 	}
 	Token.findOne({token: tokenString}, (err, token) => {
 		if (err || !token || token.expire < time || token.used) {
-			return res.json({code: 10402, msg: '用户验证错误'});
+			return res.json({code: 10402, msg: '登录超时'});
 		}
 
 		User.findById(token.user, (err, user) => {

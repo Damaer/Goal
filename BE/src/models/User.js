@@ -44,7 +44,7 @@ let UserSchema = new Schema({
 		default: "你永远不知道自己可以做得多好"
 	},
 	authority: {
-		type: String,
+		type: Number,
 		default: 0
 	}
 })

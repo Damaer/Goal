@@ -17,32 +17,40 @@ router.route('/login')
 router.route('/logout')
 	.get(Authentication.logout)
 
+///////////////////admin api////////////
 // user
 router.route('/user')
-	.get(User.index)
-	.post(User.save)
+	.get(Authentication.auth, Authentication.auth_admin, User.index)
+	.post(Authentication.auth, Authentication.auth_admin, User.save)
 router.route('/user/:id')
-	.get(User.read)
-	.put(User.update)
-	.delete(User.delete)
-
-// email
-router.route('/email/:id')
-	.put(User.update_email)
-// phone
-router.route('/phone/:id')
-	.put(User.update_phone)
+	.get(Authentication.auth, Authentication.auth_admin, User.read)
+	.put(Authentication.auth, Authentication.auth_admin, User.update)
+	.delete(Authentication.auth, Authentication.auth_admin, User.delete)
 
 // dailySentence
 router.route('/dailySentence')
-	.get(DailySentence.index)
-	.post(DailySentence.save)
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.index)
+	.post(Authentication.auth, Authentication.auth_admin, DailySentence.save)
 router.route('/dailySentence/:id')
-	.get(DailySentence.read)
-	.put(DailySentence.update)
-	.delete(DailySentence.delete)
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.read)
+	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
+	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
 
 //////////////login required//////////////
+// user
+router.route('/user/info')
+	.get(Authentication.auth, User.getUserInfo)
+	.put(Authentication.auth, User.updateUserInfo)
+router.route('/user/password')
+	.put(Authentication.auth, User.updatePassword)
+
+// email
+router.route('/email')
+	.put(Authentication.auth, User.update_email)
+// phone
+router.route('/phone')
+	.put(Authentication.auth, User.update_phone)
+
 // note
 router.route('/note')
 	.get(Authentication.auth, Note.index)

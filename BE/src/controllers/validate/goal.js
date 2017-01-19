@@ -20,8 +20,8 @@ let create = data => new Promise((resolve, reject) => {
 	if (content.length === 0) {
 		return reject({code: 10401, msg: '目标内容不能为空'});
 	}
-	beginInt = parseInt(begin);
-	planInt = parseInt(plan);
+	let beginInt = parseInt(begin),
+			planInt = parseInt(plan);
 	if (beginInt == NaN || planInt == NaN || beginInt >= planInt) {
 		return reject({code: 10402, msg: '时间非法'});
 	}

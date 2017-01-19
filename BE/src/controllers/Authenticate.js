@@ -86,7 +86,7 @@ let refresh_access_token = oldToken => new Promise((resolve, reject) => {
 exports.refresh_access_token = refresh_access_token;
 
 exports.auth = (req, res, next) => {
-	let tokenString = req.headers.Authorization,
+	let tokenString = req.headers.authorization,
 			time = Date.now();
 	if (!tokenString) {
 		return res.json({code: 10200, msg: '请先登录'});

@@ -1,5 +1,5 @@
 import Goal from '../models/Goal'
-import validate from 'validate/goal'
+import validate from './validate/goal'
 
 let codeMsg = {
 	10000: 'success',
@@ -35,6 +35,7 @@ exports.save = (req, res, next) => {
 			}
 		})
 	}, err => {
+		console.log(err);
 		res.json(err);
 	})
 }

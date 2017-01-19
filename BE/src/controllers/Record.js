@@ -1,7 +1,7 @@
 import Record from '../models/Record'
 import Goal from '../models/Goal'
 import DailySentence from '../models/DailySentence'
-import {getToday} from 'util/util'
+import {getToday} from './util/util'
 
 let codeMsg = {
 	10000: 'success',
@@ -33,14 +33,13 @@ exports.today = (req, res, next) => {
 				resolve(record);
 			}
 		}).then(record => {
-			record.populate({path: 'dailySentence'})
-				.exec((err, record) => {
-					if (err) {
-						console.log(err);
-						return res.json({code: 10404, msg: '查询失败'});
-					}
-					res.json({code: 10000, msg: '', data: record});
-				})
+			record.populate({path: 'dailySentence'}, (err, record) => {
+				if (err) {
+					console.log(err);
+					return res.json({code: 10404, msg: '查询失败'});
+				}
+				res.json({code: 10000, msg: '', data: record});
+			})
 		}, err => {
 			console.log(err);
 			res.json({code: 10404, msg: '查询失败'});
@@ -116,7 +115,10 @@ exports.markGoalsFinished = (req, res, next) => {
 					resolve(record);
 				}
 			}).then(record => {
-				record.goalsFinished.push(goal);
+				if (record.goalsFinished.indexOf(goalId) !== -1) {
+					return res.json({code: 10404, msg: '该目标今天已标记完成'});
+				}
+				record.goalsFinished.push(goalId);
 				record.save(err => {
 					if (err) {
 						console.log(err);

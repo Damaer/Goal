@@ -16,6 +16,8 @@ router.route('/login')
 	.post(Authentication.login)
 router.route('/logout')
 	.get(Authentication.logout)
+router.route('/register')
+	.post(User.save)
 
 ///////////////////admin api////////////
 // user

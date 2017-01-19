@@ -24,6 +24,8 @@ var app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+// static server
+app.use('/public', express.static(path.join(__dirname, '../public/')));
 
 app.use('/api', apiRoutes);
 

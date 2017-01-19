@@ -37,6 +37,9 @@ router.route('/dailySentence/:id')
 	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
 
 //////////////login required//////////////
+// upload avatar img
+router.route('/user/avatar')
+	.post(Authentication.auth, User.uploadImg)
 // user
 router.route('/user/info')
 	.get(Authentication.auth, User.getUserInfo)

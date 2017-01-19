@@ -1,5 +1,13 @@
+import fs from 'fs'
+import crypto from 'crypto'
+import path from 'path'
+
 import User from '../models/User'
 import validate from './validate/user'
+
+const uploadConfig = {
+	distDir: '/public/avatar'
+}
 
 exports.index = (req, res, next) => {
 	User.find({}, (err, users) => {
@@ -143,4 +151,33 @@ exports.delete = (req, res, next) => {
 			res.json({code: 10000, msg: '删除成功'});
 		}
 	})
+}
+
+exports.uploadImg = (req, res, next) => {
+	if (!req.files || !req.files.avatar) {
+		return res.json({code: 10200, msg: 'params error'});
+	}
+	let file = req.files.avatar
+			tmpPath = file.path;
+	// get md5 of the upload file
+	let rs = fs.createReadStream(tmpPath),
+			hash = crypto.createHash('md5');
+	rs.on('data', hash.update.bind(hash));
+	rs.on('end', function () {
+		let md5 = hash.digest('hex');
+		let newPath = path.join(uploadConfig.distDir, md5);
+		fs.rename(tmpPath, newPath, err => {
+			if (err) {
+				console.log(err);
+				return res.json({code: 10404, msg: '上传图片失败，请尝试重新上传'});
+			}
+			res.json({code: 10000, msg: '上传图片成功', data: newPath});
+			// delete tmp file
+			fs.unlink(tmpPath, err => {
+				if (err) {
+					console.log(err);
+				}
+			})
+		})
+	});
 }

@@ -16,8 +16,8 @@ let RecordSchema = new Schema({
 		ref: 'DailySentence'
 	},
 	goalsFinished: {
-		type: Number,
-		default: 0
+		type: Array,
+		default: []
 	}
 })
 

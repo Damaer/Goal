@@ -42,17 +42,36 @@ router.route('/dailySentence/:id')
 	.put(DailySentence.update)
 	.delete(DailySentence.delete)
 
-// ///////////////////
-// // note
-// router.route('/note/user/:id')
-// 	.get(Note.findByUserId)
+//////////////login required//////////////
+// note
+router.route('/note')
+	.get(Note.index)
+	.post(Note.save)
+router.route('/note/:id')
+	.get(Note.read)
+	.put(Note.update)
+	.delete(Note.delete)
 
-// // goal
-// router.route('/goal/user/:id')
-// 	.get(Goal.findByUserId)
+// goal
+router.route('/goal')
+	.get(Goal.index)
+	.post(Goal.save)
+router.route('/goal/:id')
+	.get(Goal.read)
+	.put(Goal.update)
+	.delete(Goal.delete)
 
-// // record
-// router.route('/record/user/:id')
-// 	.get(Record.findByUserId)
+// record
+router.route('/record')
+	.get(Record.index)
+router.route('/record/today')
+	.get(Record.today)
+router.route('/record/goalsFinished')
+	.get(Record.getGoalsFinished)
+	.post(Record.markGoalsFinished)
+router.route('/record/goalsFinishedNums')
+	.get(Record.goalsFinishedNums)
+router.route('/record/dailySentence')
+	.get(Record.dailySentence)
 
 module.exports = router;

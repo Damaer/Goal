@@ -25,15 +25,20 @@ exports.create = data => new Promise((resolve, reject) => {
 	})
 })
 
-exports.update = (user, data) => new Promise((resolve, reject) => {
-	const {name, description, avatar} = data;
-	if (!name || !description || !avatar) {
-		return reject({code: 10200, msg: 'params error'});
-	}
-	Cname(name).then(() => {
-		resolve();
-	}, err => {
-		reject(err);
+exports.update = (id, data) => new Promise((resolve, reject) => {
+	const {name} = data;
+	User.findOne({_id: id}, (err, user) => {
+		if (err || !user) {
+			return reject({code: 10200, msg: 'params error'});
+		}
+		if (user.name == name) {
+			return resolve(user);
+		}
+		Cname(name).then(() => {
+			resolve(user);
+		}, err => {
+			reject(err);
+		})
 	})
 })
 

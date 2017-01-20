@@ -10,13 +10,28 @@ const uploadConfig = {
 }
 
 exports.index = (req, res, next) => {
-	User.find({}, (err, users) => {
-		if (err || !users) {
-			res.json({code: 10404, msg: 'not found users'});
-		} else {
-			res.json({code: 10000, data: users});
-		}
-	})
+	const {page, rows} = req.query;
+	// 分页查询
+	if (page && rows) {
+		User.find({}, {password: 0})
+				.skip((page - 1) * rows)
+				.limit(rows)
+				.exec((err, users) => {
+					if (err) {
+						res.json({code: 10404, msg: 'params error'});
+					} else {
+						res.json({code: 10000, msg: '', data: users});
+					}
+				})
+	} else {
+		User.find({}, {password: 0}, (err, users) => {
+			if (err || !users) {
+				res.json({code: 10404, msg: 'not found users'});
+			} else {
+				res.json({code: 10000, data: users});
+			}
+		})
+	}
 }
 
 exports.save = (req, res, next) => {
@@ -88,8 +103,7 @@ exports.updatePassword = (req, res, next) => {
 
 exports.update = (req, res, next) => {
 	// 不支持更改密码
-	let user = req.user;
-	validate.update(user, req.body).then(() => {
+	validate.update(req.params.id, req.body).then(user => {
 		const {name, avatar, email, phone, description} = req.body;
 		user.name = name;
 		user.avatar = avatar;
@@ -106,7 +120,6 @@ exports.update = (req, res, next) => {
 	}, err => {
 		res.json(err);
 	})
-	res.json({code: 10404, msg: '功能开发中'});
 }
 
 exports.update_email = (req, res, next) => {
@@ -180,4 +193,14 @@ exports.uploadImg = (req, res, next) => {
 			})
 		})
 	});
+}
+
+exports.count = (req, res, next) => {
+	User.count({}, (err, count) => {
+		if (err) {
+			console.log(err);
+			return res.json({code: 10404, msg: '查询失败'});
+		}
+		res.json({code: 10000, msg: '', data: count});
+	})
 }

@@ -29,7 +29,8 @@ exports.login = (req, res, next) => {
 				res.json({code: 10000, msg: '登录成功', data: {
 					username: user.name,
 					avatar: user.avatar,
-					description: user.description
+					description: user.description,
+					authorization: user.authority
 				}})
 			}, err => {
 				console.log(err);
@@ -45,12 +46,14 @@ exports.logout = (req, res, next) => {
 	let tokenString = req.headers.authorization;
 	if (tokenString) {
 		Token.findOne({token: tokenString}, (err, token) => {
-			token.used = true;
-			token.save(err => {
-				if (err) {
-					console.log(err);
-				}
-			})
+			if (!err && token) {
+				token.used = true;
+				token.save(err => {
+					if (err) {
+						console.log(err);
+					}
+				})
+			}
 		})
 	}
 	res.json({code: 10000});

@@ -20,25 +20,6 @@ router.route('/register')
 	.post(User.save)
 
 ///////////////////admin api////////////
-// user
-router.route('/user')
-	.get(Authentication.auth, Authentication.auth_admin, User.index)
-	.post(Authentication.auth, Authentication.auth_admin, User.save)
-router.route('/user/:id')
-	.get(Authentication.auth, Authentication.auth_admin, User.read)
-	.put(Authentication.auth, Authentication.auth_admin, User.update)
-	.delete(Authentication.auth, Authentication.auth_admin, User.delete)
-
-// dailySentence
-router.route('/dailySentence')
-	.get(Authentication.auth, Authentication.auth_admin, DailySentence.index)
-	.post(Authentication.auth, Authentication.auth_admin, DailySentence.save)
-router.route('/dailySentence/:id')
-	.get(Authentication.auth, Authentication.auth_admin, DailySentence.read)
-	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
-	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
-
-//////////////login required//////////////
 // upload avatar img
 router.route('/user/avatar')
 	.post(Authentication.auth, User.uploadImg)
@@ -48,6 +29,29 @@ router.route('/user/info')
 	.put(Authentication.auth, User.updateUserInfo)
 router.route('/user/password')
 	.put(Authentication.auth, User.updatePassword)
+router.route('/user/count')
+	.get(Authentication.auth, Authentication.auth_admin, User.count)
+
+router.route('/user')
+	.get(Authentication.auth, Authentication.auth_admin, User.index)
+	.post(Authentication.auth, Authentication.auth_admin, User.save)
+router.route('/user/:id')
+	.get(Authentication.auth, Authentication.auth_admin, User.read)
+	.put(Authentication.auth, Authentication.auth_admin, User.update)
+	.delete(Authentication.auth, Authentication.auth_admin, User.delete)
+
+// dailySentence
+router.route('/dailySentence/count')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.count)
+router.route('/dailySentence')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.index)
+	.post(Authentication.auth, Authentication.auth_admin, DailySentence.save)
+router.route('/dailySentence/:id')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.read)
+	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
+	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
+
+//////////////login required//////////////
 
 // email
 router.route('/email')

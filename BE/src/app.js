@@ -27,6 +27,17 @@ app.use(bodyParser.urlencoded({ extended: true }))
 // static server
 app.use('/public', express.static(path.join(__dirname, '../public/')));
 
+//设置跨域访问
+app.all('/api/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "authorization, X-Requested-With");
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+    res.header("Access-Control-Expose-Headers", "authorization");
+    res.header("X-Powered-By",' 3.2.1')
+    res.header("Content-Type", "application/json;charset=utf-8");
+    next();
+});
+
 app.use('/api', apiRoutes);
 
 // catch 404 and forward to error handler

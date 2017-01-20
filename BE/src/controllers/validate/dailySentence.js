@@ -1,4 +1,4 @@
-import DayliSentence from '../../models/DailySentence'
+import DailySentence from '../../models/DailySentence'
 
 let codeMsg = {
 	10000: 'create successfully',

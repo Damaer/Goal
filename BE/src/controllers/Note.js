@@ -8,12 +8,18 @@ let codeMsg = {
 
 exports.index = (req, res, next) => {
 	let userId = req.user._id;
-	Note.find({user: userId}, (err, notes) => {
+	Note.find({user: userId, delete: false}, (err, notes) => {
 		if (err) {
 			console.log(err);
 			return res.json({code: 10404, msg: '未找到当前用户便签'});
 		}
-		res.json({code: 10000, msg: '查找成功', data: notes});
+		res.json({code: 10000, msg: '查找成功', data: notes.map(note => {
+			return {
+				content: note.content,
+				createAt: note.meta.createAt,
+				updateAt: note.meta.updateAt
+			}
+		})});
 	})
 }
 
@@ -37,11 +43,15 @@ exports.save = (req, res, next) => {
 exports.read = (req, res, next) => {
 	let userId = req.user._id,
 			id = req.params.id;
-	Note.findOne({user: userId, _id: id}, (err, note) => {
+	Note.findOne({user: userId, _id: id, delete: false}, (err, note) => {
 		if (err || !note) {
 			return res.json({code: 10404, msg: '未找到便签'});
 		}
-		res.json({code: 10000, msg: '', data: note});
+		res.json({code: 10000, msg: '', data: {
+			content: note.content,
+			createAt: note.meta.createAt,
+			updateAt: note.meta.updateAt
+		}});
 	})
 }
 

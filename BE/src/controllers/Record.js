@@ -10,7 +10,7 @@ let codeMsg = {
 
 exports.index = (req, res, next) => {
 	let userId = req.user._id;
-	Record.find({user: userId}, (err, records) => {
+	Record.find({user: userId}, {user: 0, _id: 0}, (err, records) => {
 		if (err) {
 			console.log(err);
 			return res.json({code: 10404, msg: '未找到当前用户记录'});
@@ -55,11 +55,27 @@ exports.dailySentence = (req, res, next) => {
 		if (err) {
 			return res.json({code: 10404, msg: '查询失败'});
 		}
-		if (!record) {
-			createRecord(userId).then((record, dailySentence) => res.json({code: 10000, msg: '', data: dailySentence}), err => res.json({code: 10404, msg: '查询失败'}));
-		} else {
-			res.json({code: 10000, msg: ''})
-		}
+		new Promise((resolve, reject) => {
+			if (!record) {
+				createRecord(userId).then(
+					(record, dailySentence) => resolve(dailySentence)
+					, err => reject({code: 10404, msg: '查询失败'}));
+			} else {
+				DailySentence.findById(record.dailySentence, (err, sentence) => {
+					if (err || !sentence) {
+						return reject({code: 10404, msg: '查询失败'});
+					}
+					resolve(sentence);
+				})
+			}
+		}).then(dailySentence => {
+			res.json({code: 10000, msg: '', data: {
+				sentence: dailySentence.sentence,
+				backImg: dailySentence.backImg
+			}});
+		}, err => {
+			res.json(err);
+		})
 	})
 }
 
@@ -72,8 +88,16 @@ exports.getGoalsFinished = (req, res, next) => {
 		goalsId.map(goalId => {
 			promises.push(new Promise((resolve, reject) => {
 				Goal.findById(goalId, (err, goal) => {
-					if (!err && goal) {
-						goals.push(goal);
+					if (!err && goal && !goal.delete) {
+						goals.push({
+							title: goal.title,
+							content: goal.content,
+							begin: goal.time.begin,
+							plan: goal.time.plan,
+							end: goal.time.finish,
+							createAt: goal.meta.createAt,
+							updateAt: goal.meta.updateAtt
+						});
 					}
 					resolve();
 				})
@@ -83,6 +107,7 @@ exports.getGoalsFinished = (req, res, next) => {
 			res.json({code: 10000, msg: '', data: goals});
 		}, err => {
 			console.log(err);
+			res.json({code: 10404, msg: '获取信息失败'});
 		})
 	})
 }
@@ -100,8 +125,11 @@ exports.markGoalsFinished = (req, res, next) => {
 			today = getToday();
 	const {goalId} = req.body;
 	Goal.findById(goalId, (err, goal) => {
-		if (err || !goal) {
+		if (err || !goal || goal.delete) {
 			return res.json({code: 10404, msg: '目标不存在'});
+		}
+		if (goal.finish) {
+			return res.json({code: 10404, msg: '标记目标已完成'});
 		}
 		Record.findOne({user: userId, date: today}, (err, record) => {
 			if (err) {

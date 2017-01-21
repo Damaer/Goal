@@ -22,13 +22,13 @@ router.route('/register')
 ///////////////////admin api////////////
 // upload avatar img
 router.route('/user/avatar')
-	.post(Authentication.auth, User.uploadImg)
+	.post(Authentication.auth, User.upload_img)
 // user
 router.route('/user/info')
-	.get(Authentication.auth, User.getUserInfo)
-	.put(Authentication.auth, User.updateUserInfo)
+	.get(Authentication.auth, User.get_user_info)
+	.put(Authentication.auth, User.update_user_info)
 router.route('/user/password')
-	.put(Authentication.auth, User.updatePassword)
+	.put(Authentication.auth, User.update_password)
 router.route('/user/count')
 	.get(Authentication.auth, Authentication.auth_admin, User.count)
 

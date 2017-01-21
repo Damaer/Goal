@@ -8,12 +8,23 @@ let codeMsg = {
 
 exports.index = (req, res, next) => {
 	let userId = req.user._id;
-	Goal.find({user: userId}, (err, goals) => {
+	Goal.find({user: userId, delete: false}, (err, goals) => {
 		if (err) {
 			console.log(err);
 			return res.json({code: 10404, msg: '未找到当前用户的目标'});
 		}
-		res.json({code: 10000, msg: '查找成功', data: goals});
+		res.json({code: 10000, msg: '查找成功', data: goals.map(goal => {
+			return {
+				title: goal.title,
+				content: goal.content,
+				begin: goal.time.begin,
+				plan: goal.time.plan,
+				end: goal.time.finish,
+				createAt: goal.meta.createAt,
+				updateAt: goal.meta.updateAt,
+				finish: goal.finish
+			}
+		})});
 	})
 }
 

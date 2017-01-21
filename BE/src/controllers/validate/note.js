@@ -21,7 +21,7 @@ exports.create = create;
 
 exports.update = (userId, id, data) => new Promise((resolve, reject) => {
 	create(data).then(() => {
-		Note.findOne({_id: id, user: userId}, (err, note) => {
+		Note.findOne({_id: id, user: userId, delete: false}, (err, note) => {
 			if (err || !note) {
 				return reject({code: 10404, msg: 'params error'});
 			}

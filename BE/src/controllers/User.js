@@ -63,11 +63,19 @@ exports.read = (req, res, next) => {
 	})
 }
 
-exports.getUserInfo = (req, res, next) => {
-	res.json({code: 10000, msg: '', data: req.user});
+exports.get_user_info = (req, res, next) => {
+	let user = req.user;
+	res.json({code: 10000, msg: '', data: {
+		username: user.name,
+		avatar: user.avatar,
+		email: user.email,
+		phone: user.phone,
+		description: user.description,
+		authority: user.authority
+	}});
 }
 
-exports.updateUserInfo = (req, res, nect) => {
+exports.update_user_info = (req, res, nect) => {
 	let user = req.user;
 	validate.updateInfo(user, req.body).then(() => {
 		const {name, avatar} = req.body;
@@ -84,17 +92,21 @@ exports.updateUserInfo = (req, res, nect) => {
 	})
 }
 
-exports.updatePassword = (req, res, next) => {
+exports.update_password = (req, res, next) => {
 	let user = req.user;
 	const {oldPassword, password} = req.body;
-	// 检查oldPassword是否正确
-	user.auth(oldPassword).then(() => {
-		user.password = password;
-		user.save(err => {
-			if (err) {
-				return res.json({code: 10404, msg: '密码更新失败，请重新尝试'});
-			}
-			res.json({code: 10000, msg: '密码更新成功'});
+	validate.Cpassword(password).then(() => {
+		// 检查oldPassword是否正确
+		user.auth(oldPassword).then(() => {
+			user.password = password;
+			user.save(err => {
+				if (err) {
+					return res.json({code: 10404, msg: '密码更新失败，请重新尝试'});
+				}
+				res.json({code: 10000, msg: '密码更新成功'});
+			})
+		}, err => {
+			res.json(err);
 		})
 	}, err => {
 		res.json(err);
@@ -166,7 +178,7 @@ exports.delete = (req, res, next) => {
 	})
 }
 
-exports.uploadImg = (req, res, next) => {
+exports.upload_img = (req, res, next) => {
 	if (!req.files || !req.files.avatar) {
 		return res.json({code: 10200, msg: 'params error'});
 	}

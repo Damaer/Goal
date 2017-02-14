@@ -17,11 +17,7 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -32,7 +28,13 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AgreementActivity" />
-        <activity android:name=".A_Word_EverydayActivity"></activity>
+        <activity android:name=".A_Word_EverydayActivity">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity
                 android:name=".GoalAddActivity"
                 android:label="新建目标">

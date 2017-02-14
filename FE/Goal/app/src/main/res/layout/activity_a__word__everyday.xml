@@ -33,17 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <cn.goal.goal.RoundCanvasView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        round:roundBorderColor="@android:color/holo_red_dark"
-        round:roundBorderWidth="2"
-        round:roundImageSrc="@mipmap/word"
-        round:roundRadius="40" />
-        <!--round:roundWidth="80dp"
-            round:roundHeight="80dp"-->
+
 
     </RelativeLayout>
 

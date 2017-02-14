@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Goal</string>
+    <string name="permission_denied">权限不足</string>
     
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -11,4 +12,43 @@
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+
+    <!-- Strings related to goal -->
+    <string name="add_goal_title">新建目标</string>
+    <string name="edit_goal_title">编辑目标</string>
+    <string name="goal_title_hint">标题</string>
+    <string name="goal_content_hint">内容</string>
+    <string name="goal_begin_time_hint">计划开始时间</string>
+    <string name="goal_end_time_hint">计划结束时间</string>
+    <string name="finished">已完成</string>
+    <string name="unfinished">未完成</string>
+    <string name="finished_at">完成于</string>
+    <string name="create_at">创建于  %1$s</string>
+
+    <string name="menu_edit">编辑</string>
+    <string name="menu_delete">删除</string>
+    <string name="menu_mark_finished_today">今日已完成</string>
+    <string name="menu_mark_finished">标记目标已完成</string>
+    <string name="menu_mark_unfinished">标记目标未完成</string>
+
+    <string name="delete_goal_dialog_title">删除目标</string>
+    <string name="delete_goal_dialog_info">确认删除目标</string>
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+
+    <!-- Strings related to edit info -->
+    <string name="edit_info_title">编辑个人信息</string>
+    <string name="hint_username">用户名</string>
+    <string name="hint_description">个人描述</string>
+    <string name="hint_email">邮箱</string>
+    <string name="hint_phone">手机号</string>
+    <string name="edit_email">修改邮箱</string>
+    <string name="bind_email">绑定邮箱</string>
+    <string name="edit_phone">修改手机号</string>
+    <string name="bind_phone">绑定手机号</string>
+    <string name="new_email">新邮箱</string>
+    <string name="new_phone">新手机号</string>
+
+
+
 </resources>

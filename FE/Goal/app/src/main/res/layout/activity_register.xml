@@ -3,17 +3,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cn.goal.goal.LoginActivity"
-    android:weightSum="1">
-    <!-- Login progress -->
+    tools:context="cn.goal.goal.RegisterActivity">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="36dp">
+        <ImageButton
+            android:id="@+id/comeback"
+            android:layout_gravity="center_vertical"
+            android:background="@mipmap/left_button"
+            android:layout_marginLeft="5dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:text="@string/registernewuser"
+            android:layout_marginTop="9dp"
+            android:layout_marginLeft="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#696969" />
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/register_form"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -23,12 +43,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent"
-                android:background="@mipmap/goal"
-                android:id="@+id/imageView"
-                android:layout_weight="1" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -39,8 +53,36 @@
                     android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/prompt_account"
+                    android:hint="@string/account"
                     android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/setusername"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
+
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/setpassword"
+                    android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"/>
 
@@ -50,50 +92,55 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"/>
+                <EditText
+                    android:id="@+id/confirmpassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirmpassword"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>
-
             <Button
-                android:id="@+id/email_sign_in_button"
+                android:id="@+id/register"
                 style="?android:textAppearanceSmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:text="@string/Submit_register"
                 android:textStyle="bold"/>
             <LinearLayout
                 android:layout_marginTop="15dp"
-                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <CheckBox
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
                 <TextView
-                    android:id="@+id/register"
-
-                    android:text="@string/register"
-                    android:layout_marginRight="10dp"
+                    android:text="@string/have_agree"
+                    android:layout_marginLeft="4dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/agreement"
+                    android:text="@string/agreement"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="30dp"
                     android:textColor="@android:color/holo_blue_bright"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:id="@+id/forget_password"
+                    android:id="@+id/go_to_signin"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/forget_pssword"
+                    android:text="@string/go_to_signin"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_blue_bright"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -178,12 +225,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
 </LinearLayout>

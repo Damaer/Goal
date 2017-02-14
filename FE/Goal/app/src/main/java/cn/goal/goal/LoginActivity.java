@@ -3,6 +3,7 @@ package cn.goal.goal;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
+    private TextView register;
+    private TextView forgetPassword;
+    private ImageButton wechat;
+    private ImageButton qq;
+    private ImageButton weibo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,8 +97,65 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        register= (TextView) findViewById(R.id.register);
+        register.setOnClickListener(new OnClickListener() {
+            @Override
+            /**
+             * 注册新账户匿名内部类监听事件
+             */
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+        forgetPassword= (TextView) findViewById(R.id.forget_password);
+        forgetPassword.setOnClickListener(new OnClickListener() {
+            @Override
+            /**
+             * 忘记密码监听事件
+             */
+            public void onClick(View view) {
+
+            }
+        });
+        wechat=(ImageButton) findViewById(R.id.wechat);
+        wechat.setOnClickListener(new OnClickListener() {
+            @Override
+            /**
+             *微信登陆
+             */
+            public void onClick(View view) {
+
+            }
+        });
+        qq=(ImageButton) findViewById(R.id.qq);
+        qq.setOnClickListener(new OnClickListener() {
+            @Override
+            /**
+             *qq登陆
+             */
+            public void onClick(View view) {
+
+            }
+        });
+        weibo=(ImageButton) findViewById(R.id.weibo);
+        weibo.setOnClickListener(new OnClickListener() {
+            @Override
+            /**
+             *微博登陆
+             */
+            public void onClick(View view) {
+
+            }
+        });
     }
 
+
+
+    /**
+     * 以下函数
+     */
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;

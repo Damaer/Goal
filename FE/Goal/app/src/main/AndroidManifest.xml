@@ -32,7 +32,9 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AgreementActivity" />
-        <activity android:name=".A_Word_EverydayActivity"></activity>
+        <activity android:name=".A_Word_EverydayActivity">
+
+        </activity>
         <activity
                 android:name=".GoalAddActivity"
                 android:label="新建目标">

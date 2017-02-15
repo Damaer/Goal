@@ -74,7 +74,8 @@
                 android:layout_height="wrap_content" android:layout_marginTop="32dp">
             <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" android:layout_marginBottom="10dp" android:clipChildren="false">
+                    android:layout_height="match_parent" android:layout_marginBottom="10dp" android:clipChildren="false"
+                    android:layout_marginTop="1dp">
                 <TableLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" android:stretchColumns="1">
@@ -158,7 +159,6 @@
                                 android:gravity="center_vertical" android:textSize="16sp"
                                 android:textStyle="normal|bold" android:textColor="?attr/actionMenuTextColor"/>
                     </TableRow>
-                    <TableRow android:layout_width="match_parent" android:layout_height="match_parent"/>
                 </TableLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Goal</string>
     <string name="permission_denied">权限不足</string>
-
+    
     <!-- Strings related to login -->
     <string name="prompt_account">账户</string>
     <string name="set_username">昵称</string>
@@ -9,6 +9,7 @@
     <string name="comeback_from_agreement">返回</string>
     <string name="have_agree">我已同意并阅读过</string>
     <string name="agreement">用户注册协议</string>
+    <string name="prompt_email">Email</string>
     <string name="prompt_password">密码</string>
     <string name="action_sign_in">登 录</string>
     <string name="Submit_register">注册</string>
@@ -24,6 +25,9 @@
     <string name="error_field_required">不能为空</string>
     <string name="title_activity_register">RegisterActivity</string>
 
+    <string name="note_list_plus_icon">Orange_Plus_circle_icon</string>
+    <string name="note_list_image">Image_Test</string>
+    <string name="note_list_text_test">先在这里瞎写一点什么东西，因为到时候可以直接通过java程序获取数据直接得到的</string>
     <!-- Strings related to goal -->
     <string name="goal">目标</string>
     <string name="quick_start">快速开始</string>

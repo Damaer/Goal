@@ -63,4 +63,13 @@
     <string name="new_email">新邮箱</string>
     <string name="new_phone">新手机号</string>
 
+    <!-- Strings related to person info -->
+    <string name="back_img_content_description">背景图片</string>
+    <string name="default_description">你永远不知道自己可以做得多好</string>
+    <string name="daily_sentence">每日一句</string>
+    <string name="statistics">实时统计</string>
+    <string name="setting">设置</string>
+    <string name="daily_sentence_hint">致最好的你</string>
+    <string name="statistics_hint">看得见过去</string>
+
 </resources>

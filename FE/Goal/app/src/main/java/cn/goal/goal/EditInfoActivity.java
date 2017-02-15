@@ -47,12 +47,12 @@ public class EditInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
 
-//        // 传入数据错误
-//        if (getIntent() == null || getIntent().getExtras().getBundle("data") == null) {
-//            Toast.makeText(this, "传入数据错误", 1000).show();
-//            finish();
-//            return ;
-//        }
+        // 传入数据错误
+        if (getIntent() == null || getIntent().getExtras().getBundle("data") == null) {
+            Toast.makeText(this, "传入数据错误", 1000).show();
+            finish();
+            return ;
+        }
 
         close = (ImageButton) findViewById(R.id.button_close);
         confirm = (ImageButton) findViewById(R.id.button_confirm);
@@ -64,7 +64,7 @@ public class EditInfoActivity extends AppCompatActivity {
         editEmail = (Button) findViewById(R.id.edit_email);
         editPhone = (Button) findViewById(R.id.edit_phone);
 
-//        renderInitialData();
+        renderInitialData();
         addListener();
     }
 

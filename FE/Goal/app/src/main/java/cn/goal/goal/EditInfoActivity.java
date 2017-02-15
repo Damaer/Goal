@@ -14,7 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import cn.goal.goal.utils.Utils;
+import cn.goal.goal.utils.RoundCorner;
 
 import java.io.FileNotFoundException;
 
@@ -190,7 +190,7 @@ public class EditInfoActivity extends AppCompatActivity {
             ContentResolver cr = getContentResolver();
             try {
                 Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
-                avatar.setImageBitmap(Utils.toRoundCorner(image));
+                avatar.setImageBitmap(RoundCorner.toCircle(image));
                 // 上传头像到服务器，获取头像Url
                 // ...
 

@@ -37,14 +37,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <cn.goal.goal.utils.XCRoundRectImageView
-            android:layout_margin="8dp"
-            android:id="@+id/roundRectImageView"
-            android:layout_centerInParent="true"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/word"
-            />
+        <ImageView
+                android:layout_margin="8dp"
+                android:id="@+id/background"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                round:srcCompat="@drawable/word" android:scaleType="fitXY"/>
         <TextView
             android:text="看得见过去，走得到未来。"
             android:layout_width="match_parent"

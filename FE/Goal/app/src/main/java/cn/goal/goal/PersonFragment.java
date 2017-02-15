@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TableRow;
 import android.widget.TextView;
+import cn.goal.goal.utils.Share;
 
 /**
  * Created by chenlin on 14/02/2017.
@@ -112,12 +113,6 @@ public class PersonFragment extends Fragment {
     }
 
     public void shareText(View view) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my Share text.");
-        shareIntent.setType("text/plain");
-
-        //设置分享列表的标题，并且每次都显示分享列表
-        startActivity(Intent.createChooser(shareIntent, "分享到"));
+        Share.shareText(getContext(), "分享内容");
     }
 }

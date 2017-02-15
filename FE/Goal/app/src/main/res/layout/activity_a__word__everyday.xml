@@ -9,7 +9,10 @@
     tools:context="cn.goal.goal.A_Word_EverydayActivity">
     <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="36dp">
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:layout_height="36dp"
+        >
         <ImageButton
             android:id="@+id/comeback"
             android:layout_marginTop="8dp"
@@ -20,6 +23,7 @@
 
         <ImageButton
              android:id="@+id/share"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="8dp"
              android:background="@mipmap/share"
              android:layout_width="20dp"
@@ -33,18 +37,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <cn.goal.goal.RoundCanvasView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        round:roundBorderColor="@android:color/holo_red_dark"
-        round:roundBorderWidth="2"
-        round:roundImageSrc="@mipmap/word"
-        round:roundRadius="40" />
-        <!--round:roundWidth="80dp"
-            round:roundHeight="80dp"-->
-
+        <ImageView
+                android:layout_margin="8dp"
+                android:id="@+id/background"
+                android:layout_centerInParent="true"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                round:srcCompat="@drawable/word" android:scaleType="fitXY"/>
+        <TextView
+            android:text="看得见过去，走得到未来。"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="18dp"
+            android:gravity="center"
+            />
     </RelativeLayout>
 
 </LinearLayout>

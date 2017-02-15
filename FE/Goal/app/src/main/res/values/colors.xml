@@ -2,5 +2,13 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+<<<<<<< HEAD
     <color name="colorAccent">#FF4081</color>
+=======
+    <color name="colorAccent">#ff4081</color>
+    <color name="ml_white">#ffffffff</color>
+    <color name="ml_gray">#ff9e9e9e</color>
+    <color name="ml_blue">#ff239efe</color>
+    <color name="ml_red">#ffff0000</color>
+>>>>>>> c1b9c728d00477d2fce70083454683ec8632389b
 </resources>

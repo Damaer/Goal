@@ -4,27 +4,24 @@
 
     <!-- Strings related to login -->
     <string name="prompt_account">账户</string>
-    <string name="setusername">昵称</string>
-    <string name="go_to_signin">去登录</string>
+    <string name="set_username">昵称</string>
+    <string name="go_to_sign_in">去登录</string>
     <string name="comeback_from_agreement">返回</string>
     <string name="have_agree">我已同意并阅读过</string>
     <string name="agreement">用户注册协议</string>
-    <string name="prompt_password">密码 </string>
+    <string name="prompt_password">密码</string>
     <string name="action_sign_in">登 录</string>
     <string name="Submit_register">注册</string>
     <string name="registernewuser">注册新账号</string>
     <string name="account">邮箱或手机号</string>
-    <string name="setpassword">设置密码</string>
-    <string name="confirmpassword">确认密码</string>
+    <string name="set_password">设置密码</string>
+    <string name="confirm_password">确认密码</string>
     <string name="register">注册账号</string>
-    <string name="forget_pssword">忘记密码</string>
+    <string name="forget_password">忘记密码</string>
     <string name="weChat">微信</string>
-    <string name="action_sign_in_short">Sign  in</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
-    <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
-    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="weibo">微博</string>
+    <string name="error_invalid_password">密码长度过短</string>
+    <string name="error_field_required">不能为空</string>
     <string name="title_activity_register">RegisterActivity</string>
 
     <!-- Strings related to goal -->

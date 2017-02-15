@@ -56,11 +56,10 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeActionLabel="@string/action_sign_in"
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"/>
+                android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -88,7 +87,7 @@
                 <TextView
                     android:id="@+id/forget_password"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/forget_pssword"
+                    android:text="@string/forget_password"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -133,7 +132,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp" />
                         <TextView
-                            android:text="微信"
+                            android:text="@string/weChat"
                             android:gravity="center"
                             android:layout_marginTop="3dp"
                             android:layout_width="match_parent"
@@ -168,7 +167,7 @@
                             android:layout_width="40dp"
                             android:layout_height="40dp" />
                         <TextView
-                            android:text="微博"
+                            android:text="@string/weibo"
                             android:layout_marginTop="3dp"
                             android:gravity="center"
                             android:layout_width="match_parent"

@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 
 public class A_Word_EverydayActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE = 5;
+
     private ImageButton comeback;
     private ImageButton share;
     private PopupWindow pop;

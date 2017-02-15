@@ -76,6 +76,8 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // 启动每日一句activity
+                Intent intent = new Intent(getContext(), A_Word_EverydayActivity.class);
+                startActivityForResult(intent, A_Word_EverydayActivity.REQUEST_CODE);
             }
         });
 

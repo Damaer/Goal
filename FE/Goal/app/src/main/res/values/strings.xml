@@ -76,4 +76,12 @@
     <string name="daily_sentence_hint">致最好的你</string>
     <string name="statistics_hint">看得见过去</string>
 
+    <!-- Strings related to settings -->
+    <string name="account_safe">账号安全</string>
+    <string name="account_setting">账号设置</string>
+    <string name="prompt_account_setting">管理账号绑定,修改账号密码</string>
+    <string name="about">关于</string>
+    <string name="feedback">意见反馈</string>
+    <string name="logout">退出账号</string>
+
 </resources>

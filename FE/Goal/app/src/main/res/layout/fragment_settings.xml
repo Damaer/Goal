@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:background="?attr/colorPrimary">
+
+        <ImageButton
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" app:srcCompat="@drawable/ic_arrow_back_black_24dp"
+                android:background="@android:color/transparent"
+                android:paddingEnd="10dp" android:paddingLeft="10dp"/>
+        <TextView
+                android:text="@string/setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/title" android:layout_centerInParent="true"
+                android:textSize="16sp"/>
+    </RelativeLayout>
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical" android:padding="15dp">
+            <TextView
+                    android:text="@string/account_setting"
+                    android:layout_width="match_parent"
+                    android:id="@+id/textView9" android:textStyle="normal|bold"
+                    android:textColor="@android:color/background_dark" android:layout_height="30dp"/>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_height="50dp" android:id="@+id/account_safe">
+                <TextView
+                        android:layout_alignParentStart="true"
+                        android:text="@string/account_safe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView10"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"/>
+                <TextView
+                        android:text="@string/prompt_account_setting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView12"
+                        android:layout_below="@+id/textView10"/>
+                <LinearLayout
+                        android:layout_alignParentBottom="true"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@android:color/darker_gray"
+                >
+                </LinearLayout>
+            </RelativeLayout>
+            <TextView
+                    android:text="@string/about"
+                    android:layout_width="match_parent"
+                    android:id="@+id/textView13" android:textStyle="normal|bold"
+                    android:textColor="@android:color/background_dark" android:layout_height="30dp"/>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" android:id="@+id/about">
+                <TextView
+                        android:layout_centerVertical="true"
+                        android:text="@string/about"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/textView14"
+                        android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"/>
+                <LinearLayout
+                        android:layout_alignParentBottom="true"
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px" android:background="@android:color/darker_gray"
+                        android:layout_marginTop="10dp">
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" android:id="@+id/feedback">
+
+                <TextView
+                        android:text="@string/feedback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" android:id="@+id/textView16"
+                        android:layout_centerVertical="true" android:textColor="@android:color/background_dark"
+                        android:textSize="16sp"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="1px" android:background="@android:color/darker_gray"
+                        android:layout_alignParentBottom="true">
+                </LinearLayout>
+            </RelativeLayout>
+            <Button
+                    android:text="@string/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/logout"
+                    android:background="@android:color/transparent" android:textColor="@color/colorAccent"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

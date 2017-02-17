@@ -19,7 +19,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
     private RelativeLayout accountSafetyButton;
     private RelativeLayout aboutButton;
     private RelativeLayout feedbackButton;
-    private Button logoutButton;
+    private RelativeLayout logoutButton;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
         feedbackButton = (RelativeLayout) mView.findViewById(R.id.feedback);
         feedbackButton.setOnClickListener(this);
 
-        logoutButton = (Button) mView.findViewById(R.id.logout);
+        logoutButton = (RelativeLayout) mView.findViewById(R.id.logout);
         logoutButton.setOnClickListener(this);
 
         return mView;

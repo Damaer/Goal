@@ -16,7 +16,7 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".BaseActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,31 +25,28 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name">
-        </activity>
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AgreementActivity" />
-        <activity android:name=".A_Word_EverydayActivity">
-
-        </activity>
+        <activity android:name=".A_Word_EverydayActivity"></activity>
         <activity
-                android:name=".GoalAddActivity"
-                android:label="新建目标">
-        </activity>
+            android:name=".GoalAddActivity"
+            android:label="新建目标"></activity>
         <activity
-                android:name=".GoalEditActivity"
-                android:label="编辑目标">
-        </activity>
+            android:name=".GoalEditActivity"
+            android:label="编辑目标"></activity>
         <activity
-                android:name=".GoalDetailActivity"
-                android:label="查看目标">
-        </activity>
+            android:name=".GoalDetailActivity"
+            android:label="查看目标"></activity>
         <activity
-                android:name=".EditInfoActivity"
-                android:label="编辑个人信息">
+            android:name=".EditInfoActivity"
+            android:label="编辑个人信息"></activity>
+        <activity
+            android:label="实时统计"
+            android:name=".Realtime_statisticsActivity">
         </activity>
     </application>
 

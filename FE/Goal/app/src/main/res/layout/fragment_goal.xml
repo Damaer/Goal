@@ -5,23 +5,28 @@
               android:layout_height="match_parent">
 
     <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="50dp">
-        <TextView
-                android:text="目标"
+        <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
-                android:textSize="24sp" android:textAlignment="center" android:gravity="center"/>
+                android:layout_height="match_parent" android:layout_weight="1"
+                app:cardBackgroundColor="?attr/colorPrimary" android:layout_marginBottom="1dp">
+            <TextView
+                    android:text="@string/goal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
+                    android:textSize="24sp" android:textAlignment="center" android:gravity="center"/>
+        </android.support.v7.widget.CardView>
     </LinearLayout>
     <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:layout_weight="1">
+            android:layout_height="0dp" android:layout_weight="1">
 
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent" android:tag="dependency">
             <android.support.design.widget.TabLayout
                     android:id="@+id/goal_tablayout"
                     android:layout_width="match_parent"
@@ -40,11 +45,12 @@
                 android:layout_height="wrap_content"
                 android:clickable="true"
                 app:srcCompat="@drawable/ic_add_white_24dp" android:id="@+id/add_goal"
-                app:backgroundTint="@color/colorPrimary" app:borderWidth="0dp" android:layout_gravity="bottom|right"
-                android:layout_marginRight="20dp" android:layout_marginBottom="20dp" app:fabSize="mini"/>
+                app:backgroundTint="@color/colorPrimary" app:borderWidth="0dp" android:layout_gravity="bottom|end"
+                android:layout_marginEnd="20dp" android:layout_marginBottom="20dp" app:fabSize="mini"
+        />
     </android.support.design.widget.CoordinatorLayout>
     <Button
-            android:text="快速开始"
+            android:text="@string/quick_start"
             android:layout_width="match_parent"
             android:layout_height="50dp" android:id="@+id/button" android:background="@android:color/holo_green_light"/>
 </LinearLayout>

@@ -67,7 +67,7 @@
                     android:id="@+id/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/setusername"
+                    android:hint="@string/set_username"
                     android:inputType="text"
                     android:maxLines="1"
                     android:singleLine="true"/>
@@ -81,7 +81,7 @@
                     android:id="@+id/password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/setpassword"
+                    android:hint="@string/set_password"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"/>
@@ -96,7 +96,7 @@
                     android:id="@+id/confirmpassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/confirmpassword"
+                    android:hint="@string/confirm_password"
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"/>
@@ -134,7 +134,7 @@
                 <TextView
                     android:id="@+id/go_to_signin"
                     android:layout_marginLeft="10dp"
-                    android:text="@string/go_to_signin"
+                    android:text="@string/go_to_sign_in"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@android:color/holo_blue_bright"/>

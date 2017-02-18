@@ -10,8 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.*;
-import cn.goal.goal.services.User;
-import org.json.JSONException;
+import cn.goal.goal.services.UserService;
 
 /**
  * A login screen that offers login via email/password.
@@ -185,12 +184,7 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            try {
-                return User.login(mEmail, mPassword);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return "数据解析失败";
+            return UserService.login(mEmail, mPassword);
         }
 
         @Override

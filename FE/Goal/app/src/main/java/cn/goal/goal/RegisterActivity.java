@@ -11,7 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
-import cn.goal.goal.services.User;
+import cn.goal.goal.services.UserService;
 import org.json.JSONException;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener{
@@ -140,12 +140,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected String doInBackground(Void... params) {
-            try {
-                return User.register(mName, mPassword);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return "数据解析失败";
+            return UserService.register(mName, mPassword);
         }
 
         @Override

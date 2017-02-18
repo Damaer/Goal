@@ -99,4 +99,9 @@
     <string name="wechat">微信</string>
     <string name="bind_wechat">绑定微信</string>
 
+    <!-- Strings related to feedback -->
+    <string name="prompt_feedback">请在此输入您的建议或遇到的问题</string>
+    <string name="prompt_contact">联系方式</string>
+    <string name="submit">提交建议</string>
+
 </resources>

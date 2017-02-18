@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 
@@ -57,6 +56,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), AboutActivity.class));
                 break;
             case R.id.feedback:
+                new FeedbackDialog(getContext());
                 break;
             case R.id.logout:
                 break;

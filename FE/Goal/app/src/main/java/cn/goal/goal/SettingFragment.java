@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import cn.goal.goal.services.UserService;
 
 /**
  * Created by chenlin on 16/02/2017.
@@ -59,7 +61,45 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 new FeedbackDialog(getContext());
                 break;
             case R.id.logout:
+                handleLogout();
                 break;
+        }
+    }
+
+    public void handleLogout() {
+        new LogoutTask().execute();
+    }
+
+    private class LogoutTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog loadingDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loadingDialog = new LoadingDialog().showLoading(getContext());
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            UserService.logout();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            openLoginActivity();
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            openLoginActivity();
+        }
+
+        private void openLoginActivity() {
+            loadingDialog.closeDialog();
+            startActivity(new Intent(getContext(), LoginActivity.class));
+            getActivity().finish();
         }
     }
 }

@@ -23,29 +23,31 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name" />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AgreementActivity" />
-        <activity android:name=".A_Word_EverydayActivity"></activity>
+        <activity android:name=".A_Word_EverydayActivity" />
         <activity
             android:name=".GoalAddActivity"
-            android:label="新建目标"></activity>
+            android:label="新建目标" />
         <activity
             android:name=".GoalEditActivity"
-            android:label="编辑目标"></activity>
+            android:label="编辑目标" />
         <activity
             android:name=".GoalDetailActivity"
-            android:label="查看目标"></activity>
+            android:label="查看目标" />
         <activity
             android:name=".EditInfoActivity"
-            android:label="编辑个人信息"></activity>
+            android:label="编辑个人信息" />
         <activity
             android:label="实时统计"
-            android:name=".Realtime_statisticsActivity">
-        </activity>
+            android:name=".Realtime_statisticsActivity" />
+        <activity
+                android:name=".AboutActivity"
+                android:label="关于" />
     </application>
 
 </manifest>

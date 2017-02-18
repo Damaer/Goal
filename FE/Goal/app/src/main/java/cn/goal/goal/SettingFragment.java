@@ -1,5 +1,6 @@
 package cn.goal.goal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
             case R.id.account_safe:
                 break;
             case R.id.about:
+                startActivity(new Intent(getContext(), AboutActivity.class));
                 break;
             case R.id.feedback:
                 break;

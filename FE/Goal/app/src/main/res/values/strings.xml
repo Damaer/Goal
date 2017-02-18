@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Goal</string>
+    <string name="version_info">Goal Beta</string>
+    <string name="copyright">Copyright © 2017—2017 Goal\nAll Rights Reserved.</string>
     <string name="permission_denied">权限不足</string>
     
     <!-- Strings related to login -->

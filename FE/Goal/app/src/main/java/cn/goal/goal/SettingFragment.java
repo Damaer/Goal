@@ -51,6 +51,7 @@ public class SettingFragment extends Fragment implements View.OnClickListener {
                 getFragmentManager().popBackStack();
                 break;
             case R.id.account_safe:
+                startActivity(new Intent(getContext(), AccountSafetyActivity.class));
                 break;
             case R.id.about:
                 startActivity(new Intent(getContext(), AboutActivity.class));

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Goal</string>
+    <string name="version_info">Goal Beta</string>
+    <string name="copyright">Copyright © 2017—2017 Goal\nAll Rights Reserved.</string>
     <string name="permission_denied">权限不足</string>
     
     <!-- Strings related to login -->
@@ -83,5 +85,23 @@
     <string name="about">关于</string>
     <string name="feedback">意见反馈</string>
     <string name="logout">退出账号</string>
+
+    <!-- Strings related to account safety -->
+    <string name="goal_account">Goal账户</string>
+    <string name="third_account">第三方账户</string>
+    <string name="email">邮箱</string>
+    <string name="phone">手机号</string>
+    <string name="not_bind">未绑定</string>
+    <string name="sina">新浪微博</string>
+    <string name="bind_sina">绑定微博</string>
+    <string name="QQ">QQ</string>
+    <string name="bind_qq">绑定QQ</string>
+    <string name="wechat">微信</string>
+    <string name="bind_wechat">绑定微信</string>
+
+    <!-- Strings related to feedback -->
+    <string name="prompt_feedback">请在此输入您的建议或遇到的问题</string>
+    <string name="prompt_contact">联系方式</string>
+    <string name="submit">提交建议</string>
 
 </resources>

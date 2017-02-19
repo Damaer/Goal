@@ -24,18 +24,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical" android:paddingBottom="15dp" android:paddingTop="15dp">
+                      android:orientation="vertical" android:paddingBottom="15dp">
             <TextView
                     android:text="@string/account_setting"
                     android:layout_width="match_parent"
-                    android:id="@+id/textView9" android:textStyle="normal|bold"
-                    android:textColor="@android:color/background_dark" android:layout_height="30dp"
-                    android:paddingStart="15dp" android:paddingEnd="15dp"/>
+                    android:id="@+id/textView9"
+                    android:paddingStart="15dp" android:paddingEnd="15dp" style="@style/ListTitleStyle"/>
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="10dp"
-                    android:layout_height="50dp" android:id="@+id/account_safe"
-                    android:background="@drawable/ripple_bg" android:paddingStart="15dp" android:paddingEnd="15dp">
+                    android:id="@+id/account_safe"
+                    android:background="@drawable/ripple_bg" android:paddingStart="15dp" android:paddingEnd="15dp"
+                    style="@style/ListItemLayoutStyle">
                 <TextView
                         android:layout_alignParentStart="true"
                         android:text="@string/account_safe"
@@ -51,24 +50,21 @@
                         android:id="@+id/textView12"
                         android:layout_below="@+id/textView10"/>
                 <LinearLayout
-                        android:layout_alignParentBottom="true"
                         android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px"
                         android:background="@color/divider"
-                >
+                        style="@style/ListDividerStyle"
+                        android:layout_width="match_parent">
                 </LinearLayout>
             </RelativeLayout>
             <TextView
                     android:text="@string/about"
                     android:layout_width="match_parent"
-                    android:id="@+id/textView13" android:textStyle="normal|bold"
-                    android:textColor="@android:color/background_dark" android:layout_height="30dp"
-                    android:paddingStart="15dp" android:paddingEnd="15dp"/>
+                    android:id="@+id/textView13"
+                    android:paddingStart="15dp" android:paddingEnd="15dp" style="@style/ListTitleStyle"/>
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" android:id="@+id/about" android:background="@drawable/ripple_bg"
-                    android:paddingStart="15dp" android:paddingEnd="15dp">
+                    android:id="@+id/about" android:background="@drawable/ripple_bg"
+                    android:paddingStart="15dp" android:paddingEnd="15dp" style="@style/ListItemLayoutStyle">
                 <TextView
                         android:layout_centerVertical="true"
                         android:text="@string/about"
@@ -78,17 +74,16 @@
                         android:textColor="@android:color/background_dark"
                         android:textSize="16sp"/>
                 <LinearLayout
-                        android:layout_alignParentBottom="true"
                         android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px" android:background="@color/divider"
-                >
+                        android:background="@color/divider"
+                        style="@style/ListDividerStyle"
+                        android:layout_width="match_parent">
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" android:id="@+id/feedback" android:background="@drawable/ripple_bg"
-                    android:paddingStart="15dp" android:paddingEnd="15dp">
+                    android:id="@+id/feedback" android:background="@drawable/ripple_bg"
+                    android:paddingStart="15dp" android:paddingEnd="15dp" style="@style/ListItemLayoutStyle">
 
                 <TextView
                         android:text="@string/feedback"
@@ -97,23 +92,29 @@
                         android:layout_centerVertical="true" android:textColor="@android:color/background_dark"
                         android:textSize="16sp"/>
                 <LinearLayout
-                        android:layout_alignParentBottom="true"
                         android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="1px" android:background="@color/divider"
-                >
+                        android:background="@color/divider"
+                        style="@style/ListDividerStyle"
+                        android:layout_width="match_parent">
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp" android:paddingStart="15dp" android:paddingEnd="15dp"
-                    android:background="@drawable/ripple_bg" android:id="@+id/logout">
+                    android:paddingStart="15dp" android:paddingEnd="15dp"
+                    android:background="@drawable/ripple_bg" android:id="@+id/logout"
+                    style="@style/ListItemLayoutStyle">
                 <TextView
                         android:text="@string/logout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" android:id="@+id/textView8"
                         android:textSize="16sp"
                         android:textColor="@color/colorAccent" android:layout_centerInParent="true"/>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:background="@color/divider"
+                        style="@style/ListDividerStyle"
+                        android:layout_width="match_parent">
+                </LinearLayout>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

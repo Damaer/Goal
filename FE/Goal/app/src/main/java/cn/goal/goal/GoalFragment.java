@@ -70,7 +70,7 @@ public class GoalFragment extends Fragment {
     }
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {
-        private String[] tabTitles = {"已完成", "未完成"};
+        private String[] tabTitles = {"未完成", "已完成"};
         private GoalListFragment finishedGoal;
         private GoalListFragment unfinishedGoal;
 
@@ -90,7 +90,7 @@ public class GoalFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return position == 0 ? finishedGoal : unfinishedGoal;
+            return position == 0 ? unfinishedGoal : finishedGoal;
         }
 
         @Override

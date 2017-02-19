@@ -13,7 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import cn.goal.goal.services.User;
+import cn.goal.goal.services.UserService;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
@@ -32,8 +32,13 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+<<<<<<< HEAD
 //        //      未登录则启动登录界面
         if (User.getToken() == null) {
+=======
+        //      未登录则启动登录界面
+        if (UserService.getToken() == null) {
+>>>>>>> 7953a8379a9a695489f244b787844dc85009a184
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return ;

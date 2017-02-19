@@ -87,6 +87,7 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // 启动实时统计activity
+                startActivity(new Intent(getContext(), Realtime_statisticsActivity.class));
             }
         });
 
@@ -95,6 +96,7 @@ public class PersonFragment extends Fragment {
             public void onClick(View v) {
                 // 启动设置页面
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); // 设置加载动画
                 ft.hide(PersonFragment.this);
                 ft.add(getId(), new SettingFragment(), "Settings");
                 ft.addToBackStack(null);

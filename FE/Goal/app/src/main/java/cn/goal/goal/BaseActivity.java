@@ -33,11 +33,11 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
 
 //        //      未登录则启动登录界面
-//        if (User.getToken() == null) {
-//            startActivity(new Intent(this, LoginActivity.class));
-//            finish();
-//            return ;
-//        }
+        if (User.getToken() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return ;
+        }
 
         mFragments[0] = new GoalFragment();
         mFragments[1] = new GoalFragment();

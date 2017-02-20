@@ -1,27 +1,32 @@
 package cn.goal.goal;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.TextView;
+import android.widget.*;
+import cn.goal.goal.services.UserService;
+
+import java.util.Calendar;
+
+import static cn.goal.goal.utils.Util.dateToString;
 
 /**
  * Created by chenlin on 13/02/2017.
  */
-public class GoalAddActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE = 0;
-
+public class GoalAddActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton buttonBack;
     ImageButton buttonConfirm;
 
-    EditText title; // 标题
-    EditText content; // 内容
-    EditText begin; // 开始时间
-    EditText plan; // 计划结束时间
+    EditText titleView; // 标题
+    EditText contentView; // 内容
+    EditText beginView; // 开始时间
+    EditText planView; // 计划结束时间
+
+    Calendar beginCalendar;
+    Calendar planCalendar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,40 +34,90 @@ public class GoalAddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_goal_add);
 
         buttonBack = (ImageButton) findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(this);
         buttonConfirm = (ImageButton) findViewById(R.id.button_confirm);
-        title = (EditText) findViewById(R.id.title);
-        content = (EditText) findViewById(R.id.content);
-        begin = (EditText) findViewById(R.id.begin);
-        plan = (EditText) findViewById(R.id.plan);
+        buttonConfirm.setOnClickListener(this);
 
-        addListener();
+        titleView = (EditText) findViewById(R.id.title);
+        contentView = (EditText) findViewById(R.id.content);
+        beginView = (EditText) findViewById(R.id.begin);
+
+        beginView.setOnClickListener(this);
+        planView = (EditText) findViewById(R.id.plan);
+        planView.setOnClickListener(this);
+
+        beginCalendar = Calendar.getInstance();
+        planCalendar = Calendar.getInstance();
     }
 
-    private void addListener() {
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_back:
                 finish();
-            }
-        });
+                break;
+            case R.id.button_confirm:
+                handleCreateGoal();
+                break;
+            case R.id.begin:
+                handlePickBeginDate();
+                break;
+            case R.id.plan:
+                handlePickPlanDate();
+                break;
+        }
+    }
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+    private void handleCreateGoal() {
+        Boolean error = false;
+        EditText errorView = null;
+        if (TextUtils.isEmpty(titleView.getText())) {
+            error = true;
+            errorView = titleView;
+        } else if (TextUtils.isEmpty(contentView.getText())) {
+            error = true;
+            errorView = contentView;
+        } else if (TextUtils.isEmpty(beginView.getText())) {
+            error = true;
+            errorView = beginView;
+        } else if (TextUtils.isEmpty(planView.getText())) {
+            error = true;
+            errorView = planView;
+        }
+        if (error) {
+            errorView.setError(getResources().getString(R.string.error_field_required));
+            return ;
+        }
+
+        UserService.createGoal(
+                titleView.getText().toString(),
+                contentView.getText().toString(),
+                beginView.getText().toString(),
+                planView.getText().toString());
+        finish();
+    }
+
+    private void handlePickBeginDate() {
+        new DatePickerDialog(GoalAddActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                Bundle bundle = intent.getExtras();
-                if (bundle == null) {
-                    bundle = new Bundle();
-                }
-                bundle.putString("title", title.getText().toString());
-                bundle.putString("content", content.getText().toString());
-                bundle.putString("begin", begin.getText().toString());
-                bundle.putString("plan", plan.getText().toString());
-
-                intent.putExtra("data", bundle);
-                setResult(REQUEST_CODE, intent);
-                finish();
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                beginCalendar.set(Calendar.YEAR, year);
+                beginCalendar.set(Calendar.MONTH, monthOfYear);
+                beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                beginView.setText(dateToString(beginCalendar.getTime()));
             }
-        });
+        }, beginCalendar.get(Calendar.YEAR), beginCalendar.get(Calendar.MONTH), beginCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void handlePickPlanDate() {
+        new DatePickerDialog(GoalAddActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                planCalendar.set(Calendar.YEAR, year);
+                planCalendar.set(Calendar.MONTH, monthOfYear);
+                planCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                planView.setText(dateToString(planCalendar.getTime()));
+            }
+        }, planCalendar.get(Calendar.YEAR), planCalendar.get(Calendar.MONTH), planCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 }

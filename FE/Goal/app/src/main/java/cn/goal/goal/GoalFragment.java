@@ -45,28 +45,12 @@ public class GoalFragment extends Fragment {
             addGoal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), GoalAddActivity.class);
-                    startActivityForResult(intent, GoalAddActivity.REQUEST_CODE);
+                    startActivity(new Intent(getActivity(), GoalAddActivity.class));
                 }
             });
         }
 
         return mView;
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == GoalAddActivity.REQUEST_CODE) {
-            if (data != null) {
-                Bundle goalInfo = data.getExtras().getBundle("data");
-                System.out.println(goalInfo.getString("title"));
-                System.out.println(goalInfo.getString("content"));
-                System.out.println(goalInfo.getString("begin"));
-                System.out.println(goalInfo.getString("plan"));
-            }
-        }
     }
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {

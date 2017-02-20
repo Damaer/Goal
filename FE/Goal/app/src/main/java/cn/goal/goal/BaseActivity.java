@@ -32,6 +32,7 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        UserService.initData(getSharedPreferences("user", MODE_PRIVATE), this);
         //      未登录则启动登录界面
         if (UserService.getToken() == null) {
             startActivity(new Intent(this, LoginActivity.class));

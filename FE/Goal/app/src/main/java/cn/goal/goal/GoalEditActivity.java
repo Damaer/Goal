@@ -1,94 +1,167 @@
 package cn.goal.goal;
 
-import android.content.Intent;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.RadioButton;
-import android.widget.Toast;
+import android.widget.*;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.Goal;
+import org.json.JSONException;
+
+import java.util.Calendar;
+
+import static cn.goal.goal.utils.Util.dateToString;
 
 /**
  * Created by chenlin on 13/02/2017.
  */
-public class GoalEditActivity extends AppCompatActivity {
-    public static final int REQUEST_CODE = 1;
-
+public class GoalEditActivity extends AppCompatActivity implements View.OnClickListener {
     ImageButton buttonBack;
     ImageButton buttonConfirm;
 
-    EditText title; // 标题
-    EditText content; // 内容
-    EditText begin; // 开始时间
-    EditText plan; // 计划结束时间
-    RadioButton finished; // 已完成
-    RadioButton unfinished; // 未完成
+    EditText titleView; // 标题
+    EditText contentView; // 内容
+    EditText beginView; // 开始时间
+    EditText planView; // 计划结束时间
+    RadioButton finishedView; // 已完成
+    RadioButton unfinishedView; // 未完成
+
+    int goalIndex;
+    Goal goal;
+
+    Calendar beginCalendar;
+    Calendar planCalendar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_edit);
 
-        // 传入数据不正确
-        if (getIntent() == null || getIntent().getExtras().getBundle("data") == null) {
+        if (getIntent() == null) {
+            Toast.makeText(this, "传入数据错误", 1000).show();
+            finish();
+            return ;
+        }
+        goalIndex = getIntent().getExtras().getInt("goalIndex");
+        try {
+            goal = (Goal) UserService.getGoals().get(goalIndex);
+        } catch (JSONException e) {
+            e.printStackTrace();
             Toast.makeText(this, "传入数据错误", 1000).show();
             finish();
             return ;
         }
 
         buttonBack = (ImageButton) findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(this);
         buttonConfirm = (ImageButton) findViewById(R.id.button_confirm);
-        title = (EditText) findViewById(R.id.title);
-        content = (EditText) findViewById(R.id.content);
-        begin = (EditText) findViewById(R.id.begin);
-        plan = (EditText) findViewById(R.id.plan);
-        finished = (RadioButton) findViewById(R.id.radioButtonFinished);
-        unfinished = (RadioButton) findViewById(R.id.radioButtonUnfinished);
+        buttonConfirm.setOnClickListener(this);
+
+        beginView = (EditText) findViewById(R.id.begin);
+        beginView.setOnClickListener(this);
+        planView = (EditText) findViewById(R.id.plan);
+        planView.setOnClickListener(this);
+
+        titleView = (EditText) findViewById(R.id.title);
+        contentView = (EditText) findViewById(R.id.content);
+        finishedView = (RadioButton) findViewById(R.id.radioButtonFinished);
+        unfinishedView = (RadioButton) findViewById(R.id.radioButtonUnfinished);
+
+        beginCalendar = Calendar.getInstance();
+        planCalendar = Calendar.getInstance();
 
         renderInitialData();
-        addListener();
     }
 
     private void renderInitialData() {
-        Bundle data = getIntent().getExtras().getBundle("data");
+        titleView.setText(goal.getTitle());
+        contentView.setText(goal.getContent());
+        beginView.setText(goal.getBegin());
+        planView.setText(goal.getPlan());
 
-        title.setText(data.getString("title"));
-        content.setText(data.getString("content"));
-        begin.setText(data.getString("begin"));
-        plan.setText(data.getString("plan"));
-
-        finished.setChecked(data.getBoolean("finished"));
-        unfinished.setChecked(!data.getBoolean("finished"));
+        finishedView.setChecked(goal.getFinished() == 1);
+        unfinishedView.setChecked(goal.getFinished() == 0);
     }
 
-    private void addListener() {
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button_back:
                 finish();
-            }
-        });
+                break;
+            case R.id.button_confirm:
+                handleEdit();
+                break;
+            case R.id.begin:
+                handlePickBeginDate();
+                break;
+            case R.id.plan:
+                handlePickPlanDate();
+                break;
+        }
+    }
 
-        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+    private void handleEdit() {
+        Boolean error = false;
+        EditText errorView = null;
+        if (TextUtils.isEmpty(titleView.getText())) {
+            error = true;
+            errorView = titleView;
+        } else if (TextUtils.isEmpty(contentView.getText())) {
+            error = true;
+            errorView = contentView;
+        } else if (TextUtils.isEmpty(beginView.getText())) {
+            error = true;
+            errorView = beginView;
+        } else if (TextUtils.isEmpty(planView.getText())) {
+            error = true;
+            errorView = planView;
+        }
+        if (error) {
+            errorView.setError(getResources().getString(R.string.error_field_required));
+            return ;
+        }
+
+        UserService.updateGoal(goal,
+                titleView.getText().toString(),
+                contentView.getText().toString(),
+                beginView.getText().toString(),
+                planView.getText().toString());
+        // 标记目标完成
+        if (finishedView.isChecked() && goal.getFinished() == 0) {
+            UserService.markGoalFinished(goal);
+        } else if (unfinishedView.isChecked() && goal.getFinished() == 1) {
+            // 标记目标未完成
+            UserService.markGoalUnfinished(goal);
+        }
+
+        finish();
+    }
+
+    private void handlePickBeginDate() {
+        new DatePickerDialog(GoalEditActivity.this, new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                Bundle bundle = intent.getExtras();
-                if (bundle == null) {
-                    bundle = new Bundle();
-                }
-                bundle.putString("title", title.getText().toString());
-                bundle.putString("content", content.getText().toString());
-                bundle.putString("begin", begin.getText().toString());
-                bundle.putString("plan", plan.getText().toString());
-                bundle.putBoolean("finished", finished.isChecked());
-
-                intent.putExtra("data", bundle);
-                setResult(REQUEST_CODE, intent);
-                finish();
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                beginCalendar.set(Calendar.YEAR, year);
+                beginCalendar.set(Calendar.MONTH, monthOfYear);
+                beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                beginView.setText(dateToString(beginCalendar.getTime()));
             }
-        });
+        }, beginCalendar.get(Calendar.YEAR), beginCalendar.get(Calendar.MONTH), beginCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void handlePickPlanDate() {
+        new DatePickerDialog(GoalEditActivity.this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                planCalendar.set(Calendar.YEAR, year);
+                planCalendar.set(Calendar.MONTH, monthOfYear);
+                planCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                planView.setText(dateToString(planCalendar.getTime()));
+            }
+        }, planCalendar.get(Calendar.YEAR), planCalendar.get(Calendar.MONTH), planCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 }

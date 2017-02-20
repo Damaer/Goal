@@ -39,26 +39,22 @@ public class GoalListFragment extends Fragment {
 
     private void createListView() {
         data = new ArrayList<>();
-        JSONArray goals = UserService.getGoals();
+        ArrayList<Goal> goals = UserService.getGoals();
         if (goals == null) {
-            goals = new JSONArray();
+            goals = new ArrayList<>();
         }
-        for (int i = 0; i < goals.length(); ++i) {
+        for (int i = 0; i < goals.size(); ++i) {
             HashMap<String, String> itemData = new HashMap<>();
-            try {
-                Goal goal = (Goal) goals.get(i);
-                if (goal.getFinished() == finished) {
-                    itemData.put("title", goal.getTitle());
-                    itemData.put("content", goal.getContent());
-                    itemData.put("createAt", goal.getCreateAt());
-                    itemData.put("finished", finished == 0 ? "false" : "true");
-                    itemData.put("begin", goal.getBegin());
-                    itemData.put("plan", goal.getPlan());
-                    itemData.put("end", goal.getEnd());
-                    data.add(itemData);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            Goal goal = goals.get(i);
+            if (goal.getFinished() == finished) {
+                itemData.put("title", goal.getTitle());
+                itemData.put("content", goal.getContent());
+                itemData.put("createAt", goal.getCreateAt());
+                itemData.put("finished", finished == 0 ? "false" : "true");
+                itemData.put("begin", goal.getBegin());
+                itemData.put("plan", goal.getPlan());
+                itemData.put("end", goal.getEnd());
+                data.add(itemData);
             }
         }
 

@@ -6,13 +6,16 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
+import cn.goal.goal.services.object.DailySentence;
 import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.object.Note;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.HttpRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 
 import static cn.goal.goal.utils.Util.dateToString;
@@ -39,10 +42,10 @@ public class UserService {
 
     private static String token;
     private static User userInfo;
-    private static JSONArray notes;
-    private static JSONArray goals;
-    private static JSONArray records;
-    private static JSONArray goalsFinished;
+    private static ArrayList<Note> notes;
+    private static ArrayList<Goal> goals;
+    private static ArrayList<DailySentence> dailySentence;
+    private static ArrayList<Goal> goalsFinished;
 
     private static SharedPreferences sp;
     private static Context context;
@@ -63,11 +66,10 @@ public class UserService {
         SQLiteDatabase db = getDB();
 
         getLocalGoals(db);
+        getLocalNotes(db);
 
         db.close();
 
-//        getNotes(); // 获取notes
-//        getGoals(); // 获取goals
 //        getRecords(); //获取records
 //        getGoalsFinished(); // 获取已完成目标
     }
@@ -84,8 +86,30 @@ public class UserService {
         }
     }
 
+    private static void getLocalNotes(SQLiteDatabase db) {
+        notes = new ArrayList<>();
+        Cursor cursor = db.query("note", null, null, null, null, null, null);
+        cursor.moveToFirst();
+        int idIndex = cursor.getColumnIndex("id");
+        int _idIndex = cursor.getColumnIndex("_id");
+        int contentIndex = cursor.getColumnIndex("content");
+        int createAtIndex = cursor.getColumnIndex("createAt");
+        int updateAtIndex = cursor.getColumnIndex("updateAt");
+        while (cursor.moveToNext()) {
+            Note note = new Note(
+                    cursor.getInt(idIndex),
+                    cursor.getString(_idIndex),
+                    cursor.getString(contentIndex),
+                    cursor.getString(createAtIndex),
+                    cursor.getString(updateAtIndex)
+            );
+            notes.add(note);
+        }
+        cursor.close();
+    }
+
     private static void getLocalGoals(SQLiteDatabase db) {
-        goals = new JSONArray();
+        goals = new ArrayList<>();
         Cursor cursor = db.query("goal", null, null, null, null, null, null);
         cursor.moveToFirst();
         int idIndex = cursor.getColumnIndex("id");
@@ -111,7 +135,7 @@ public class UserService {
                     cursor.getString(updateAtIndex),
                     cursor.getInt(finishedIndex)
             );
-            goals.put(goal);
+            goals.add(goal);
         }
         cursor.close();
     }
@@ -200,7 +224,6 @@ public class UserService {
         userInfo = null;
         notes = null;
         goals = null;
-        records = null;
         goalsFinished = null;
     }
 
@@ -382,23 +405,25 @@ public class UserService {
      * 成功返回notes数据，失败返回null
      * @return
      */
-    public static JSONArray getNotes() {
-        if (notes == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + noteUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    notes = result.getJSONArray("data");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public static ArrayList<Note> getNotes() {
+
         return notes;
+//        if (notes == null) {
+//            try {
+//                HttpRequest request = HttpRequest
+//                        .get(baseUrl + noteUrl)
+//                        .header("Authorization", token);
+//                JSONObject result = new JSONObject(request.body());
+//                if (result.getInt("code") == 10000) {
+//                    notes = result.getJSONArray("data");
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return notes;
     }
 
     /**
@@ -431,44 +456,36 @@ public class UserService {
      * @param noteId 要获取的noteId
      * @return 成功返回note信息，失败返回null
      */
-    public static JSONObject getNote(String noteId) {
-        JSONObject note = getNoteFromNotes(noteId);
-        if (note == null) {
-            try {
-                HttpRequest request =  HttpRequest
-                        .get(baseUrl + noteUrl + "/" + noteId)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    note = result.getJSONObject("data");
-                    // 添加进现有notes
-                    notes.put(note);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return note;
+    public static Note getNote(int noteId) {
+        int noteIndex = findNoteById(noteId);
+        if (noteIndex == -1) return null;
+        return notes.get(noteIndex);
+//        JSONObject note = getNoteFromNotes(noteId);
+//        if (note == null) {
+//            try {
+//                HttpRequest request =  HttpRequest
+//                        .get(baseUrl + noteUrl + "/" + noteId)
+//                        .header("Authorization", token);
+//                JSONObject result = new JSONObject(request.body());
+//                if (result.getInt("code") == 10000) {
+//                    note = result.getJSONObject("data");
+//                    // 添加进现有notes
+//                    notes.add(note);
+//                }
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return note;
     }
 
-    /**
-     * 从现有notes中根据noteId查找note
-     * @return 成功返回note， 失败返回null
-     */
-    private static JSONObject getNoteFromNotes(String noteId) {
-        for (int i = 0; i < notes.length(); ++i) {
-            try {
-                JSONObject note = notes.getJSONObject(i);
-                if (note.getString("_id").equals(noteId)) {
-                    return note;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    private static int findNoteById(int noteId) {
+        for (int i = 0; i < notes.size(); ++i) {
+            if (notes.get(i).getId() == noteId) return i;
         }
-        return null;
+        return -1;
     }
 
     /**
@@ -525,7 +542,7 @@ public class UserService {
      * 获取用户所有目标
      * @return 成功返回JSONArray, 失败返回null
      */
-    public static JSONArray getGoals() {
+    public static ArrayList<Goal> getGoals() {
         if (goals == null) {
             try {
                 HttpRequest request = HttpRequest
@@ -533,7 +550,8 @@ public class UserService {
                         .header("Authorization", token);
                 JSONObject result = new JSONObject(request.body());
                 if (result.getInt("code") == 10000) {
-                    goals = result.getJSONArray("data");
+                    JSONArray goalsJsonArray = result.getJSONArray("data");
+
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -583,9 +601,9 @@ public class UserService {
         }
 
         if (goals == null) {
-            goals = new JSONArray();
+            goals = new ArrayList<>();
         }
-        goals.put(new Goal(
+        goals.add(new Goal(
                 lastId,
                 _id,
                 title,
@@ -626,7 +644,9 @@ public class UserService {
      * @return 失败返回null
      */
     public static Goal getGoal(int goalId) {
-        Goal goal = getGoalFromGoals(goalId);
+        int goalIndex = findGoalById(goalId);
+        if (goalIndex == -1) return null;
+        return goals.get(goalIndex);
 //        if (goal == null) {
 //            try {
 //                HttpRequest request = HttpRequest
@@ -642,22 +662,6 @@ public class UserService {
 //                e.printStackTrace();
 //            }
 //        }
-        return goal;
-    }
-
-    /**
-     * 从现有goals中查找id为goalId的目标
-     * @param goalId 要查找的goalId
-     * @return 失败返回null
-     */
-    private static Goal getGoalFromGoals(int goalId) {
-        int index = findGoalById(goalId);
-        try {
-            if (index != -1) return (Goal) goals.get(index);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -667,15 +671,8 @@ public class UserService {
      */
     private static int findGoalById(int goalId) {
         if (goals == null) return -1;
-        for (int i = 0; i < goals.length(); ++i) {
-            try {
-                Goal goal = (Goal) goals.get(i);
-                if (goal.getId() == goalId) {
-                    return i;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        for (int i = 0; i < goals.size(); ++i) {
+            if (goals.get(i).getId() == goalId) return i;
         }
         return -1;
     }
@@ -744,122 +741,10 @@ public class UserService {
         if (index != -1) {
             goals.remove(index);
         }
-//        try {
-//            HttpRequest request = HttpRequest
-//                    .delete(baseUrl + goalUrl + '/' + goalId)
-//                    .header("Authorization", token);
-//            JSONObject result = new JSONObject(request.body());
-//            if (result.getInt("code") != 10000) {
-//                return result.getString("msg");
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         return null;
     }
 
-    /**
-     * 获取用户所有记录信息
-     * @return 失败返回null
-     */
-    public static JSONArray getRecords() {
-        if (records == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + recordUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    records = result.getJSONArray("data");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return records;
-    }
-
-    /**
-     * 获取用户当天记录
-     * @return 失败返回null
-     */
-    public static JSONObject getRecordToday() {
-        JSONObject recordToday = getRecordTodayFromRecords();
-        if (recordToday == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + recordTodayUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    recordToday = result.getJSONObject("data");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return recordToday;
-    }
-
-    /**
-     * 从现有records中获取当天record
-     * @return
-     */
-    private static JSONObject getRecordTodayFromRecords() {
-        if (records == null) return null;
-
-        for (int i = 0; i < records.length(); ++i) {
-            try {
-                JSONObject record = records.getJSONObject(i);
-                if (record.getLong("date") == new Date().getTime()) {
-                    return record;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    /**
-     * 获取用户当天每日一句
-     * @return 失败返回null
-     */
-    public static JSONObject getDailySentence() {
-        JSONObject recordToday = getRecordToday();
-
-        try {
-            if (recordToday != null) {
-                return recordToday.getJSONObject("dailySentence");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static JSONArray getGoalsFinished() {
-        if (goalsFinished == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + goalsFinishedUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    goalsFinished = result.getJSONArray("data");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public static ArrayList<Goal> getGoalsFinished() {
         return goalsFinished;
     }
 
@@ -912,11 +797,8 @@ public class UserService {
      */
     public static Integer getGoalsFinishedNums() {
         if (goalsFinished == null) {
-            getGoalsFinished();
+            return 0;
         }
-        if (goalsFinished == null) {
-            return null;
-        }
-        return goalsFinished.length();
+        return goalsFinished.size();
     }
 }

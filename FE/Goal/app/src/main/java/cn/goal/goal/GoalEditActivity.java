@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.*;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Goal;
-import org.json.JSONException;
 
 import java.util.Calendar;
 
@@ -46,14 +45,7 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
             return ;
         }
         goalIndex = getIntent().getExtras().getInt("goalIndex");
-        try {
-            goal = (Goal) UserService.getGoals().get(goalIndex);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
-            finish();
-            return ;
-        }
+        goal = UserService.getGoals().get(goalIndex);
 
         buttonBack = (ImageButton) findViewById(R.id.button_back);
         buttonBack.setOnClickListener(this);

@@ -16,6 +16,12 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String goalTable = "create table goal(id INTEGER PRIMARY KEY AUTOINCREMENT, _id varchar(100), title varchar(200), content varchar(2000), begin varchar(20), plan varchar(20), end varchar(20), createAt varchar(20), updateAt varchar(20), finished int)";
         db.execSQL(goalTable);
+        String noteTable = "create table note(id INTEGER PRIMARY KEY AUTOINCREMENT, _id varchar(100), content varchar(2000), createAt varchar(20), updateAt varchar(20))";
+        db.execSQL(noteTable);
+        String dailySentenceTable = "create table dailySentence(_id varchar(100), date varchar(20), sentence varchar(200), backImg varchar(500))";
+        db.execSQL(dailySentenceTable);
+        String goalsFinishedTable = "create table goalsFinished(id INTEGER PRIMARY KEY AUTOINCREMENT, _id varchar(100), date varchar(20), goalId varchar(100))";
+        db.execSQL(goalsFinishedTable);
     }
 
     @Override

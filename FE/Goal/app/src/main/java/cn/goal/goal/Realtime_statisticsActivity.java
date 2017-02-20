@@ -3,7 +3,9 @@ package cn.goal.goal;
 
 import java.util.ArrayList;
         import java.util.List;
-        import android.os.Bundle;
+
+import android.content.Context;
+import android.os.Bundle;
         import android.animation.ObjectAnimator;
         import android.graphics.Color;
         import android.support.v4.app.Fragment;
@@ -52,11 +54,15 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int screenW = dm.widthPixels;
-        /** * 重新设置下划线的宽度 */
-        LayoutParams lp = line_tab.getLayoutParams();
-        lp.width = 120;
-        line_tab.setLayoutParams(lp);
-        moveOne = 160;
+        moveOne =dip2px(this,80);
+    }
+
+    /**
+     *下面的函数把dp转换成为px，为了计算下划线移动的长度
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
     }
     private void initView() {
         // TODO Auto-generated method stub
@@ -74,7 +80,7 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
         tv_tab1 = (TextView) findViewById(R.id.tv_tab1);
         tv_tab2 = (TextView) findViewById(R.id.tv_tab2);
         myViewPager.setCurrentItem(0);
-        tv_tab0.setTextColor(Color.RED);
+        tv_tab0.setTextColor(Color.BLUE);
         tv_tab1.setTextColor(Color.BLACK);
         tv_tab2.setTextColor(Color.BLACK);
         tv_tab0.setOnClickListener(this);
@@ -120,7 +126,7 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
     { // TODO Auto-generated method stub
         switch (position)
         { case 0:
-            tv_tab0.setTextColor(Color.RED);
+            tv_tab0.setTextColor(Color.BLUE);
             tv_tab1.setTextColor(Color.BLACK);
             tv_tab2.setTextColor(Color.BLACK);
             movePositionX(0);
@@ -134,7 +140,7 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
             case 2:
                 tv_tab0.setTextColor(Color.BLACK);
                 tv_tab1.setTextColor(Color.BLACK);
-                tv_tab2.setTextColor(Color.GREEN);
+                tv_tab2.setTextColor(Color.BLUE);
                 movePositionX(2);
                 break;
             default:
@@ -147,7 +153,8 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
         float curTranslationX = line_tab.getTranslationX();
         float toPositionX = moveOne * toPosition + positionOffsetPixels;
         ObjectAnimator animator = ObjectAnimator.ofFloat(line_tab, "translationX", curTranslationX, toPositionX);
-        animator.setDuration(500); animator.start();
+        animator.setDuration(500);
+        animator.start();
     } /** * 下划线滑动到新的选项卡中 * @param toPosition */
 private void movePositionX(int toPosition)
 { // TODO Auto-generated method stub

@@ -44,6 +44,8 @@
             android:label="编辑个人信息" />
         <activity
             android:label="实时统计"
+            android:name=".Realtime_statisticsActivity">
+        </activity>
             android:name=".Realtime_statisticsActivity" />
         <activity
                 android:name=".AboutActivity"

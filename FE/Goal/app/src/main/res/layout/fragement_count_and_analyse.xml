@@ -3,12 +3,501 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:text="统计分析"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView8"
-        android:layout_weight="1" />
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/time"
+            android:text="2017年2月"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginBottom="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/day1"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day2"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day3"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day4"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day5"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day6"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day7"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                android:id="@+id/day8"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/ml_gray"
+                android:layout_width="30dp"
+                android:layout_height="20dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginBottom="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/day9"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day10"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day11"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day12"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day13"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day14"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                android:id="@+id/day15"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/ml_gray"
+                android:layout_width="30dp"
+                android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day16"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginBottom="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/day17"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day18"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day19"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day20"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day21"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                android:id="@+id/day22"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:background="@color/ml_gray"
+                android:layout_width="30dp"
+                android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day23"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day24"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center"
+                android:layout_marginBottom="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/day25"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day26"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day27"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day28"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day29"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day30"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day31"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="#E0E0E0"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+                <ImageView
+                    android:id="@+id/day32"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@color/ml_gray"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="10dip"
+            android:background="#E0E0E0" />
+        <TextView
+            android:text="本月数据"
+            android:textSize="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@mipmap/blue_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+            </RelativeLayout>
+           <TextView
+               android:text="本月共设立目标"
+               android:gravity="center_vertical"
+               android:layout_width="wrap_content"
+               android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="5"
+                    android:textSize="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/ml_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="个"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#E0E0E0" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@mipmap/pul_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+            </RelativeLayout>
+            <TextView
+                android:text="正在进行的目标"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="5"
+                    android:textSize="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="个"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#E0E0E0" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@mipmap/blue_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+            </RelativeLayout>
+            <TextView
+                android:text="本月已完成目标"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="5"
+                    android:textSize="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/ml_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="个"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#E0E0E0" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@mipmap/blue_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+            </RelativeLayout>
+            <TextView
+                android:text="本月未完成目标"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="5"
+                    android:textSize="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/ml_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="个"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#E0E0E0" />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <RelativeLayout
+                android:layout_gravity="center_vertical"
+                android:layout_margin="16dp"
+                android:background="@mipmap/blue_dot"
+                android:layout_width="10dp"
+                android:layout_height="10dp">
+
+            </RelativeLayout>
+            <TextView
+                android:text="本月坚持最久的目标"
+                android:gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:gravity="center_vertical"
+                    android:text="5"
+                    android:textSize="30dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="36dp"
+                    android:textColor="@color/ml_blue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:text="个"
+                    android:layout_marginRight="16dp"
+                    android:gravity="center_vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>

@@ -37,7 +37,7 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         if (UserService.getToken() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
-            return ;
+            return;
         }
 
         mFragments[0] = new GoalFragment();

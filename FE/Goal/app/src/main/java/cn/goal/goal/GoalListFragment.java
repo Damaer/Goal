@@ -49,7 +49,7 @@ public class GoalListFragment extends Fragment {
         mListView.setAdapter(new SimpleAdapter(getContext(), data, R.layout.goal_item,
                 new String[]{"title", "content", "createAt"},
                 new int[]{R.id.title, R.id.content, R.id.createAt}));
-    }
+}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

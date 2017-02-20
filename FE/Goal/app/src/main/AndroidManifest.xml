@@ -53,6 +53,9 @@
         <activity
                 android:name=".AccountSafetyActivity"
                 android:label="账号安全"/>
+        <activity
+                android:name=".SettingsActivity"
+                android:label="程序设置" />
     </application>
 
 </manifest>

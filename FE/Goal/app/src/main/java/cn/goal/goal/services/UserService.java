@@ -67,6 +67,24 @@ public class UserService {
         db.close();
     }
 
+    public static void removeLocalInfo() {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.remove("token");
+        editor.remove("username");
+        editor.remove("avatar");
+        editor.remove("description");
+        editor.remove("email");
+        editor.remove("phone");
+        editor.commit();
+
+        SQLiteDatabase db = getDB();
+        db.delete("goal", null, null);
+        db.delete("note", null, null);
+        db.delete("dailySentence", null, null);
+        db.delete("goalsFinished", null, null);
+        db.close();
+    }
+
     private static void getLocalUserInfo() {
         if (userInfo == null) {
             userInfo = new User(

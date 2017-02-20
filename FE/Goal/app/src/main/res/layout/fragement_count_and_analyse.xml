@@ -337,7 +337,7 @@
             <RelativeLayout
                 android:layout_gravity="center_vertical"
                 android:layout_margin="16dp"
-                android:background="@mipmap/blue_dot"
+                android:background="@mipmap/pul_dot"
                 android:layout_width="10dp"
                 android:layout_height="10dp">
 
@@ -356,7 +356,7 @@
                     android:textSize="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="36dp"
-                    android:textColor="@color/ml_blue"
+                    android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent" />
                 <TextView

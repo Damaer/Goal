@@ -11,7 +11,6 @@ import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.Note;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.HttpRequest;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.File;
@@ -64,14 +63,9 @@ public class UserService {
         getLocalUserInfo(); // 获取本地用户信息
 
         SQLiteDatabase db = getDB();
-
         getLocalGoals(db);
         getLocalNotes(db);
-
         db.close();
-
-//        getRecords(); //获取records
-//        getGoalsFinished(); // 获取已完成目标
     }
 
     private static void getLocalUserInfo() {
@@ -308,6 +302,8 @@ public class UserService {
             JSONObject result = new JSONObject(request.body());
 
             if (result.getInt("code") == 10000) {
+                userInfo.setAvatar(newAvatar);
+                userInfo.setUsername(newUsername);
                 return null;
             }
             return result.getString("msg");
@@ -406,24 +402,7 @@ public class UserService {
      * @return
      */
     public static ArrayList<Note> getNotes() {
-
         return notes;
-//        if (notes == null) {
-//            try {
-//                HttpRequest request = HttpRequest
-//                        .get(baseUrl + noteUrl)
-//                        .header("Authorization", token);
-//                JSONObject result = new JSONObject(request.body());
-//                if (result.getInt("code") == 10000) {
-//                    notes = result.getJSONArray("data");
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return notes;
     }
 
     /**
@@ -432,23 +411,29 @@ public class UserService {
      * @return 成功返回null, 失败返回错误信息
      */
     public static String createNote(String content) {
-        try {
-            HttpRequest request = HttpRequest
-                    .post(baseUrl + noteUrl)
-                    .header("Authorization", token)
-                    .form("content", content);
-            JSONObject result = new JSONObject(request.body());
-            if (result.getInt("code") == 10000) {
-                return null;
-            }
-            return result.getString("msg");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "服务器传输数据错误";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "请检查网络设置";
-        }
+        String _id = "null";
+        String createAt = dateToString(new Date());
+
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put("_id", _id);
+        cv.put("content", content);
+        cv.put("createAt", createAt);
+        cv.put("updateAt", createAt);
+        db.insert("note", null, cv);
+
+        // 获取最后插入的记录id
+        Cursor cursor = db.rawQuery("select last_insert_rowid() from note", null);
+        int lastId = 0;
+        if (cursor.moveToFirst()) lastId = cursor.getInt(0);
+        cursor.close();
+        db.close();
+
+        if (lastId == 0) return "新建目标失败";
+        if (notes == null) notes = new ArrayList<>();
+
+        notes.add(new Note(lastId, _id, content, createAt, createAt));
+        return null;
     }
 
     /**
@@ -460,25 +445,6 @@ public class UserService {
         int noteIndex = findNoteById(noteId);
         if (noteIndex == -1) return null;
         return notes.get(noteIndex);
-//        JSONObject note = getNoteFromNotes(noteId);
-//        if (note == null) {
-//            try {
-//                HttpRequest request =  HttpRequest
-//                        .get(baseUrl + noteUrl + "/" + noteId)
-//                        .header("Authorization", token);
-//                JSONObject result = new JSONObject(request.body());
-//                if (result.getInt("code") == 10000) {
-//                    note = result.getJSONObject("data");
-//                    // 添加进现有notes
-//                    notes.add(note);
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        return note;
     }
 
     private static int findNoteById(int noteId) {
@@ -490,52 +456,39 @@ public class UserService {
 
     /**
      * 更新标签内容
-     * @param noteId 标签Id
+     * @param note 标签
      * @param content 标签内容
      * @return 更新成功返回null, 失败返回错误信息
      */
-    public static String updateNote(String noteId, String content) {
-        try {
-            HttpRequest request = HttpRequest
-                    .put(baseUrl + noteUrl + "/" + noteId)
-                    .header("Authorization", token)
-                    .form("content", content);
-            JSONObject result = new JSONObject(request.body());
-            if (result.getInt("code") == 10000) {
-                return null;
-            }
-            return result.getString("msg");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "服务器传输数据错误";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "请检查网络设置";
-        }
+    public static String updateNote(Note note, String content) {
+        // 本地更新
+        String updateAt = dateToString(new Date());
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put("content", content);
+        cv.put("updateAt", updateAt);
+        db.update("note", cv, "id=?", new String[]{String.valueOf(note.getId())});
+        db.close();
+        // 更新goals数组信息
+        note.setContent(content);
+        return null;
     }
 
     /**
      * 删除指定标签
-     * @param noteId 要删除标签Id
+     * @param note 要删除标签
      * @return 成功返回null, 失败返回错误信息
      */
-    public static String deleteNote(String noteId) {
-        try {
-            HttpRequest request = HttpRequest
-                    .delete(baseUrl + noteUrl + "/" + noteId)
-                    .header("Authorization", token);
-            JSONObject result = new JSONObject(request.body());
-            if (result.getInt("code") == 10000) {
-                return null;
-            }
-            return result.getString("msg");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "服务器传输数据失败";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "请检查网络设置";
+    public static String deleteNote(Note note) {
+        // 本地删除
+        SQLiteDatabase db = getDB();
+        db.delete("note", "id=?", new String[]{String.valueOf(note.getId())});
+        db.close();
+        int index = findNoteById(note.getId());
+        if (index != -1) {
+            notes.remove(index);
         }
+        return null;
     }
 
     /**
@@ -543,22 +496,6 @@ public class UserService {
      * @return 成功返回JSONArray, 失败返回null
      */
     public static ArrayList<Goal> getGoals() {
-        if (goals == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + goalUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
-                if (result.getInt("code") == 10000) {
-                    JSONArray goalsJsonArray = result.getJSONArray("data");
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return goals;
     }
 
@@ -616,26 +553,6 @@ public class UserService {
                 0
         ));
         return null;
-//        try {
-//            HttpRequest request = HttpRequest
-//                    .post(baseUrl + goalUrl)
-//                    .header("Authorization", token)
-//                    .form("title", title)
-//                    .form("content", content)
-//                    .form("begin", begin)
-//                    .form("plan", plan);
-//            JSONObject result = new JSONObject(request.body());
-//            if (result.getInt("code") == 10000) {
-//                return null;
-//            }
-//            return result.getString("msg");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return "服务器传输数据错误";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "请检查网络设置";
-//        }
     }
 
     /**
@@ -647,21 +564,6 @@ public class UserService {
         int goalIndex = findGoalById(goalId);
         if (goalIndex == -1) return null;
         return goals.get(goalIndex);
-//        if (goal == null) {
-//            try {
-//                HttpRequest request = HttpRequest
-//                        .get(baseUrl + goalUrl + "/" + goalId)
-//                        .header("Authorization", token);
-//                JSONObject result = new JSONObject(request.body());
-//                if (result.getInt("code") == 10000) {
-//                    goal = result.getJSONObject("data");
-//                }
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
     }
 
     /**
@@ -706,26 +608,6 @@ public class UserService {
         goal.setUpdateAt(updateAt);
 
         return null;
-//        try {
-//            HttpRequest request = HttpRequest
-//                    .put(baseUrl + goalUrl + '/' + goalId)
-//                    .header("Authorization", token)
-//                    .form("title", title)
-//                    .form("content", content)
-//                    .form("begin", begin)
-//                    .form("plan", plan);
-//            JSONObject result = new JSONObject(request.body());
-//            if (result.getInt("code") == 10000) {
-//                return null;
-//            }
-//            return result.getString("msg");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return "服务器传输数据错误";
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "请检查网络设置";
-//        }
     }
 
     /**
@@ -737,6 +619,7 @@ public class UserService {
         // 本地删除
         SQLiteDatabase db = getDB();
         db.delete("goal", "id=?", new String[]{String.valueOf(goal.getId())});
+        db.close();
         int index = findGoalById(goal.getId());
         if (index != -1) {
             goals.remove(index);

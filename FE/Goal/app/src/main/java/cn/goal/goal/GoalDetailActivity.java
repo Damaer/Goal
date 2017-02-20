@@ -39,7 +39,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
 
         // 传入数据不正确
         if (getIntent() == null) {
-            Toast.makeText(this, "传入数据错误", 1000).show();
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
             finish();
             return ;
         }
@@ -48,7 +48,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
             goal = (Goal) UserService.getGoals().get(goalIndex);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(this, "传入数据错误", 1000).show();
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
             finish();
             return ;
         }

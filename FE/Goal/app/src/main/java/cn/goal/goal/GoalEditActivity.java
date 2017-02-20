@@ -41,7 +41,7 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_goal_edit);
 
         if (getIntent() == null) {
-            Toast.makeText(this, "传入数据错误", 1000).show();
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
             finish();
             return ;
         }
@@ -50,7 +50,7 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
             goal = (Goal) UserService.getGoals().get(goalIndex);
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(this, "传入数据错误", 1000).show();
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
             finish();
             return ;
         }

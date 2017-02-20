@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
-import cn.goal.goal.services.object.DailySentence;
 import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.Note;
 import cn.goal.goal.services.object.User;
@@ -41,10 +40,9 @@ public class UserService {
 
     private static String token;
     private static User userInfo;
-    private static ArrayList<Note> notes;
-    private static ArrayList<Goal> goals;
-    private static ArrayList<DailySentence> dailySentence;
-    private static ArrayList<Goal> goalsFinished;
+    private static ArrayList<Note> notes; // 所有标签
+    private static ArrayList<Goal> goals; // 所有目标
+    private static ArrayList<Integer> goalsFinished; // 当天已完成目标
 
     private static SharedPreferences sp;
     private static Context context;
@@ -65,6 +63,7 @@ public class UserService {
         SQLiteDatabase db = getDB();
         getLocalGoals(db);
         getLocalNotes(db);
+        getLocalGoalsFinished(db);
         db.close();
     }
 
@@ -80,10 +79,27 @@ public class UserService {
         }
     }
 
+    private static void getLocalGoalsFinished(SQLiteDatabase db) {
+        goalsFinished = new ArrayList<>();
+        Cursor cursor = db.rawQuery("select * from goalsFinished where date=?", new String[]{dateToString(new Date())});
+        int goalIdIndex = cursor.getColumnIndex("goalId");
+        while (cursor.moveToNext()) {
+            goalsFinished.add(cursor.getInt(goalIdIndex));
+        }
+    }
+
+    private static Goal queryGoal(int goalId, SQLiteDatabase db) {
+        Goal goal = null;
+        Cursor cursor = db.rawQuery("select * from goal where id=?", new String[]{String.valueOf(goalId)});
+        if (cursor.moveToFirst()) {
+            goal = getGoalFromCursor(cursor);
+        }
+        return goal;
+    }
+
     private static void getLocalNotes(SQLiteDatabase db) {
         notes = new ArrayList<>();
         Cursor cursor = db.query("note", null, null, null, null, null, null);
-        cursor.moveToFirst();
         int idIndex = cursor.getColumnIndex("id");
         int _idIndex = cursor.getColumnIndex("_id");
         int contentIndex = cursor.getColumnIndex("content");
@@ -105,7 +121,13 @@ public class UserService {
     private static void getLocalGoals(SQLiteDatabase db) {
         goals = new ArrayList<>();
         Cursor cursor = db.query("goal", null, null, null, null, null, null);
-        cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            goals.add(getGoalFromCursor(cursor));
+        }
+        cursor.close();
+    }
+
+    private static Goal getGoalFromCursor(Cursor cursor) {
         int idIndex = cursor.getColumnIndex("id");
         int _idIndex = cursor.getColumnIndex("_id");
         int titleIndex = cursor.getColumnIndex("title");
@@ -116,22 +138,18 @@ public class UserService {
         int createAtIndex = cursor.getColumnIndex("createAt");
         int updateAtIndex = cursor.getColumnIndex("updateAt");
         int finishedIndex = cursor.getColumnIndex("finished");
-        while (cursor.moveToNext()) {
-            Goal goal = new Goal(
-                    cursor.getShort(idIndex),
-                    cursor.getString(_idIndex),
-                    cursor.getString(titleIndex),
-                    cursor.getString(contentIndex),
-                    cursor.getString(beginIndex),
-                    cursor.getString(endIndex),
-                    cursor.getString(planIndex),
-                    cursor.getString(createAtIndex),
-                    cursor.getString(updateAtIndex),
-                    cursor.getInt(finishedIndex)
-            );
-            goals.add(goal);
-        }
-        cursor.close();
+        return new Goal(
+                cursor.getShort(idIndex),
+                cursor.getString(_idIndex),
+                cursor.getString(titleIndex),
+                cursor.getString(contentIndex),
+                cursor.getString(beginIndex),
+                cursor.getString(endIndex),
+                cursor.getString(planIndex),
+                cursor.getString(createAtIndex),
+                cursor.getString(updateAtIndex),
+                cursor.getInt(finishedIndex)
+        );
     }
 
     private static SQLiteDatabase getDB() {
@@ -221,6 +239,11 @@ public class UserService {
         goalsFinished = null;
     }
 
+    /**
+     * 上传头像接口
+     * @param avatarImg 要上传的文件
+     * @return 成功返回头像Url, 失败返回null
+     */
     public static String uploadAvatar(File avatarImg) {
         try {
             HttpRequest request = HttpRequest
@@ -230,16 +253,14 @@ public class UserService {
             JSONObject result = new JSONObject(request.body());
 
             if (result.getInt("code") == 10000) {
-                return null;
+                return result.getString("data");
             }
-            return result.getString("msg");
         } catch (JSONException e) {
             e.printStackTrace();
-            return "服务器传输数据错误";
         } catch (Exception e) {
             e.printStackTrace();
-            return "请检查网络设置";
         }
+        return null;
     }
 
     /**
@@ -261,8 +282,8 @@ public class UserService {
                             data.getString("username"),
                             data.getString("avatar"),
                             data.getString("description"),
-                            null,
-                            null
+                            data.getString("email"),
+                            data.getString("phone")
                     );
                 }
             } catch (JSONException e) {
@@ -398,7 +419,6 @@ public class UserService {
 
     /**
      * 获取用户所有标签信息
-     * 成功返回notes数据，失败返回null
      * @return
      */
     public static ArrayList<Note> getNotes() {
@@ -447,7 +467,12 @@ public class UserService {
         return notes.get(noteIndex);
     }
 
-    private static int findNoteById(int noteId) {
+    /**
+     * 查找note
+     * @param noteId noteId
+     * @return noteId在notes数组中的下表Index;
+     */
+    public static int findNoteById(int noteId) {
         for (int i = 0; i < notes.size(); ++i) {
             if (notes.get(i).getId() == noteId) return i;
         }
@@ -571,7 +596,7 @@ public class UserService {
      * @param goalId 要查找的goalid
      * @return 失败返回-1
      */
-    private static int findGoalById(int goalId) {
+    public static int findGoalById(int goalId) {
         if (goals == null) return -1;
         for (int i = 0; i < goals.size(); ++i) {
             if (goals.get(i).getId() == goalId) return i;
@@ -627,7 +652,7 @@ public class UserService {
         return null;
     }
 
-    public static ArrayList<Goal> getGoalsFinished() {
+    public static ArrayList<Integer> getGoalsFinished() {
         return goalsFinished;
     }
 
@@ -637,23 +662,18 @@ public class UserService {
      * @return 成功返回null, 失败返回错误信息
      */
     public static String markGoalFinishedToday(Goal goal) {
-        try {
-            HttpRequest request = HttpRequest
-                    .post(baseUrl + goalsFinishedUrl)
-                    .header("Authorization", token)
-                    .form("goalId", goal.getId());
-            JSONObject result = new JSONObject(request.body());
-            if (result.getInt("code") == 10000) {
-                return null;
-            }
-            return result.getString("msg");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "服务器传输数据错误";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "请检查网络设置";
-        }
+        if (goalsFinished == null) goalsFinished = new ArrayList<>();
+        if (goal.getFinished() == 1) return "已完成目标不可再次标记完成";
+        if (goalsFinished.contains(goal.getId())) return "该目标今日已完成！";
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put("_id", "null");
+        cv.put("date", dateToString(new Date()));
+        cv.put("goalId", goal.getId());
+        db.insert("goalsFinished", null, cv);
+        db.close();
+        goalsFinished.add(goal.getId());
+        return null;
     }
 
     /**
@@ -662,6 +682,12 @@ public class UserService {
      * @return 成功返回Null, 失败返回错误信息
      */
     public static String markGoalFinished(Goal goal) {
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put("finished", 1);
+        db.update("goal", cv, "id=?", new String[]{String.valueOf(goal.getId())});
+        db.close();
+        goal.setFinished(1);
         return null;
     }
 
@@ -671,6 +697,12 @@ public class UserService {
      * @return 成功返回null, 失败返回错误信息
      */
     public static String markGoalUnfinished(Goal goal) {
+        SQLiteDatabase db = getDB();
+        ContentValues cv = new ContentValues();
+        cv.put("finished", 0);
+        db.update("goal", cv, "id=?", new String[]{String.valueOf(goal.getId())});
+        db.close();
+        goal.setFinished(0);
         return null;
     }
 
@@ -679,9 +711,6 @@ public class UserService {
      * @return 失败返回null
      */
     public static Integer getGoalsFinishedNums() {
-        if (goalsFinished == null) {
-            return 0;
-        }
-        return goalsFinished.size();
+        return goalsFinished == null ? 0 : goalsFinished.size();
     }
 }

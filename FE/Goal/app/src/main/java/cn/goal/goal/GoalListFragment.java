@@ -47,6 +47,7 @@ public class GoalListFragment extends Fragment {
             HashMap<String, String> itemData = new HashMap<>();
             Goal goal = goals.get(i);
             if (goal.getFinished() == finished) {
+                itemData.put("id", String.valueOf(goal.getId()));
                 itemData.put("title", goal.getTitle());
                 itemData.put("content", goal.getContent());
                 itemData.put("createAt", goal.getCreateAt());
@@ -71,9 +72,9 @@ public class GoalListFragment extends Fragment {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
+                HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
-                intent.putExtra("goalIndex", position);
+                intent.putExtra("goalIndex", UserService.findGoalById(Integer.valueOf(goalInfo.get("id"))));
 
                 startActivity(intent);
             }

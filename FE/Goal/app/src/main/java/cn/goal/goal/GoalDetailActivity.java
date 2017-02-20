@@ -12,6 +12,8 @@ import android.widget.*;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Goal;
 
+import java.util.ArrayList;
+
 /**
  * Created by chenlin on 13/02/2017.
  */
@@ -88,6 +90,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
         mPopupMenu.getMenuInflater()
                 .inflate(R.menu.goal_operation_popupmenu, mPopupMenu.getMenu());
 
+        mPopupMenu.getMenu().getItem(2).setEnabled(isMarkableToday()); // 设置标记今日已完成菜单
         // 如果目标未完成则设置"标记已完成"菜单为可点击
         mPopupMenu.getMenu().getItem(3).setEnabled(goal.getFinished() == 0);
         // 如果目标已完成则设置"标记未完成"菜单为可点击
@@ -121,6 +124,9 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        // 设置调用setChecked方法不触发下面代码；
+        if (!buttonView.isPressed()) return;
+
         switch (buttonView.getId()) {
             case R.id.radioButtonFinished:
                 handleMarkFinished();
@@ -172,14 +178,68 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void handleMarkFinished() {
-
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("目标已完成");
+        dialog.setMessage("确认标记目标完成?");
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                UserService.markGoalFinished(goal);
+                radioButtonFinished.setChecked(true);
+                radioButtonUnfinished.setChecked(false);
+                mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
+                mPopupMenu.getMenu().getItem(3).setEnabled(false); // 设置标记完成不可用
+                mPopupMenu.getMenu().getItem(4).setEnabled(true); // 设置标记未完成可用
+            }
+        });
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                radioButtonFinished.setChecked(false);
+                radioButtonUnfinished.setChecked(true);
+            }
+        });
+        dialog.show();
     }
 
     private void handleMarkUnfinished() {
-
+        String result = UserService.markGoalUnfinished(goal);
+        if (result == null) {
+            Toast.makeText(this, "目标标记未完成", Toast.LENGTH_SHORT).show();
+            radioButtonFinished.setChecked(false);
+            radioButtonUnfinished.setChecked(true);
+            mPopupMenu.getMenu().getItem(2).setEnabled(isMarkableToday()); // 设置标记今日完成菜单
+            mPopupMenu.getMenu().getItem(3).setEnabled(true); // 设置标记完成可用
+            mPopupMenu.getMenu().getItem(4).setEnabled(false); // 设置标记未完成不可用
+        } else {
+            Toast.makeText(this, "标记未完成失败:" + result, Toast.LENGTH_SHORT).show();
+            radioButtonFinished.setChecked(true);
+            radioButtonUnfinished.setChecked(false);
+        }
     }
 
     private void handleMarkFinishedToday() {
+        String result = UserService.markGoalFinishedToday(goal);
+        if (result == null) {
+            Toast.makeText(this, "目标完成！", Toast.LENGTH_SHORT).show();
+            mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
+        } else {
+            Toast.makeText(this, "完成失败:" + result, Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    /**
+     * 判断当前目标今日能否被标记
+     * @return
+     */
+    private Boolean isMarkableToday() {
+        if (goal.getFinished() == 1) return false;
+        ArrayList<Integer> goalsFinished = UserService.getGoalsFinished();
+        for (int goalId : goalsFinished) {
+            if (goalId == goal.getId()) return false;
+        }
+        return true;
     }
 }

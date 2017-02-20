@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(noteTable);
         String dailySentenceTable = "create table dailySentence(_id varchar(100), date varchar(20), sentence varchar(200), backImg varchar(500))";
         db.execSQL(dailySentenceTable);
-        String goalsFinishedTable = "create table goalsFinished(id INTEGER PRIMARY KEY AUTOINCREMENT, _id varchar(100), date varchar(20), goalId varchar(100))";
+        String goalsFinishedTable = "create table goalsFinished(id INTEGER PRIMARY KEY AUTOINCREMENT, _id varchar(100), date varchar(20), goalId int)";
         db.execSQL(goalsFinishedTable);
     }
 

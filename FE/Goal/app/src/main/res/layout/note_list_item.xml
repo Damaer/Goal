@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
-    android:padding="8dp"
-    android:background="@drawable/shadow"
+    android:layout_marginTop="12dp"
+    android:padding="12dp"
     android:layout_gravity="center_horizontal"
+    android:background="@android:color/white"
     >
+
     <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="223dp"
+        android:layout_height="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="3"
         android:id="@+id/noteList_text"
         android:text="@string/note_list_text_test"
+        android:textSize="16sp"
         android:paddingBottom="5dp"
         />
 
     <ImageView
-        android:layout_height="43dp"
-        android:layout_width="131dp"
-        android:src="@android:drawable/btn_star"
-        android:id="@+id/noteList_img"
-        android:contentDescription="@string/note_list_image"/>
-
+            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_gravity="center_vertical"
+            android:src="@android:drawable/btn_star"
+            android:id="@+id/noteList_img"
+            android:contentDescription="@string/note_list_image"/>
 </LinearLayout>

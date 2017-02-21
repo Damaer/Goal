@@ -1,11 +1,13 @@
 package cn.goal.goal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -23,16 +25,26 @@ public class NoteListFragment extends Fragment{
     private ListView noteListView;
     private SimpleAdapter noteListAdapter;
     private List<Map<String,Object>> dataList;
+    ImageButton addNoteButton;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null ){
             view = inflater.inflate(R.layout.note_list,container,false);
         }
 
+        addNoteButton = (ImageButton)view.findViewById(R.id.addNoteButton) ;
         noteListView = (ListView) view.findViewById(R.id.note_listView);
         noteListAdapter = new SimpleAdapter(getContext(),getData(),R.layout.note_list_item,new String[] {"text","pic"},new int[] {R.id.noteList_text,R.id.noteList_img});
 
         noteListView.setAdapter(noteListAdapter);
+
+        addNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),NoteDetailAndEditActivity.class);
+                startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -48,6 +60,4 @@ public class NoteListFragment extends Fragment{
         }
         return dataList;
     }
-
-
 }

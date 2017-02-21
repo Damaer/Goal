@@ -1,22 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5">
 
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="50dp">
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp" android:layout_weight="1"
+            app:cardBackgroundColor="?attr/colorPrimary" android:layout_marginBottom="1dp">
+            <TextView
+                android:text="便签"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
+                android:textSize="24sp" android:textAlignment="center" android:gravity="center"/>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_search_black_24dp"
+                android:background="@android:color/transparent"
+                android:layout_gravity="end"
+                android:layout_margin="15dp" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:dividerHeight="20dp"
+        android:divider="@android:color/transparent"
+        android:paddingBottom="10dp" android:paddingTop="10dp"
         android:id="@+id/note_listView"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/iconmonstrplus4240"
+        android:src="@drawable/iconmonstrplus5240"
         android:background="#00000000"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageButton"
+        android:id="@+id/addNoteButton"
         android:layout_marginBottom="20dp"
         android:contentDescription="@string/note_list_plus_icon"/>
 </RelativeLayout>

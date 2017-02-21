@@ -52,7 +52,9 @@
         <activity
                 android:name=".AccountSafetyActivity"
                 android:label="账号安全"/>
-       
+        <activity
+            android:name=".noteDetailAndEditActivity"
+            android:label="标签详细以及编辑"/>
     </application>
 
 </manifest>

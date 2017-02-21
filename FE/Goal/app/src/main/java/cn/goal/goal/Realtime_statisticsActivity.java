@@ -5,6 +5,7 @@ import java.util.ArrayList;
         import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
         import android.animation.ObjectAnimator;
         import android.graphics.Color;
@@ -17,10 +18,12 @@ import android.os.Bundle;
         import android.view.View;
         import android.view.View.OnClickListener;
         import android.view.ViewGroup.LayoutParams;
-        import android.widget.ImageView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
         import android.widget.TextView;
 public class Realtime_statisticsActivity extends FragmentActivity implements OnPageChangeListener, OnClickListener
 {
+    private ImageButton comeback;
     private ViewPager myViewPager;
     // 要使用的ViewPager
     private View page1, page2, page3;
@@ -43,6 +46,13 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
     @Override protected void onCreate(Bundle savedInstanceState)
     { super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_realtime_statistics);
+        comeback=(ImageButton) findViewById(R.id.come_back_to_mine);
+        comeback.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         initView();
         initLineImage();
     }
@@ -66,6 +76,7 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
     }
     private void initView() {
         // TODO Auto-generated method stub
+
         myViewPager = (ViewPager) findViewById(R.id.myViewPager);
         Realtime_statistics_stars_Fragment myFragment1 = new Realtime_statistics_stars_Fragment();
         Realtime_statistics_count_fragment myFragment2 = new Realtime_statistics_count_fragment();
@@ -159,7 +170,8 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
 private void movePositionX(int toPosition)
 { // TODO Auto-generated method stub
     movePositionX(toPosition, 0);
-} @Override
+}
+    @Override
 public void onClick(View v)
 {
 // TODO Auto-generated method stub

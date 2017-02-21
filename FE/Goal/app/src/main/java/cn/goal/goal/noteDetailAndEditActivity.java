@@ -1,7 +1,7 @@
 package cn.goal.goal;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageButton;
 
@@ -11,14 +11,14 @@ import android.widget.ImageButton;
 
 public class NoteDetailAndEditActivity extends AppCompatActivity{
 
-    ImageButton returnButton;
-    ImageButton createGoalButton;
-    ImageButton shareButton;
-    ImageButton MenuButton;
+    private ImageButton returnButton;
+    private ImageButton createGoalButton;
+    private ImageButton shareButton;
+    private ImageButton MenuButton;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.note_detail_and_edit);
 
         returnButton = (ImageButton)findViewById(R.id.return_button);

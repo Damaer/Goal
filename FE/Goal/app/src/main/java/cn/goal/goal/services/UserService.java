@@ -262,14 +262,13 @@ public class UserService {
      * @param avatarImg 要上传的文件
      * @return 成功返回头像Url, 失败返回null
      */
-    public static String uploadAvatar(File avatarImg) {
+    public static String uploadAvatar(String avatarImg) {
         try {
             HttpRequest request = HttpRequest
                     .post(baseUrl + avatarUrl)
                     .header("Authorization", token)
-                    .part("avatar", avatarImg);
+                    .part("avatar", "avatar", new File(avatarImg));
             JSONObject result = new JSONObject(request.body());
-
             if (result.getInt("code") == 10000) {
                 return result.getString("data");
             }
@@ -316,7 +315,6 @@ public class UserService {
         return userInfo;
     }
 
-
     /**
      * 更新用户基本信息
      * @param newUsername 新用户名，为空则不更新
@@ -324,7 +322,7 @@ public class UserService {
      * @return 更新成功返回null, 更新失败返回错误信息
      */
     @Nullable
-    public static String updateUserInfo(String newUsername, String newAvatar) {
+    public static String updateUserInfo(String newUsername, String newAvatar, String description) {
         if (userInfo == null) {
             return "请先登录";
         }
@@ -337,12 +335,21 @@ public class UserService {
                     .put(baseUrl + userInfoUrl)
                     .header("Authorization", token)
                     .form("name", newUsername)
-                    .form("avatar", newAvatar);
+                    .form("avatar", newAvatar)
+                    .form("description", description);
             JSONObject result = new JSONObject(request.body());
 
             if (result.getInt("code") == 10000) {
+                // 保存用户信息到SharedPreferences
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("avatar", newAvatar);
+                editor.putString("username", newUsername);
+                editor.putString("description", description);
+                editor.commit();
+
                 userInfo.setAvatar(newAvatar);
                 userInfo.setUsername(newUsername);
+                userInfo.setDescription(description);
                 return null;
             }
             return result.getString("msg");

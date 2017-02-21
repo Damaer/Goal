@@ -43,16 +43,12 @@ exports.update = (id, data) => new Promise((resolve, reject) => {
 })
 
 exports.updateInfo = (user, data) => new Promise((resolve, reject) => {
-	const {name, password} = data;
-	user.auth(password).then(() => {
-		if (name == usre.name) {
-			return resolve();
-		}
-		Cname(name).then(() => {
-			resolve();
-		}, err => {
-			reject(err);
-		})
+	const {name} = data;
+	if (name == user.name) {
+		return resolve();
+	}
+	Cname(name).then(() => {
+		resolve();
 	}, err => {
 		reject(err);
 	})

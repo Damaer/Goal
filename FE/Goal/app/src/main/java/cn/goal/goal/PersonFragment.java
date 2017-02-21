@@ -1,24 +1,39 @@
 package cn.goal.goal;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.TableRow;
-import android.widget.TextView;
+import android.widget.*;
+import cn.goal.goal.services.Config;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.HttpRequest;
+import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Share;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
  * Created by chenlin on 14/02/2017.
  */
 public class PersonFragment extends Fragment {
     private View mView;
+    private ImageView avatar;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar toolbar;
     private ImageButton edit;
     private ImageButton share;
@@ -27,11 +42,15 @@ public class PersonFragment extends Fragment {
     private TableRow settings;
     private TextView description;
 
+    private User user;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_person, container, false);
 
+        avatar = (ImageView) mView.findViewById(R.id.avatar);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) mView.findViewById(R.id.collapsingToolbarLayout);
         toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
         edit = (ImageButton) mView.findViewById(R.id.edit);
         share = (ImageButton) mView.findViewById(R.id.share);
@@ -40,14 +59,18 @@ public class PersonFragment extends Fragment {
         settings = (TableRow) mView.findViewById(R.id.settings);
         description = (TextView) mView.findViewById(R.id.description);
 
+        user = UserService.getUserInfo();
         renderInitialData();
         addListener();
         return mView;
     }
 
     private void renderInitialData() {
-        toolbar.setTitle("Pencil");
-        description.setText(R.string.default_description);
+        fetchAvatar();
+        // 通过设置CollapsingToolbarLayout改变toolbar标题
+        mCollapsingToolbarLayout.setTitle(user.getUsername());
+//        toolbar.setTitle(user.getUsername()); 此方法改变标题无效
+        description.setText(user.getDescription());
     }
 
     private void addListener() {
@@ -55,14 +78,6 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), EditInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("username", "Pencil");
-                bundle.putString("avatar", "pencilsky.cn");
-                bundle.putString("description", description.getText().toString());
-                bundle.putString("email", "9807175@qq.com");
-                bundle.putString("phone", "13000000000");
-
-                intent.putExtra("data", bundle);
                 startActivityForResult(intent, EditInfoActivity.REQUEST_CODE);
             }
         });
@@ -104,14 +119,8 @@ public class PersonFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == EditInfoActivity.REQUEST_CODE) {
-            if (data != null) {
-                Bundle bundle = data.getExtras().getBundle("data");
-                System.out.println(bundle.getString("username"));
-                System.out.println(bundle.getString("avatar"));
-                System.out.println(bundle.getString("description"));
-                System.out.println(bundle.getString("email"));
-                System.out.println(bundle.getString("phone"));
-            }
+            // 刷新数据
+            renderInitialData();
         } else if (resultCode == SettingsActivity.LOGOUT) {
             // 退出账号
             getActivity().finish();
@@ -120,5 +129,68 @@ public class PersonFragment extends Fragment {
 
     public void shareText(View view) {
         Share.shareText(getContext(), "分享内容");
+    }
+
+    private void fetchAvatar() {
+        // 判断头像是否已下载到本地
+        String avatar = UserService.getUserInfo().getAvatar();
+        File file = new File(avatar);
+        if (file.exists()) {
+            setAvatar(file);
+            return ;
+        }
+        // 没下载则开启线程下载到本地
+        new FetchAvatarTask(avatar, getContext()).execute();
+    }
+
+    private void setAvatar(File img) {
+        try {
+            Uri uri = Uri.fromFile(img);
+            ContentResolver cr = getContext().getContentResolver();
+            Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
+            avatar.setImageBitmap(RoundCorner.toCircle(image));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public class FetchAvatarTask extends AsyncTask<Void, Void, File> {
+        private String avatarUrl;
+        Context mContext;
+
+        public FetchAvatarTask(String avatar, Context context) {
+            super();
+            avatarUrl = avatar;
+            mContext = context;
+        }
+
+        @Override
+        protected File doInBackground(Void... params) {
+            try {
+                HttpRequest request = HttpRequest.get(Config.apiServer + avatarUrl);
+                if (request.ok()) {
+                    File file = new File(mContext.getExternalCacheDir(), "avatar");
+                    request.receive(file);
+                    return file;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(File s) {
+            super.onPostExecute(s);
+            if (s != null) {
+                SharedPreferences sp = mContext.getSharedPreferences("user", mContext.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("avatar", s.getAbsolutePath());
+                editor.commit();
+                User user = UserService.getUserInfo();
+                user.setAvatar(s.getAbsolutePath());
+                setAvatar(s);
+            }
+        }
     }
 }

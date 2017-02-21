@@ -3,7 +3,7 @@
     <string name="version_info">Goal Beta</string>
     <string name="copyright">Copyright © 2017—2017 Goal\nAll Rights Reserved.</string>
     <string name="permission_denied">权限不足</string>
-    
+
     <!-- Strings related to login -->
     <string name="prompt_account">账户</string>
     <string name="set_username">昵称</string>
@@ -103,5 +103,6 @@
     <string name="prompt_feedback">请在此输入您的建议或遇到的问题</string>
     <string name="prompt_contact">联系方式</string>
     <string name="submit">提交建议</string>
+    <string name="title_activity_every_goal">EveryGoalActivity</string>
 
 </resources>

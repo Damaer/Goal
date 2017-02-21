@@ -42,9 +42,10 @@
             android:name=".EditInfoActivity"
             android:label="编辑个人信息" />
         <activity
-
             android:name=".Realtime_statisticsActivity"
             android:label="实时统计"/>
+            android:label="实时统计"
+            android:name=".Realtime_statisticsActivity"/>
         <activity
             android:name=".AboutActivity"
             android:label="关于" />
@@ -56,6 +57,13 @@
         <activity
                 android:name=".SettingsActivity"
                 android:label="程序设置" />
+
+                android:name=".AccountSafetyActivity"
+                android:label="账号安全"/>
+        <activity
+            android:name=".NoteDetailAndEditActivity"
+            android:label="标签详细以及编辑"/>
+>>>>>>> develop_noteListView
     </application>
 
 </manifest>

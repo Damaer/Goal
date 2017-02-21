@@ -62,7 +62,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NoteDetailAndEditActivity"
+            android:name=".noteDetailAndEditActivity"
             android:label="标签详细以及编辑"/>
     </application>
 

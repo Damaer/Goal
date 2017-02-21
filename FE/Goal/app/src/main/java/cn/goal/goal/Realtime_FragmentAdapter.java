@@ -13,7 +13,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 
-public class Realtime_FragmentAdapter extends FragmentPagerAdapter {
+
 
 import java.util.List;
 public class Realtime_FragmentAdapter extends FragmentPagerAdapter

@@ -40,6 +40,9 @@
             android:name=".GoalDetailActivity"
             android:label="查看目标" />
         <activity
+            android:name=".GoalRecordActivity"
+            android:label="目标记录" />
+        <activity
             android:name=".EditInfoActivity"
             android:label="编辑个人信息" />
         <activity

@@ -47,12 +47,12 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
 //        finish();
 //          return;
 //       }
-
+        }
             mFragments[0] = new GoalFragment();
             mFragments[1] = new NoteListFragment();
             mFragments[2] = new GoalFragment();
             mFragments[3] = new PersonFragment();
-        }
+
 
 
 

@@ -183,7 +183,11 @@ exports.upload_img = (req, res, next) => {
 	let form = new formidable.IncomingForm();
   form.parse(req, (err, fields, file) => {
   	if (err) {
+  		console.log(err);
   		return res.json({code: 10500, msg: '解析上传文件失败'});
+  	}
+  	if (!file || !file.avatar) {
+  		return res.json({code: 10200, msg: 'params error'});
   	}
   	file = file.avatar;
   	let tmpPath = file.path;

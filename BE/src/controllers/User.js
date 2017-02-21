@@ -1,6 +1,7 @@
 import fs from 'fs'
 import crypto from 'crypto'
 import path from 'path'
+import formidable from 'formidable'
 
 import User from '../models/User'
 import validate from './validate/user'
@@ -179,32 +180,29 @@ exports.delete = (req, res, next) => {
 }
 
 exports.upload_img = (req, res, next) => {
-	if (!req.files || !req.files.avatar) {
-		return res.json({code: 10200, msg: 'params error'});
-	}
-	let file = req.files.avatar
-			tmpPath = file.path;
-	// get md5 of the upload file
-	let rs = fs.createReadStream(tmpPath),
-			hash = crypto.createHash('md5');
-	rs.on('data', hash.update.bind(hash));
-	rs.on('end', function () {
-		let md5 = hash.digest('hex');
-		let newPath = path.join(uploadConfig.distDir, md5);
-		fs.rename(tmpPath, newPath, err => {
-			if (err) {
-				console.log(err);
-				return res.json({code: 10404, msg: '上传图片失败，请尝试重新上传'});
-			}
-			res.json({code: 10000, msg: '上传图片成功', data: newPath});
-			// delete tmp file
-			fs.unlink(tmpPath, err => {
-				if (err) {
-					console.log(err);
-				}
-			})
-		})
-	});
+	let form = new formidable.IncomingForm();
+  form.parse(req, (err, fields, file) => {
+  	if (err) {
+  		return res.json({code: 10500, msg: '解析上传文件失败'});
+  	}
+  	file = file.avatar;
+  	let tmpPath = file.path;
+  	// get md5 of the upload file
+  	let rs = fs.createReadStream(tmpPath),
+  			hash = crypto.createHash('md5');
+  	rs.on('data', hash.update.bind(hash));
+  	rs.on('end', function () {
+  		let md5 = hash.digest('hex');
+  		let newPath = path.join(__dirname, '../../public/avatar', md5);
+  		fs.rename(tmpPath, newPath, err => {
+  			if (err) {
+  				console.log(err);
+  				return res.json({code: 10404, msg: '上传图片失败，请尝试重新上传'});
+  			}
+  			res.json({code: 10000, msg: '上传图片成功', data: `/public/avatar/${md5}`});
+  		})
+  	});
+  });
 }
 
 exports.count = (req, res, next) => {

@@ -5,6 +5,7 @@
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,11 +15,7 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -42,20 +39,25 @@
             android:name=".EditInfoActivity"
             android:label="编辑个人信息" />
         <activity
-
             android:name=".Realtime_statisticsActivity"
-            android:label="实时统计"/>
+            android:label="实时统计" />
         <activity
             android:name=".AboutActivity"
             android:label="关于" />
-
         <activity
-
             android:name=".AccountSafetyActivity"
             android:label="账号安全" />
         <activity
-                android:name=".SettingsActivity"
-                android:label="程序设置" />
+            android:name=".SettingsActivity"
+            android:label="程序设置" />
+        <activity android:name=".EveryGoalActivity"
+            android:label="每个目标">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -9,11 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.Goal;
+
+import java.util.ArrayList;
 
 /**
  * Created by chenlin on 13/02/2017.
  */
-public class GoalDetailActivity extends AppCompatActivity {
+public class GoalDetailActivity extends AppCompatActivity implements View.OnClickListener, RadioButton.OnCheckedChangeListener {
     private TextView title;
     private TextView content;
     private RadioButton radioButtonFinished;
@@ -26,7 +30,8 @@ public class GoalDetailActivity extends AppCompatActivity {
     private ImageButton buttonMenu;
     private PopupMenu mPopupMenu;
 
-    private Bundle data; // 存放goal信息
+    private int goalIndex;
+    private Goal goal; // 存放goal信息
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,38 +39,50 @@ public class GoalDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_goal_detail);
 
         // 传入数据不正确
-        if (getIntent() == null || getIntent().getExtras().getBundle("data") == null) {
-            Toast.makeText(this, "传入数据错误", 1000).show();
+        if (getIntent() == null) {
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
             finish();
             return ;
         }
+        goalIndex = getIntent().getExtras().getInt("goalIndex");
+        goal = UserService.getGoals().get(goalIndex);
+
+        radioButtonFinished = (RadioButton) findViewById(R.id.radioButtonFinished);
+        radioButtonFinished.setOnCheckedChangeListener(this);
+        radioButtonUnfinished = (RadioButton) findViewById(R.id.radioButtonUnfinished);
+        radioButtonUnfinished.setOnCheckedChangeListener(this);
 
         title = (TextView) findViewById(R.id.goal_title);
-        content = (TextView) findViewById(R.id.content);
-        radioButtonFinished = (RadioButton) findViewById(R.id.radioButtonFinished);
-        radioButtonUnfinished = (RadioButton) findViewById(R.id.radioButtonUnfinished);
-        end = (TextView) findViewById(R.id.end);
+        content = (TextView) findViewById(R.id.content);end = (TextView) findViewById(R.id.end);
         begin = (TextView) findViewById(R.id.begin);
         plan = (TextView) findViewById(R.id.plan);
         createAt = (TextView) findViewById(R.id.createAt);
-        buttonBack = (ImageButton) findViewById(R.id.button_back);
-        buttonMenu = (ImageButton) findViewById(R.id.button_menu);
 
-        data = getIntent().getExtras().getBundle("data");
+        buttonBack = (ImageButton) findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(this);
+        buttonMenu = (ImageButton) findViewById(R.id.button_menu);
+        buttonMenu.setOnClickListener(this);
+
         render();
         createMenu();
-        addListener();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // 刷新goal数据;
+        render();
     }
 
     private void render() {
-        title.setText(data.getString("title"));
-        content.setText(data.getString("content"));
-        radioButtonFinished.setChecked(data.getBoolean("finished"));
-        radioButtonUnfinished.setChecked(!data.getBoolean("finished"));
-        end.setText(data.getString("end"));
-        begin.setText(data.getString("begin"));
-        plan.setText(data.getString("plan"));
-        createAt.setText(String.format(getResources().getString(R.string.create_at), data.getString("createAt")));
+        title.setText(goal.getTitle());
+        content.setText(goal.getContent());
+        radioButtonFinished.setChecked(goal.getFinished() == 1);
+        radioButtonUnfinished.setChecked(goal.getFinished() == 0);
+        end.setText(goal.getEnd());
+        begin.setText(goal.getBegin());
+        plan.setText(goal.getPlan());
+        createAt.setText(String.format(getResources().getString(R.string.create_at), goal.getCreateAt()));
     }
 
     private void createMenu() {
@@ -73,8 +90,11 @@ public class GoalDetailActivity extends AppCompatActivity {
         mPopupMenu.getMenuInflater()
                 .inflate(R.menu.goal_operation_popupmenu, mPopupMenu.getMenu());
 
-        mPopupMenu.getMenu().getItem(3).setEnabled(!data.getBoolean("finished"));
-        mPopupMenu.getMenu().getItem(4).setEnabled(data.getBoolean("finished"));
+        mPopupMenu.getMenu().getItem(2).setEnabled(isMarkableToday()); // 设置标记今日已完成菜单
+        // 如果目标未完成则设置"标记已完成"菜单为可点击
+        mPopupMenu.getMenu().getItem(3).setEnabled(goal.getFinished() == 0);
+        // 如果目标已完成则设置"标记未完成"菜单为可点击
+        mPopupMenu.getMenu().getItem(4).setEnabled(goal.getFinished() == 1);
 
         mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -87,19 +107,14 @@ public class GoalDetailActivity extends AppCompatActivity {
                 final String menuUnfinished = getResources().getString(R.string.menu_mark_unfinished);
 
                 if (title.equals(menuEdit)) {
-                    // 编辑
                     handleEdit();
                 } else if (title.equals(menuDelete)) {
-                    // 删除
                     handleDelete();
                 } else if (title.equals(menuFinishedToday)) {
-                    // 标记今日完成
                     handleMarkFinishedToday();
                 } else if (title.equals(menuUnfinished)) {
-                    // 标记目标未完成
                     handleMarkUnfinished();
                 } else if (title.equals(menuFinished)) {
-                    // 标记目标完成
                     handleMarkFinished();
                 }
                 return true;
@@ -107,51 +122,37 @@ public class GoalDetailActivity extends AppCompatActivity {
         });
     }
 
-    private void addListener() {
-        radioButtonFinished.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    System.out.println("标记目标完成");
-                }
-            }
-        });
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        // 设置调用setChecked方法不触发下面代码；
+        if (!buttonView.isPressed()) return;
 
-        radioButtonUnfinished.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    System.out.println("标记目标未完成");
-                }
-            }
-        });
+        switch (buttonView.getId()) {
+            case R.id.radioButtonFinished:
+                handleMarkFinished();
+                break;
+            case R.id.radioButtonUnfinished:
+                handleMarkUnfinished();
+                break;
+        }
+    }
 
-        buttonBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.button_back:
                 finish();
-            }
-        });
-
-        buttonMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.button_menu:
                 mPopupMenu.show();
-            }
-        });
+                break;
+        }
     }
 
     private void handleEdit() {
         Intent intent = new Intent(this, GoalEditActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title.getText().toString());
-        bundle.putString("content", content.getText().toString());
-        bundle.putString("begin", begin.getText().toString());
-        bundle.putString("plan", plan.getText().toString());
-        bundle.putBoolean("finished", radioButtonFinished.isChecked());
-
-        intent.putExtra("data", bundle);
-        startActivityForResult(intent, GoalEditActivity.REQUEST_CODE);
+        intent.putExtra("goalIndex", goalIndex);
+        startActivity(intent);
     }
 
     private void handleDelete() {
@@ -168,7 +169,7 @@ public class GoalDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                System.out.println("确认删除" + data.getString("title"));
+                UserService.deleteGoal(goal);
                 finish();
             }
         });
@@ -177,29 +178,68 @@ public class GoalDetailActivity extends AppCompatActivity {
     }
 
     private void handleMarkFinished() {
-
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("目标已完成");
+        dialog.setMessage("确认标记目标完成?");
+        dialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                UserService.markGoalFinished(goal);
+                radioButtonFinished.setChecked(true);
+                radioButtonUnfinished.setChecked(false);
+                mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
+                mPopupMenu.getMenu().getItem(3).setEnabled(false); // 设置标记完成不可用
+                mPopupMenu.getMenu().getItem(4).setEnabled(true); // 设置标记未完成可用
+            }
+        });
+        dialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                radioButtonFinished.setChecked(false);
+                radioButtonUnfinished.setChecked(true);
+            }
+        });
+        dialog.show();
     }
 
     private void handleMarkUnfinished() {
-
+        String result = UserService.markGoalUnfinished(goal);
+        if (result == null) {
+            Toast.makeText(this, "目标标记未完成", Toast.LENGTH_SHORT).show();
+            radioButtonFinished.setChecked(false);
+            radioButtonUnfinished.setChecked(true);
+            mPopupMenu.getMenu().getItem(2).setEnabled(isMarkableToday()); // 设置标记今日完成菜单
+            mPopupMenu.getMenu().getItem(3).setEnabled(true); // 设置标记完成可用
+            mPopupMenu.getMenu().getItem(4).setEnabled(false); // 设置标记未完成不可用
+        } else {
+            Toast.makeText(this, "标记未完成失败:" + result, Toast.LENGTH_SHORT).show();
+            radioButtonFinished.setChecked(true);
+            radioButtonUnfinished.setChecked(false);
+        }
     }
 
     private void handleMarkFinishedToday() {
-
+        String result = UserService.markGoalFinishedToday(goal);
+        if (result == null) {
+            Toast.makeText(this, "目标完成！", Toast.LENGTH_SHORT).show();
+            mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
+        } else {
+            Toast.makeText(this, "完成失败:" + result, Toast.LENGTH_SHORT).show();
+        }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GoalEditActivity.REQUEST_CODE) {
-            if (data != null) {
-                Bundle goalInfo = data.getExtras().getBundle("data");
-                System.out.println(goalInfo.getString("title"));
-                System.out.println(goalInfo.getString("content"));
-                System.out.println(goalInfo.getString("begin"));
-                System.out.println(goalInfo.getString("plan"));
-                System.out.println(goalInfo.getBoolean("finished") ? "finished" : "unfinsihed");
-            }
+    /**
+     * 判断当前目标今日能否被标记
+     * @return
+     */
+    private Boolean isMarkableToday() {
+        if (goal.getFinished() == 1) return false;
+        ArrayList<Integer> goalsFinished = UserService.getGoalsFinished();
+        for (int goalId : goalsFinished) {
+            if (goalId == goal.getId()) return false;
         }
+        return true;
     }
 }

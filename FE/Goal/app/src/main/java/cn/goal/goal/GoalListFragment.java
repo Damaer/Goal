@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.Goal;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +23,7 @@ import java.util.Map;
  * Created by chenlin on 13/02/2017.
  */
 public class GoalListFragment extends Fragment {
-    private Boolean finished; // 标记是否显示目标已完成
+    private int finished; // 标记是否显示目标已完成, 0表示未完成
     private View mView;
     private ListView mListView;
 
@@ -28,22 +33,30 @@ public class GoalListFragment extends Fragment {
     public void setArguments(Bundle args) {
         super.setArguments(args);
         if (args.containsKey("data")) {
-            finished = args.getBoolean("data");
+            finished = args.getBoolean("data") ? 1 : 0;
         }
     }
 
     private void createListView() {
         data = new ArrayList<>();
-        for (int i = 0; i < 20; ++i) {
+        ArrayList<Goal> goals = UserService.getGoals();
+        if (goals == null) {
+            goals = new ArrayList<>();
+        }
+        for (int i = 0; i < goals.size(); ++i) {
             HashMap<String, String> itemData = new HashMap<>();
-            itemData.put("title", "目标标题" + i);
-            itemData.put("content", "目标内容目标内容目标内容目标内容目标内容目标内容");
-            itemData.put("createAt", "2015-2-1");
-            itemData.put("finished", finished ? "true" : "false");
-            itemData.put("begin", "2016-1-1");
-            itemData.put("plan", "2016-1-3");
-            itemData.put("end", "2016-1-2");
-            data.add(itemData);
+            Goal goal = goals.get(i);
+            if (goal.getFinished() == finished) {
+                itemData.put("id", String.valueOf(goal.getId()));
+                itemData.put("title", goal.getTitle());
+                itemData.put("content", goal.getContent());
+                itemData.put("createAt", goal.getCreateAt());
+                itemData.put("finished", finished == 0 ? "false" : "true");
+                itemData.put("begin", goal.getBegin());
+                itemData.put("plan", goal.getPlan());
+                itemData.put("end", goal.getEnd());
+                data.add(itemData);
+            }
         }
 
         mListView.setAdapter(new SimpleAdapter(getContext(), data, R.layout.goal_item,
@@ -61,20 +74,19 @@ public class GoalListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("title", goalInfo.get("title"));
-                bundle.putString("content", goalInfo.get("content"));
-                bundle.putString("begin", goalInfo.get("begin"));
-                bundle.putString("plan", goalInfo.get("plan"));
-                bundle.putString("end", goalInfo.get("end"));
-                bundle.putString("createAt", goalInfo.get("createAt"));
-                bundle.putBoolean("finished", goalInfo.get("finished").equals("true"));
-                intent.putExtra("data", bundle);
+                intent.putExtra("goalIndex", UserService.findGoalById(Integer.valueOf(goalInfo.get("id"))));
 
                 startActivity(intent);
             }
         });
 
         return mView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 更新goals数据
+        createListView();
     }
 }

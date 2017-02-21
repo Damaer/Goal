@@ -95,12 +95,7 @@ public class PersonFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // 启动设置页面
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN); // 设置加载动画
-                ft.hide(PersonFragment.this);
-                ft.add(getId(), new SettingFragment(), "Settings");
-                ft.addToBackStack(null);
-                ft.commit();
+                startActivityForResult(new Intent(getContext(), SettingsActivity.class), SettingsActivity.LOGOUT);
             }
         });
     }
@@ -117,6 +112,9 @@ public class PersonFragment extends Fragment {
                 System.out.println(bundle.getString("email"));
                 System.out.println(bundle.getString("phone"));
             }
+        } else if (resultCode == SettingsActivity.LOGOUT) {
+            // 退出账号
+            getActivity().finish();
         }
     }
 

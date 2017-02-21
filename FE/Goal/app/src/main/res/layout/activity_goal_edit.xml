@@ -99,7 +99,8 @@
                                 android:layout_height="match_parent"
                                 android:inputType="date"
                                 android:ems="10"
-                                android:id="@+id/begin" android:hint="@string/goal_begin_time_hint" android:layout_weight="1"/>
+                                android:id="@+id/begin" android:hint="@string/goal_begin_time_hint" android:layout_weight="1"
+                                android:focusable="false"/>
                     </android.support.design.widget.TextInputLayout>
                 </TableRow>
                 <TableRow
@@ -118,7 +119,8 @@
                                 android:layout_height="wrap_content"
                                 android:inputType="date"
                                 android:ems="10"
-                                android:id="@+id/plan" android:hint="@string/goal_end_time_hint" android:layout_weight="1"/>
+                                android:id="@+id/plan" android:hint="@string/goal_end_time_hint" android:layout_weight="1"
+                                android:focusable="false"/>
                     </android.support.design.widget.TextInputLayout>
                 </TableRow>
             </TableLayout>

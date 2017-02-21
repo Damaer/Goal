@@ -184,7 +184,13 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
-            return UserService.login(mEmail, mPassword);
+            String err = UserService.login(mEmail, mPassword);
+            if (err != null) return err;
+            // TODO 获取用户所有信息
+            if (UserService.getUserInfo() == null) {
+                return "获取用户信息失败";
+            }
+            return null;
         }
 
         @Override
@@ -196,7 +202,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if (err != null) {
-                Toast.makeText(getApplicationContext(), err, 1000).show();
+                Toast.makeText(getApplicationContext(), err, Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(getApplicationContext(), BaseActivity.class));
                 finish();

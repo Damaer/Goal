@@ -44,7 +44,7 @@ exports.update = (id, data) => new Promise((resolve, reject) => {
 
 exports.updateInfo = (user, data) => new Promise((resolve, reject) => {
 	const {name} = data;
-	if (name == usre.name) {
+	if (name == user.name) {
 		return resolve();
 	}
 	Cname(name).then(() => {

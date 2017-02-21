@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -14,8 +15,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.RoundCorner;
+import cn.goal.goal.utils.Util;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -40,19 +45,15 @@ public class EditInfoActivity extends AppCompatActivity {
     private TextInputLayout inputLayout;
     private EditText input;
 
-    private String avatarUrl;
+    private User user;
+    private String newAvatar; // 用户选择头像文件路径
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_info);
 
-        // 传入数据错误
-        if (getIntent() == null || getIntent().getExtras().getBundle("data") == null) {
-            Toast.makeText(this, "传入数据错误", 1000).show();
-            finish();
-            return ;
-        }
+        user = UserService.getUserInfo();
 
         close = (ImageButton) findViewById(R.id.button_close);
         confirm = (ImageButton) findViewById(R.id.button_confirm);
@@ -69,12 +70,19 @@ public class EditInfoActivity extends AppCompatActivity {
     }
 
     private void renderInitialData() {
-        Bundle bundle = getIntent().getExtras().getBundle("data");
-        avatarUrl = bundle.getString("avatar");
-        username.setText(bundle.getString("username"));
-        description.setText(bundle.getString("description"));
-        email.setText(bundle.getString("email"));
-        phone.setText(bundle.getString("phone"));
+        try {
+            Uri uri = Uri.fromFile(new File(user.getAvatar()));
+            ContentResolver cr = getContentResolver();
+            Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
+            avatar.setImageBitmap(RoundCorner.toCircle(image));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        username.setText(user.getUsername());
+        description.setText(user.getDescription());
+        email.setText(user.getEmail());
+        phone.setText(user.getPhone());
     }
 
     private void addListener() {
@@ -88,20 +96,14 @@ public class EditInfoActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = getIntent();
-                Bundle bundle = intent.getExtras();
-                if (bundle == null) {
-                    bundle = new Bundle();
+                String newUsername = username.getText().toString();
+                String newDescription = description.getText().toString();
+                if (newDescription.equals(user.getDescription()) && newUsername.equals(user.getUsername()) && newAvatar == null) {
+                    // 用户信息为改变则直接finish
+                    finish();
+                    return ;
                 }
-                bundle.putString("username", username.getText().toString());
-                bundle.putString("avatar", avatarUrl);
-                bundle.putString("description", description.getText().toString());
-                bundle.putString("email", email.getText().toString());
-                bundle.putString("phone", phone.getText().toString());
-
-                intent.putExtra("data", bundle);
-                setResult(REQUEST_CODE, intent);
-                finish();
+                new UpdateUserInfoTask(newUsername, newDescription).execute();
             }
         });
 
@@ -191,13 +193,61 @@ public class EditInfoActivity extends AppCompatActivity {
             try {
                 Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
                 avatar.setImageBitmap(RoundCorner.toCircle(image));
-                // 上传头像到服务器，获取头像Url
-                // ...
-
+                newAvatar = Util.getRealFilePath(this, uri);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private class UpdateUserInfoTask extends AsyncTask<Void, Void, String> {
+        private LoadingDialog dialog;
+        private String username;
+        private String description;
+        private String avatarUrl = null;
+
+        public UpdateUserInfoTask(String username, String description) {
+            super();
+            this.username = username;
+            this.description = description;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = new LoadingDialog().showLoading(EditInfoActivity.this);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            dialog.closeDialog();
+            if (s != null) { // 发生错误
+                Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
+            } else {
+                finish();
+            }
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            ContentResolver cr = getContentResolver();
+            if (newAvatar != null) {
+                // 用户选择了新头像则先上传新头像
+                avatarUrl = UserService.uploadAvatar(newAvatar);
+                if (avatarUrl == null) {
+                    //上传头像失败
+                    return "上传头像失败";
+                }
+            }
+            return UserService.updateUserInfo(username, avatarUrl, description);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            dialog.closeDialog();
         }
     }
 }

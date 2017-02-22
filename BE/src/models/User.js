@@ -8,7 +8,6 @@ let ObjectId = Schema.Types.ObjectId
 let UserSchema = new Schema({
 	name: {
 		type: String,
-		unique: true,
 		require: true
 	},
 	password: {

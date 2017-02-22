@@ -83,18 +83,6 @@ exports.update = (id, data) => new Promise((resolve, reject) => {
 	})
 })
 
-exports.updateInfo = (user, data) => new Promise((resolve, reject) => {
-	const {name} = data;
-	if (name == user.name) {
-		return resolve();
-	}
-	Cname(name).then(() => {
-		resolve();
-	}, err => {
-		reject(err);
-	})
-})
-
 let CemailFormat = _email => new Promise((resolve, reject) => {
 	let reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
 	reg.test(_email) ? resolve() : reject();
@@ -108,6 +96,7 @@ let Cemail = _email => new Promise((resolve, reject) => {
 		resolve();
 	})
 })
+exports.Cemail = Cemail;
 
 let CphoneFormat = _phone => new Promise((resolve, reject) => {
 	let reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
@@ -122,6 +111,7 @@ let Cphone = _phone => new Promise((resolve, reject) => {
 		resolve();
 	})
 })
+exports.Cphone = Cphone;
 
 let Cname = _name => new Promise((resolve, reject) => {
 	User.findOne({name: _name}, (err, user) => {
@@ -144,3 +134,4 @@ let Cpassword = _password => new Promise((resolve, reject) => {
 		reject({code: 10401, msg: '密码长度过短'});
 	}
 })
+exports.Cpassword = Cpassword;

@@ -44,8 +44,8 @@ exports.login = (req, res, next) => {
 						username: user.name,
 						avatar: user.avatar,
 						description: user.description,
-						email: user.email,
-						phone: user.phone,
+						email: user.email || null,
+						phone: user.phone || null,
 						authorization: user.authority
 					}})
 				}, err => {

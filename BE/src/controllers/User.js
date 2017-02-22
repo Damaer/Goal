@@ -76,8 +76,8 @@ exports.get_user_info = (req, res, next) => {
 	res.json({code: 10000, msg: '', data: {
 		username: user.name,
 		avatar: user.avatar,
-		email: user.email,
-		phone: user.phone,
+		email: user.email || null,
+		phone: user.phone || null,
 		description: user.description,
 		authority: user.authority
 	}});
@@ -85,18 +85,16 @@ exports.get_user_info = (req, res, next) => {
 
 exports.update_user_info = (req, res, nect) => {
 	let user = req.user;
-	validate.updateInfo(user, req.body).then(() => {
-		const {name, avatar} = req.body;
-		user.name = name;
-		user.avatar = avatar;
-		user.save(err => {
-			if (err) {
-				return res.json({code: 10404, msg: '更新信息失败，请重新尝试'});
-			}
-			res.json({code: 10000, msg: '更新信息成功'});
-		})
-	}, err => {
-		res.json(err);
+	const {name, avatar, description} = req.body;
+	user.name = name;
+	user.avatar = avatar;
+	user.description = description;
+	user.save(err => {
+		if (err) {
+			console.log(err)
+			return res.json({code: 10404, msg: '更新信息失败，请重新尝试'})
+		};
+		res.json({code: 10000, msg: '更新信息成功'});
 	})
 }
 
@@ -108,15 +106,15 @@ exports.update_password = (req, res, next) => {
 		user.auth(oldPassword).then(() => {
 			user.password = password;
 			user.save(err => {
-				if (err) {
-					return res.json({code: 10404, msg: '密码更新失败，请重新尝试'});
-				}
-				res.json({code: 10000, msg: '密码更新成功'});
+				if (err) res.json({code: 10404, msg: '密码更新失败，请重新尝试'});
+				else res.json({code: 10000, msg: '密码更新成功'});
 			})
 		}, err => {
+			// 密码验证失败
 			res.json(err);
 		})
 	}, err => {
+		// 新密码格式不正确
 		res.json(err);
 	})
 }
@@ -146,16 +144,25 @@ exports.update_email = (req, res, next) => {
 	// 暂不加入邮箱验证功能
 	let user = req.user;
 	const {email} = req.body;
-	validate.Cemail(email).then(() => {
-		user.email = email;
-		user.save(err => {
-			if (err) {
-				return res.json({code: 10404, msg: '邮箱绑定失败，请重新尝试'});
-			}
-			res.json({code: 10000, msg: '邮箱绑定成功'});
+	if (user.email == email) {
+		return res.json({code: 10402, msg: '原邮箱与当前邮箱相同'});
+	}
+	validate.CemailFormat(email).then(() => {
+		validate.Cemail(email).then(() => {
+			user.email = email;
+			user.save(err => {
+				if (err) {
+					return res.json({code: 10404, msg: '邮箱绑定失败，请重新尝试'});
+				}
+				res.json({code: 10000, msg: '邮箱绑定成功'});
+			})
+		}, err => {
+			// 邮箱已被注册
+			res.json(err);
 		})
 	}, err => {
-		res.json(err);
+		// 邮箱格式不正确
+		res.json({code: 10402, msg: '邮箱格式不正确'});
 	})
 }
  
@@ -163,16 +170,25 @@ exports.update_phone = (req, res, next) => {
 	// 暂不加入手机验证功能
 	let user = req.user;
 	const {phone} = req.body;
-	validate.Cphone(phone).then(() => {
-		user.phone = phone;
-		user.save(err => {
-			if (err) {
-				return res.json({code: 10404, msg: '手机号绑定失败，请重新尝试'});
-			}
-			res.json({code: 10000, msg: '手机号绑定成功'});
+	if (user.phone == phone) {
+		return res.json({code: 10403, msg: '原手机号与当前手机号相同'});
+	}
+	validate.CphoneFormat(phone).then(() => {
+		validate.Cphone(phone).then(() => {
+			user.phone = phone;
+			user.save(err => {
+				if (err) {
+					return res.json({code: 10404, msg: '手机号绑定失败，请重新尝试'});
+				}
+				res.json({code: 10000, msg: '手机号绑定成功'});
+			})
+		}, err => {
+			// 手机号已被注册
+			res.json(err);
 		})
 	}, err => {
-		res.json(err);
+		// 手机号格式不正确
+		res.json({code: 10403, msg: '手机号格式不正确'});
 	})
 }
 

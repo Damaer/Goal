@@ -1,20 +1,22 @@
 package cn.goal.goal;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import cn.goal.goal.services.UserService;
+
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
+
+import cn.goal.goal.services.UserService;
 
 /**
  * Created by chenlin on 12/02/2017.
@@ -37,12 +39,22 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
+//      未登录则启动登录界面
+//   if (User.getToken() == null) {
+//      未登录则启动登录界面
+//          if (UserService.getToken() == null) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//        finish();
+//          return;
+//       }
         }
+            mFragments[0] = new GoalFragment();
+            mFragments[1] = new NoteListFragment();
+            mFragments[2] = new GoalFragment();
+            mFragments[3] = new PersonFragment();
 
-        mFragments[0] = new GoalFragment();
-        mFragments[1] = new GoalFragment();
-        mFragments[2] = new GoalFragment();
-        mFragments[3] = new PersonFragment();
+
+
 
         initNavigationBar();
     }

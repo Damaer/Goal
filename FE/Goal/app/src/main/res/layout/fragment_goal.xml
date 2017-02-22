@@ -50,7 +50,11 @@
         />
     </android.support.design.widget.CoordinatorLayout>
     <Button
-            android:text="@string/quick_start"
-            android:layout_width="match_parent"
-            android:layout_height="50dp" android:id="@+id/button" android:background="@android:color/holo_green_light"/>
+        android:text="@string/quick_start"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/button"
+        android:background="@android:color/holo_green_light"
+        android:onClick="onTimePicker"
+    />
 </LinearLayout>

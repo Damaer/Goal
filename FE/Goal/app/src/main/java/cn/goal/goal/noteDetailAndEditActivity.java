@@ -9,7 +9,7 @@ import android.widget.ImageButton;
  * Created by Tommy on 2017/2/21.
  */
 
-public class NoteDetailAndEditActivity extends AppCompatActivity{
+public class noteDetailAndEditActivity extends AppCompatActivity{
 
     private ImageButton returnButton;
     private ImageButton createGoalButton;

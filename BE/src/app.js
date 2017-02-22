@@ -50,10 +50,11 @@ app.use((req, res, next) => {
 if (app.get('env') === 'dev') {
 	app.set('showStackError', true)
 	app.locals.pretty = true
-	app.use((err, req, res, next) => {
-		res.status(err.status || 500);
-		res.json({msg: err.message, error: err})
-	});
 }
+
+app.use((err, req, res, next) => {
+	res.status(err.status || 500);
+	res.json({msg: err.message, error: err})
+});
 
 module.exports = app;

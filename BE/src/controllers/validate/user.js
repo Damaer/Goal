@@ -16,16 +16,16 @@ let codeMsg = {
  * @return {boolean}      若注册账号为邮箱，返回true,反之返回false
  */
 exports.create = data => new Promise((resolve, reject) => {
-	const {name, password} = data;
-	if (!name || !password) {
+	const {account, password} = data;
+	if (!account || !password) {
 		return reject({code: 10200, msg: 'params error'});
 	}
 	new Promise((resolve, reject) => {
-		CemailFormat(name).then(() => {
+		CemailFormat(account).then(() => {
 			// 注册账号名为邮箱
 			resolve(true);
 		}, err => {
-			CphoneFormat(name).then(() => {
+			CphoneFormat(account).then(() => {
 				// 注册账号为手机号
 				resolve(false);
 			}, err => {
@@ -36,21 +36,21 @@ exports.create = data => new Promise((resolve, reject) => {
 		new Promise((resolve, reject) => {
 			if (isEmail) {
 				// 检查邮箱是否被注册
-				Cemail(name).then(() => {
+				Cemail(account).then(() => {
 					resolve(isEmail);
 				}, err => {
 					reject(err)
 				});
 			} else {
 				// 检查手机号是否被注册
-				Cphone(name).then(() => {
+				Cphone(account).then(() => {
 					resolve(isEmail);
 				}, err => {
 					reject(err);
 				})
 			}
 		}).then(isEmail => {
-			// 判断
+			// 判断密码格式是否正确
 			Cpassword(password).then(() => {
 				resolve(isEmail); // 数据验证成功
 			}, err => {
@@ -58,6 +58,7 @@ exports.create = data => new Promise((resolve, reject) => {
 				reject(err);
 			})
 		}, err => {
+			// 邮箱或手机号已被注册
 			reject(err);
 		})
 	}, err => {
@@ -96,34 +97,28 @@ exports.updateInfo = (user, data) => new Promise((resolve, reject) => {
 
 let CemailFormat = _email => new Promise((resolve, reject) => {
 	let reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
-	if (reg.test(_email)) {
-		return resolve();
-	}
-	reject();
+	reg.test(_email) ? resolve() : reject();
 })
+exports.CemailFormat = CemailFormat;
 
 let Cemail = _email => new Promise((resolve, reject) => {
 	User.findOne({email: _email.toLowerCase()}, (err, user) => {
-		if (err || user) {
-			return reject({code: 10402, msg: '邮箱已被注册'});
-		}
+		if (err) return reject({code: 10500, msg: '数据库查询错误'});
+		if (user) return reject({code: 10402, smg: '邮箱已被注册'});
 		resolve();
 	})
 })
 
 let CphoneFormat = _phone => new Promise((resolve, reject) => {
 	let reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/;
-	if (reg.test(_phone)) {
-		return resolve();
-	}
-	reject();
+	reg.test(_phone) ? resolve() : reject();
 })
+exports.CphoneFormat = CphoneFormat;
 
 let Cphone = _phone => new Promise((resolve, reject) => {
 	User.findOne({phone: _phone}, (err, user) => {
-		if (err || user) {
-			return reject({code: 10403, msg: '手机号已被注册'});
-		}
+		if (err) return reject({code: 10500, msg: '数据库查询错误'});
+		if (user) return reject({code: 10402, smg: '手机号已被注册'});
 		resolve();
 	})
 })

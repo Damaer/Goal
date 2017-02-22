@@ -27,7 +27,7 @@ let UserSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: 'avatar.png'
+		default: '/public/avatar/default.png'
 	},
 	meta: {
 		createAt: {

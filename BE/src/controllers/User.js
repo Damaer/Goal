@@ -37,16 +37,16 @@ exports.index = (req, res, next) => {
 
 exports.save = (req, res, next) => {
 	validate.create(req.body).then(isEmail => {
-		let {name, password} = req.body;
+		let {account, password} = req.body;
 		let user = new User;
 
 		if (isEmail) {
-			name = name.toLowerCase();
-			user.email = name;
+			account = account.toLowerCase();
+			user.email = account;
 		}
-		else user.phone = name;
+		else user.phone = account;
 
-		user.name = name;
+		user.name = account;
 		user.password = password;
 		user.save((err, product) => {
 			if (err) {

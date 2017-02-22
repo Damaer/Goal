@@ -42,6 +42,10 @@
             android:name=".Realtime_statisticsActivity"
             android:label="实时统计" />
 
+        <activity
+            android:name=".QuickStartActivity"
+            android:label="快速开始">
+        </activity>
 
         <activity
             android:name=".AboutActivity"

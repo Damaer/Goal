@@ -67,19 +67,10 @@ exports.create = data => new Promise((resolve, reject) => {
 })
 
 exports.update = (id, data) => new Promise((resolve, reject) => {
-	const {name} = data;
 	User.findOne({_id: id}, (err, user) => {
-		if (err || !user) {
-			return reject({code: 10200, msg: 'params error'});
-		}
-		if (user.name == name) {
-			return resolve(user);
-		}
-		Cname(name).then(() => {
-			resolve(user);
-		}, err => {
-			reject(err);
-		})
+		if (err) return reject({code: 10200, msg: '数据库查询错误'});
+		if (!user) return reject({code: 10200, msg: 'parmas error'});
+		resolve(user);
 	})
 })
 
@@ -112,20 +103,6 @@ let Cphone = _phone => new Promise((resolve, reject) => {
 	})
 })
 exports.Cphone = Cphone;
-
-let Cname = _name => new Promise((resolve, reject) => {
-	User.findOne({name: _name}, (err, user) => {
-		if (err || user) {
-			reject({code: 10400, msg: '用户名已存在'});
-		} else {
-			if (_name.length > 5) {
-				resolve();
-			} else {
-				reject({code: 10400, msg: '用户名长度过短'});
-			}
-		}
-	})
-})
 
 let Cpassword = _password => new Promise((resolve, reject) => {
 	if (_password.length > 5) {

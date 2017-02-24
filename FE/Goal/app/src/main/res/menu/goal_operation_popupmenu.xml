@@ -9,9 +9,5 @@
     <item android:title="@string/menu_mark_finished_today"/>
     <item android:title="@string/menu_mark_finished"/>
     <item android:title="@string/menu_mark_unfinished"/>
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+    <item android:title="@string/menu_record"/>
 </menu>

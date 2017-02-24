@@ -8,6 +8,7 @@ import Authentication from '../controllers/Authenticate'
 import Record from '../controllers/Record'
 import Note from '../controllers/Note'
 import Goal from '../controllers/Goal'
+import GoalUserMap from '../controllers/GoalUserMap'
 
 let router = express.Router();
 
@@ -69,14 +70,23 @@ router.route('/note/:id')
 	.put(Authentication.auth, Note.update)
 	.delete(Authentication.auth, Note.delete)
 
+// goalUserMap
+router.route('/goalmap')
+	.get(Authentication.auth, GoalUserMap.index) // 获取当前用户目标列表
+router.route('/goalmap/user/:id')
+	.get(GoalUserMap.index) // 获取某用户的目标列表
+router.route('/goalmap/goal/:id')
+	post(Authentication.auth, GoalUserMap.save) // 将指定目标添加到用户目标列表
+router.route('/goalmap/:id')
+	.put(Authentication.auth, GoalUserMap.update) // 更改目标信息
+	.delete(Authentication.auth, GoalUserMap.delete) // 删除目标
+
 // goal
 router.route('/goal')
-	.get(Authentication.auth, Goal.index)
-	.post(Authentication.auth, Goal.save)
+	.get(Goal.index) // 获取目标列表
+	.post(Authentication.auth, Goal.save) // 添加目标进列表
 router.route('/goal/:id')
-	.get(Authentication.auth, Goal.read)
-	.put(Authentication.auth, Goal.update)
-	.delete(Authentication.auth, Goal.delete)
+	.get(Goal.read) // 获取目标详细信息
 
 // record
 router.route('/record')

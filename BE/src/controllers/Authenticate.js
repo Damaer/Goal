@@ -2,6 +2,8 @@ import User from '../models/User'
 import Token from '../models/Token'
 import bcrypt from 'bcrypt-nodejs'
 
+import validate from './validate/user'
+
 const AUTHORITY_ADMIN = 666;
 
 let codeMsg = {
@@ -14,31 +16,48 @@ let codeMsg = {
 }
 
 exports.login = (req, res, next) => {
-	const {username, password} = req.body;
-	if (!username || !password) {
+	const {account, password} = req.body;
+	if (!account || !password) {
 		return res.json({code: 10200, msg: 'params error'});
 	}
-	User.findOne({name: username}, (err, user) => {
-		if (err || !user) {
-			return res.json({code: 10400, msg: '账号不存在'});
-		}
-
-		user.auth(password).then(() => {
-			create_access_token(user._id).then(tokenString => {
-				res.header('Authorization', tokenString);
-				res.json({code: 10000, msg: '登录成功', data: {
-					username: user.name,
-					avatar: user.avatar,
-					description: user.description,
-					authorization: user.authority
-				}})
-			}, err => {
-				console.log(err);
-				res.json({code: 10404, msg: '登录失败，请重新尝试'});
-			})
+	// 判断登录账号类型
+	new Promise((resolve, reject) => {
+		// 判断是否为邮箱
+		validate.CemailFormat(account).then(() => {
+			resolve(true);
 		}, err => {
-			res.json(err);
+			// 判断是否为手机号
+			validate.CphoneFormat(account).then(() => {
+				resolve(false);
+			}, err => reject())
 		})
+	}).then(isEmail => {
+		let condition = isEmail ? {email: account.toLowerCase()}: {phone: account};
+		User.findOne(condition, (err, user) => {
+			if (err) return res.json({code: 10500, msg: '数据库查询错误'});
+			if (!user) return res.json({code: 10400, msg: '账号不存在'});
+			// 验证用户密码
+			user.auth(password).then(() => {
+				create_access_token(user._id).then(tokenString => {
+					res.header('Authorization', tokenString);
+					res.json({code: 10000, msg: '登录成功', data: {
+						username: user.name,
+						avatar: user.avatar,
+						description: user.description,
+						email: user.email || null,
+						phone: user.phone || null,
+						authorization: user.authority
+					}})
+				}, err => {
+					console.log(err);
+					res.json({code: 10404, msg: '登录失败，请重新尝试'});
+				})
+			}, err => {
+				res.json(err);
+			})
+		})
+	}, err => {
+		res.json({code: 10400, msg: '账号不存在'});
 	})
 }
 

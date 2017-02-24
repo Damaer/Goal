@@ -8,7 +8,6 @@ let ObjectId = Schema.Types.ObjectId
 let UserSchema = new Schema({
 	name: {
 		type: String,
-		unique: true,
 		require: true
 	},
 	password: {
@@ -27,7 +26,7 @@ let UserSchema = new Schema({
 	},
 	avatar: {
 		type: String,
-		default: 'avatar.png'
+		default: '/public/avatar/default.png'
 	},
 	meta: {
 		createAt: {
@@ -44,6 +43,10 @@ let UserSchema = new Schema({
 		default: "你永远不知道自己可以做得多好"
 	},
 	authority: {
+		type: Number,
+		default: 0
+	},
+	focus: {
 		type: Number,
 		default: 0
 	}

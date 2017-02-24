@@ -13,9 +13,11 @@
                 android:id="@+id/collapsingToolbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                app:statusBarScrim="@null"
                 app:contentScrim="?attr/colorPrimary"
                 app:expandedTitleMarginStart="48dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed" app:expandedTitleMarginBottom="32dp">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleMarginBottom="32dp">
 
             <ImageView
                     android:layout_width="match_parent"

@@ -4,21 +4,15 @@ package cn.goal.goal;
  * Created by 97617 on 2017/2/16.
  */
 
-import java.util.List;
-
-
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-
-
-
 import java.util.List;
-public class Realtime_FragmentAdapter extends FragmentPagerAdapter
-{
 
+
+public class Realtime_FragmentAdapter extends FragmentPagerAdapter {
+    
     private List<Fragment> fragmentList;
 
     public Realtime_FragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {

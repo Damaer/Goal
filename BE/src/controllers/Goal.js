@@ -1,4 +1,6 @@
 import Goal from '../models/Goal'
+import Comment from '../models/Comment'
+import CommentLikeMap from '../models/CommentLikeMap'
 import validate from './validate/goal'
 
 let codeMsg = {
@@ -6,87 +8,72 @@ let codeMsg = {
 	10404: 'unkown error'
 }
 
+/**
+ * 获取所有目标列表
+ */
 exports.index = (req, res, next) => {
-	let userId = req.user._id;
-	Goal.find({user: userId, delete: false}, (err, goals) => {
-		if (err) {
-			console.log(err);
-			return res.json({code: 10404, msg: '未找到当前用户的目标'});
-		}
-		res.json({code: 10000, msg: '查找成功', data: goals.map(goal => {
-			return {
-				title: goal.title,
-				content: goal.content,
-				begin: goal.time.begin,
-				plan: goal.time.plan,
-				end: goal.time.finish,
-				createAt: goal.meta.createAt,
-				updateAt: goal.meta.updateAt,
-				finish: goal.finish
-			}
-		})});
+	Goal.find().populate({path: 'user', select: ['name', 'avatar']}).exec((err, goals) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		res.json({code: 10000, msg: '', data: goals}});
 	})
 }
 
+/**
+ * 创建目标
+ */
 exports.save = (req, res, next) => {
-	validate.create(req.body).then(() => {
-		const {title, content, begin, plan} = req.body;
-		let goal = new Goal();
-		goal.user = req.user._id;
-		goal.title = title;
-		goal.content = content;
-		goal.time.begin = begin;
-		goal.time.plan = plan;
-		goal.save((err, product) => {
-			if (err) {
-				console.log(err);
-				res.json({code: 10404, msg: '目标创建失败'});
-			} else {
-				res.json({code: 10000, msg: '目标创建成功', data: product._id});
-			}
-		})
-	}, err => {
-		console.log(err);
-		res.json(err);
+	let userId = req.user._id;
+	let {title, content} = req.body;
+	let goal = new Goal;
+	goal.user = userId;
+	goal.title = title;
+	goal.content = content;
+	goal.save((err, product) => {
+		if (err) return res.json({code: 10500, msg: '创建目标失败，请检查数据是否合法'});
+		res.json({code: 10000, msg: '', data: product._id});
 	})
 }
 
+/**
+ * 获取目标所有信息及该目标下的所有直接评论信息
+ */
 exports.read = (req, res, next) => {
-	let userId = req.user._id,
-			id = req.params.id;
-	Goal.find({user: userId, _id: id}, (err, goal) => {
-		if (err || !goal) {
-			return res.jsoo({code: 10404, msg: 'not found'});
-		}
-		res.json({code: 10000, msg: '', data: goal});
-	})
-}
+	let goalId = req.params._id;
+	Goal.findById({_id: goalId}, (err, goal) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		if (!goal) return res.json({code: 10200, msg: '未找到要查询的goal信息'});
+		// 查询goal的所有直接评论信息
+		let goalComments;
+		Comment.find({goal: goalId}).populate({path: 'user', select: ['name', 'avatar']}).exec((err, comments) => {
+			if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+			goalComments = comments.toJSON();
 
-exports.update = (req, res, next) => {
-	validate.update(req.user._id, req.params.id, req.body).then(goal => {
-		const {title, content, begin, plan} = req.body;
-		goal.title = title;
-		goal.content = content;
-		goal.time.begin = begin;
-		goal.time.plan = plan;
-		goal.save(err => {
-			if (err) {
-				return res.json({code: 10404, msg: '修改信息失败'});
+			let promises = [];
+			// 查询评论下的回复数量及点赞数量
+			for (var i = 0; i < goalComments.length; i++) {
+				promises.push(new Promise(resolve, reject) => {
+					Comment.count({reply: goalComments[i]._id}, (err, count) => {
+						if (err) count = 0;
+						goalComments[i].reply = count;
+						resolve();
+					})
+				})
+				promises.push(new Promise(resolve, reject) => {
+					CommentLikeMap.find({comment: goalComments[i]._id}, (err, commentLikeMaps) => {
+						if (err) commentLikeMaps = [];
+						goalComments[i].like = commentLikeMaps.map(commentLikeMap => commentLikeMap.user);
+						resolve();
+					})
+				})
 			}
-			res.json({code: 10000, msg: '修改信息成功'});
-		})
-	}, err => {
-		res.json(err);
-	})
-}
 
-exports.delete = (req, res, next) => {
-	let userId = req.user._id
-			id = req.params.id;
-	Goal.remove({user: userId, _id: id}, err => {
-		if (err) {
-			return res.json({code: 10404, msg: '删除失败'});
-		}
-		res.json({code: 10000, msg: '删除成功'});
+			new Promise.all(promises).then(() => {
+				goal.comments = goalComments;
+				res.json({code: 10000, msg: '', data: goal});
+			}, err => {
+				res.json({code :10500, msg: '服务器出错'});
+				console.log(err);
+			})
+		})
 	})
 }

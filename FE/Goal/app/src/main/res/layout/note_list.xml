@@ -39,14 +39,16 @@
         android:paddingBottom="10dp" android:paddingTop="10dp"
         android:id="@+id/note_listView"/>
 
-    <ImageButton
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/addNoteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/iconmonstrplus5240"
-        android:background="#00000000"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_border_color_white_24dp"
+        app:backgroundTint="#FFA726"
+        app:borderWidth="0dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/addNoteButton"
-        android:layout_marginBottom="20dp"
-        android:contentDescription="@string/note_list_plus_icon"/>
+        android:layout_marginEnd="20dp" android:layout_marginBottom="20dp"
+        />
 </RelativeLayout>

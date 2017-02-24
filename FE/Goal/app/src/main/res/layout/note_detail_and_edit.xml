@@ -30,38 +30,38 @@
 
         <ImageButton
             android:id="@+id/share"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
-            android:layout_marginEnd="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
             android:layout_toStartOf="@id/menu_more"
             android:background="@android:color/transparent"
-            android:src="@mipmap/share"
+            android:src="@drawable/ic_share_black_24dp"
             android:contentDescription="@string/note_share"/>
 
         <ImageButton
             android:id="@+id/create_goal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_toStartOf="@id/share"
+            android:layout_marginEnd="15dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_note_black_24dp"
-            android:contentDescription="@string/create_goal"/>
+            android:contentDescription="@string/create_goal"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/share" />
     </RelativeLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:id="@+id/note_content"
-            android:gravity="top"
-            android:lines="10"
-            android:hint="@string/note_edit_hint"
-           />
-    </android.support.design.widget.TextInputLayout>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/note_content"
+        android:gravity="top"
+        android:lines="10"
+        android:hint="@string/note_edit_hint" />
+    <!--</android.support.design.widget.TextInputLayout>-->
 </LinearLayout>

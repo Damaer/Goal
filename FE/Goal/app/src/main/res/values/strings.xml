@@ -91,6 +91,7 @@
     <string name="about">关于</string>
     <string name="feedback">意见反馈</string>
     <string name="logout">退出账号</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Strings related to account safety -->
     <string name="goal_account">Goal账户</string>

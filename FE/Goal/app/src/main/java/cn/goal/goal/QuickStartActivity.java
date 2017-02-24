@@ -1,5 +1,6 @@
 package cn.goal.goal;
 // Create by LJF on 2017/02/22
+import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,10 +35,11 @@ public class QuickStartActivity extends QuickStartBaseActivity {
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-                showToast(hour + ":" + minute);
-
-//                Intent intent = new Intent(QuickStartActivity.this, QuickStartCountDown.class);
-//                startActivity(intent);
+//                showToast(hour + ":" + minute);
+                Intent intent = new Intent(QuickStartActivity.this, QuickStartCountTime.class);
+                intent.putExtra("hour", hour);
+                intent.putExtra("minute", minute);
+                startActivity(intent);
             }
         });
         picker.show();

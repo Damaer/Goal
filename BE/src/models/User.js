@@ -45,6 +45,10 @@ let UserSchema = new Schema({
 	authority: {
 		type: Number,
 		default: 0
+	},
+	focus: {
+		type: Number,
+		default: 0
 	}
 })
 

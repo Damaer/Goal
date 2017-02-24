@@ -1,5 +1,5 @@
 import Record from '../models/Record'
-import Goal from '../models/Goal'
+import GoalUserMap from '../models/GoalUserMap'
 import DailySentence from '../models/DailySentence'
 import {getToday} from './util/util'
 
@@ -8,133 +8,67 @@ let codeMsg = {
 	10404: 'unkown error'
 }
 
-exports.index = (req, res, next) => {
-	let userId = req.user._id;
-	Record.find({user: userId}, {user: 0, _id: 0}, (err, records) => {
-		if (err) {
-			console.log(err);
-			return res.json({code: 10404, msg: '未找到当前用户记录'});
-		}
-		res.json({code: 10000, msg: '查找成功', data: records});
-	})
-}
-
-exports.today = (req, res, next) => {
-	let userId = req.user._id,
-			today = getToday();
-	Record.findOne({user: userId, date: today}, (err, record) => {
-		if (err) {
-			return res.json({code: 10404, msg: '查询失败'});
-		}
-		new Promise((resolve, reject) => {
-			if (!record) {
-				createRecord(userId).then(newRecord => resolve(newRecord), err => reject(err));
-			} else {
-				resolve(record);
-			}
-		}).then(record => {
-			record.populate({path: 'dailySentence'}, (err, record) => {
-				if (err) {
-					console.log(err);
-					return res.json({code: 10404, msg: '查询失败'});
-				}
-				res.json({code: 10000, msg: '', data: record});
-			})
-		}, err => {
-			console.log(err);
-			res.json({code: 10404, msg: '查询失败'});
-		})
-		
-	})
-}
-
-exports.dailySentence = (req, res, next) => {
-	let userId = req.user._id,
+/**
+ * 获取用户当天每日一句信息
+ */
+exports.get_daily_sentence_today = (req, res, next) => {
+	let userId = req.user._id
 			today = getToday();
 	Record.find({date: today, user: userId}, (err, record) => {
-		if (err) {
-			return res.json({code: 10404, msg: '查询失败'});
+		if (err) return reject({code: 10500, msg: '查询失败'});
+
+		if (!record) {
+			createRecord(userId).then((record, dailySentence) => res.json({code: 10000, msg: '', data: dailySentence})
+				, err => res.json({code: 10500, msg: '查询失败'}));
+		} else {
+			DailySentence.findById(record.dailySentence, (err, sentence) => {
+				if (err) return res.json({code: 10500, msg: '查询失败'});
+				if (!sentence) return res.json({code: 10200, msg: '该每日一句已被删除'});
+
+				res.json({code: 10000, msg: '', data: dailySentence});
+			})
 		}
-		new Promise((resolve, reject) => {
-			if (!record) {
-				createRecord(userId).then(
-					(record, dailySentence) => resolve(dailySentence)
-					, err => reject({code: 10404, msg: '查询失败'}));
-			} else {
-				DailySentence.findById(record.dailySentence, (err, sentence) => {
-					if (err || !sentence) {
-						return reject({code: 10404, msg: '查询失败'});
-					}
-					resolve(sentence);
-				})
-			}
-		}).then(dailySentence => {
-			res.json({code: 10000, msg: '', data: {
-				sentence: dailySentence.sentence,
-				backImg: dailySentence.backImg
-			}});
-		}, err => {
-			res.json(err);
-		})
 	})
 }
 
-exports.getGoalsFinished = (req, res, next) => {
-	let userId = req.user._id,
-			today = getToday();
-	getGoalsFinishedId(userId, today).then(goalsId => {
-		let promises = [];
-		let goals = [];
-		goalsId.map(goalId => {
-			promises.push(new Promise((resolve, reject) => {
-				Goal.findById(goalId, (err, goal) => {
-					if (!err && goal && !goal.delete) {
-						goals.push({
-							title: goal.title,
-							content: goal.content,
-							begin: goal.time.begin,
-							plan: goal.time.plan,
-							end: goal.time.finish,
-							createAt: goal.meta.createAt,
-							updateAt: goal.meta.updateAtt
-						});
-					}
-					resolve();
-				})
-			}))
-		})
-		Promise.all(promises).then(() => {
-			res.json({code: 10000, msg: '', data: goals});
-		}, err => {
-			console.log(err);
-			res.json({code: 10404, msg: '获取信息失败'});
-		})
+/*
+	获取用户所有每日一句信息
+ */
+exports.get_daily_sentence = (req, res, next) => {
+	let userId = req.user._id;
+	Record.find({user: userId}).populate({path: 'dailySentence'}).exec((err, records) => {
+		if (err) return res.json({code: 10500, msg: '查询失败'});
+		res.json({code: 10000, msg: '', data: records.map(record => record.dailySentence)});
 	})
 }
 
-exports.goalsFinishedNums = (req, res, next) => {
-	let userId = req.user._id,
-			today = getToday();
-	getGoalsFinishedId(userId, today).then(goalsId => {
-		res.json({code: 10000, msg: '', data: goalsId.length});
+/*
+	获取用户所有每日已完成目标信息
+ */
+exports.get_goals_finished_record = (req, res, next) => {
+	let userId = req.user._id;
+	Record.find({user: userId}, (err, records) => {
+		if (err) return res.json({code: 10500, msg: '查询失败'});
+		res.json({code: 10000, msg: '', data: records.map(record => record.goalsFinished)});
 	})
 }
 
-exports.markGoalsFinished = (req, res, next) => {
+/*
+	标记目标今日已完成
+ */
+exports.mark_goal_finished = (req, res, next) => {
 	let userId = req.user._id,
 			today = getToday();
-	const {goalId} = req.body;
-	Goal.findById(goalId, (err, goal) => {
-		if (err || !goal || goal.delete) {
-			return res.json({code: 10404, msg: '目标不存在'});
-		}
-		if (goal.finish) {
-			return res.json({code: 10404, msg: '标记目标已完成'});
-		}
+	const {goalId} = req.body; // GoalUserMap记录的_id值
+	GoalUserMap.findById(goalId, (err, goal) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		if (!goal) return res.json({code: 10200, msg: '要完成目标不存在或已被删除'});
+		if (goal.finish) return res.json({code: 10200, msg: '不可标记已完成目标'});
+
 		Record.findOne({user: userId, date: today}, (err, record) => {
 			if (err) {
 				console.log(err);
-				return res.json({code: 10404, msg: '标记失败'});
+				return res.json({code: 10404, msg: '服务器出错，请重新尝试'});
 			}
 			new Promise((resolve, reject) => {
 				if (!record) {
@@ -143,9 +77,9 @@ exports.markGoalsFinished = (req, res, next) => {
 					resolve(record);
 				}
 			}).then(record => {
-				if (record.goalsFinished.indexOf(goalId) !== -1) {
-					return res.json({code: 10404, msg: '该目标今天已标记完成'});
-				}
+				// 目标今日已被标记完成则直接返回完成成功
+				if (record.goalsFinished.indexOf(goalId) !== -1) return res.json({code: 10000, msg: '目标完成成功'});
+
 				record.goalsFinished.push(goalId);
 				record.save(err => {
 					if (err) {
@@ -156,21 +90,11 @@ exports.markGoalsFinished = (req, res, next) => {
 					}
 				})
 			}, err => {
-				res.json({code: 10404, msg: '查询失败'});
+				res.json(err);
 			})
 		})
 	})
 }
-
-let getGoalsFinishedId = (userId, today) => new Promise((resolve, reject) => {
-	Record.find({date: today, user: userId}, (err, record) => {
-		if (err || !record) {
-			resolve([]);
-		} else {
-			resolve(record.goalsFinished);
-		}
-	})
-})
 
 let createRecord = userId => new Promise((resolve, reject) => {
 	let today = getToday();
@@ -190,6 +114,9 @@ let createRecord = userId => new Promise((resolve, reject) => {
 	})
 })
 
+/**
+ * 从DailySentence中随机获取一条
+ */
 let getSentenceRandomly = () => new Promise((resolve, reject) => {
 	DailySentence.find({}, (err, dailySentence) => {
 		if (err) {

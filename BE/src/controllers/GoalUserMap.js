@@ -5,7 +5,7 @@ let codeMsg = {
 
 }
 
-exports.getCurrentUserGoals = (req, res, next) => {
+exports.get_current_user_goals = (req, res, next) => {
 	let userId = req.user._id;
 	GoalUserMap.find({user: userId}).populate({path: 'goal', populate: {path: 'user', select: ['name', 'avatar']}}).exec((err, goalUserMaps) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询错误'});
@@ -17,7 +17,25 @@ exports.index = (req, res, next) => {
 	let userId = req.params.id;
 	GoalUserMap.find({user: userId, public: true}).populate({path: 'goal', populate: {path: 'user', select: ['name', 'avatar']}}).exec((err, goalUserMaps) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询错误'});
-		res.json({code: 10000, msg: '', data: goalUserMaps});
+
+		// 获取每个目标的关注人数
+		goalUserMaps = goalUserMaps.toJSON();
+		let promises = [];
+		for (var i = 0; i < goalUserMaps.length; i++) {
+			promises.push(new Promise((resolve, reject) => {
+				GoalUserMap.count({goal: goalUserMaps[i].goal}, (err, count) => {
+					if (err) count = 0;
+					goalUserMaps[i].numberOfPeople = count;
+					resolve();
+				})
+			}))
+		}
+		new Promise.all(promises).then(() => {
+			res.json({code: 10000, msg: '', data: goalUserMaps});
+		}, err => {
+			console.log(err);
+			res.json({code: 10500, msg: '服务器出错'});
+		})
 	})
 }
 
@@ -61,5 +79,31 @@ exports.delete = (req, res, next) => {
 	GoalUserMap.remove({_id: id, user: userId}, err => {
 		if (err) return res.json({code: 10500, msg: '删除失败'});
 		res.json({code: 10000, msg: ''});
+	})
+}
+
+exports.finish = (req, res, next) => {
+	let id = req.params.id;
+	GoalUserMap.findById(id, (err, goalUserMap) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		if (!goalUserMap) return res.json({code: 10200, msg: '未找到目标'});
+		goalUserMap.finish = true;
+		goalUserMap.save(err => {
+			if (err) return res.json({code: 10500, msg: '数据库出错,请重新尝试'});
+			res.json({code: 10000, msg: ''});
+		})
+	})
+}
+
+exports.unfinish = (req, res, next) => {
+	let id = req.params.id;
+	GoalUserMap.findById(id, (err, goalUserMap) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		if (!goalUserMap) return res.json({code: 10200, msg: '未找到目标'});
+		goalUserMap.finish = false;
+		goalUserMap.save(err => {
+			if (err) return res.json({code: 10500, msg: '数据库出错,请重新尝试'});
+			res.json({code: 10000, msg: ''});
+		})
 	})
 }

@@ -10,14 +10,16 @@ let CommentSchema = new Schema({
 	},
 	goal: {
 		type: ObjectId,
-		ref: 'Goal'
+		ref: 'Goal',
+		default: null
 	},
 	content: {
 		type: String
 	},
 	reply: {
 		type: ObjectId,
-		ref: 'Comment'
+		ref: 'Comment',
+		default: null
 	}
 })
 

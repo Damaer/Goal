@@ -59,9 +59,9 @@ exports.read = (req, res, next) => {
 					})
 				})
 				promises.push(new Promise(resolve, reject) => {
-					CommentLikeMap.count({comment: goalComments[i]._id}, (err, count) => {
-						if (err) count = 0;
-						goalComments[i].like = count;
+					CommentLikeMap.find({comment: goalComments[i]._id}, (err, commentLikeMaps) => {
+						if (err) commentLikeMaps = [];
+						goalComments[i].like = commentLikeMaps.map(commentLikeMap => commentLikeMap.user);
 						resolve();
 					})
 				})

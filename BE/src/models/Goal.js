@@ -4,54 +4,24 @@ let Schema = mongoose.Schema
 let ObjectId = Schema.Types.ObjectId
 
 let GoalSchema = new Schema({
-	user: {
+	user: { // 创建该目标的用户
 		type: ObjectId,
 		ref: 'User'
 	},
-	title: {
+	title: { // 目标标题
 		type: String
 	},
-	content: {
+	content: { // 目标内容
 		type: String
 	},
-	time: {
-		begin: {
-			type: Date
-		},
-		plan: {
-			type: Date
-		},
-		finish: {
-			type: Date
-		}
-	},
-	meta: {
-		createAt: {
-			type: Date,
-			default: Date.now()
-		},
-		updateAt: {
-			type: Date,
-			default: Date.now()
-		}
-	},
-	finish: {
-		type: Boolean,
-		default: false
-	},
-	delete: {
-		type: Boolean,
-		default: false
+	createAt: {
+		type: Date,
+		default: Date.now()
 	}
 })
 
 GoalSchema.pre('save', function(next) {
-	if (this.isNew) {
-		this.meta.createAt = this.meta.updateAt = Date.now();
-	} else {
-		this.meta.updateAt = Date.now();
-	}
-
+	if (this.isNew) this.createAt = Date.now();
 	next();
 })
 

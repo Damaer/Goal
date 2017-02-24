@@ -12,6 +12,7 @@ import GoalUserMap from '../controllers/GoalUserMap'
 import Comment from '../controllers/Comment'
 import Feedback from '../controllers/Feedback'
 import FocusTime from '../controllers/FocusTime'
+import Analyse from '../controllers/Analyse'
 
 let router = express.Router();
 
@@ -119,6 +120,10 @@ router.route('/record/goal/:id')
 router.route('/focus')
 	.get(Authentication.auth, FocusTime.get_focus_time)
 	.post(Authentication.auth, FocusTime.add_focus_time)
+
+// analyse
+router.route('/analyse')
+	.get(Authentication.auth, Analyse.analyse);
 
 // feedback
 router.route('/feedback') // 反馈

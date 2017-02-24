@@ -15,6 +15,11 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <activity
@@ -41,8 +46,6 @@
         <activity
             android:name=".Realtime_statisticsActivity"
             android:label="实时统计" />
-
-
         <activity
             android:name=".AboutActivity"
             android:label="关于" />
@@ -50,20 +53,21 @@
             android:name=".AccountSafetyActivity"
             android:label="账号安全" />
         <activity
-
             android:name=".SettingsActivity"
             android:label="程序设置" />
-        <activity android:name=".EveryGoalActivity"
+        <activity
+            android:name=".EveryGoalActivity"
             android:label="每个目标">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".noteDetailAndEditActivity"
-            android:label="标签详细以及编辑"/>
+            android:label="标签详细以及编辑" />
+        <activity
+            android:name=".EveryUserActivity"
+            android:label="用户">
+
+        </activity>
     </application>
 
 </manifest>

@@ -1,77 +1,167 @@
 package cn.goal.goal;
 
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EveryGoalActivity extends AppCompatActivity {
-    private ListView listView;
+import cn.goal.goal.utils.MylistView_for_goal_record;
+
+public class EveryGoalActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener,MyAdapter_for_every_record.Callback {
+    private ImageButton comeback;
+    private ImageButton write;
+    private MylistView_for_goal_record listView;
+    private ImageButton go_goal;
     private ScrollView scrollView;
+    private  List<Goal_record_class> listems;
+    private Map<String, Object> listem;
+    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_every_goal);
-       List<Map<String, Object>> listems = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < 10; i++) {
-            Map<String, Object> listem = new HashMap<String, Object>();
-           Goal_record_class one = new Goal_record_class(R.mipmap.ic_launcher,"用户名"+1,"发送时间",i+1);
-            listem.put("head",one.getUser_Image());
-            listem.put("name", one.getUser_name());
-            listem.put("record", one.getUser_record());
-            listem.put("time",one.getTime_of_send());
-            listem.put("like",one.getImageId_btn_like());
-            listem.put("sum_of_like",one.getSum_of_like());
-            listem.put("share",one.getImageId_btn_share());
-            listem.put("reply",one.getImageId_btn_reply());
-            listems.add(listem);
+       listems = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+           Goal_record_class one = new Goal_record_class(R.mipmap.ic_launcher,"用户名"+(i+1),"发送时间",i+1);
+            listems.add(one);
+
+
         }
-        SimpleAdapter simplead = new SimpleAdapter(this, listems,
-                R.layout.listview_record_item, new String[]{"head", "name", "record","time","like","sum_of_like","share","reply"}
-                ,new int[]{R.id.head_photo,R.id.user_name,R.id.content_of_record,R.id.time_of_send,R.id.like,R.id.sum_of_like,R.id.share,R.id.reply});
-        listView= (ListView)findViewById(R.id.every_record_listview);
-      listView.setAdapter(simplead);
-        setListViewHeight(listView);//设置listview的高度，在设置adapter之后设置高度
+        listView= (MylistView_for_goal_record)findViewById(R.id.every_record_listview);
+        comeback=(ImageButton)findViewById(R.id.comeback_from_goal);
+        write= (ImageButton) findViewById(R.id.write);
+        go_goal= (ImageButton) findViewById(R.id.go_to_goal);
+
+        init_listener();
+        MyAdapter_for_every_record myadater=new MyAdapter_for_every_record(this,listems,this);
+      listView.setAdapter(myadater);
+        listView.setOnItemClickListener(this);
+        listView.setOnScrollListener(this);
 
         scrollView = (ScrollView)findViewById(R.id.scrollview);
+        /*如果用户没有加入这个目标，这把goal图片设置为add.png
+        *如果用户今天朝着目标去做了就把他设置为go2.png
+        if()
+        {
 
-        scrollView.post(runnable);//设置scrollView的显示位置
+        }*/
     }
     /**
-     * 设置Listview的高度
+     * 初始化监听事件
      */
-    public void setListViewHeight(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
+   public void init_listener()
+    {
+        comeback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //如果已经加入目标，则直接进入记录页面，否则，将调用showDialog2()
+            }
+        });
+        go_goal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog1();
+                //把图片设置为已点击
+                //
+            }
+        });
     }
     /**
-     * 设置scrollview显示位置，解决scrollview嵌套listview页面过长时显示问题
+     * 这是兼容的 AlertDialog
      */
-    private Runnable runnable = new Runnable() {
+    private void showDialog1() {
+  /*
+  这里使用了 android.support.v7.app.AlertDialog.Builder
+  可以直接在头部写 import android.support.v7.app.AlertDialog
+  那么下面就可以写成 AlertDialog.Builder
+  */
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("朝着目标前进一小步");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
 
-        @Override
-        public void run() {
-            EveryGoalActivity.this.scrollView.scrollTo(1,1);// 改变滚动条的位置
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                    go_goal.setBackgroundResource(R.mipmap.go2);
+                //点击确定之后跳转到
+            }
+        });
+        builder.show();
+    }
+    private void showDialog2() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("是否加入这个目标？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                go_goal.setBackgroundResource(R.mipmap.go1);
+                //点击确定之后跳转到
+            }
+        });
+        builder.show();
+    }
+    @Override
+    public void onScrollStateChanged(AbsListView absListView, int position) {
+        switch (position)
+        {
+            case SCROLL_STATE_FLING:
+                //下拉添加数据源
+                break;
+            default:
+                break;
         }
-    };
+    }
+
+    @Override
+    public void onScroll(AbsListView absListView, int position, int i1, int i2) {
+
+    }
+    /**
+          * 响应ListView中item的点击事件
+          */
+       @Override
+        public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
+                Toast.makeText(this, "listview的item被点击了！，点击的位置是-->" + position,
+                              Toast.LENGTH_SHORT).show();
+            }
+
+               /**
+           * 接口方法，响应ListView按钮点击事件
+          */
+
+        public void click(View v) {
+               Toast.makeText(
+                            EveryGoalActivity.this,
+                           "listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag() + ",内容是-->"
+                                       + listems.get((Integer) v.getTag()).getGoal_name(),
+                               Toast.LENGTH_SHORT).show();
+          }
 }

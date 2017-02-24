@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
         <ImageButton
-            android:id="@+id/comeback"
+            android:id="@+id/comeback_from_goal"
             android:layout_marginLeft="8dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -65,12 +65,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="#DCDCDC" />
-            <ListView
+            <cn.goal.goal.utils.MylistView_for_goal_record
                 android:id="@+id/every_record_listview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-            </ListView>
+            </cn.goal.goal.utils.MylistView_for_goal_record>
+            <ProgressBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
-</ScrollView>
+    </ScrollView>
 </LinearLayout>

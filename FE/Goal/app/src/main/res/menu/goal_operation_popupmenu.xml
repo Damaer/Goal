@@ -6,4 +6,5 @@
     <item android:title="@string/menu_mark_finished_today"/>
     <item android:title="@string/menu_mark_finished"/>
     <item android:title="@string/menu_mark_unfinished"/>
+    <item android:title="@string/menu_record"/>
 </menu>

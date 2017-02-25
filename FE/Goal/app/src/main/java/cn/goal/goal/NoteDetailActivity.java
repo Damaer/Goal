@@ -45,7 +45,7 @@ public class NoteDetailActivity extends AppCompatActivity{
         returnButton = (ImageButton)findViewById(R.id.return_button);
         shareButton = (ImageButton)findViewById(R.id.share);
         MenuButton = (ImageButton)findViewById(R.id.menu_more);
-                                                      
+
         editText = (EditText)findViewById(R.id.note_content);
         createMenu();
         addListener();

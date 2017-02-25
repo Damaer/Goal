@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
             mFragments[0] = new GoalFragment();
             mFragments[1] = new NoteListFragment();
             mFragments[2] = new GoalFragment();
-            mFragments[3] = new PersonFragment();
+            mFragments[3] = new RecommendFragment();
 
         //      未登录则启动登录界面
         if (UserService.getToken() == null) {

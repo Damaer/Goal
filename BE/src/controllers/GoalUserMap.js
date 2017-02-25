@@ -7,7 +7,7 @@ let codeMsg = {
 
 exports.get_current_user_goals = (req, res, next) => {
 	let userId = req.user._id;
-	GoalUserMap.find({user: userId}).populate({path: 'goal', populate: {path: 'user', select: ['name', 'avatar']}}).exec((err, goalUserMaps) => {
+	GoalUserMap.find({user: userId}).populate({path: 'goal', populate: {path: 'user', select: {name: 1, avatar: 1}}}).exec((err, goalUserMaps) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询错误'});
 		res.json({code: 10000, msg: '', data: goalUserMaps});
 	})
@@ -15,14 +15,13 @@ exports.get_current_user_goals = (req, res, next) => {
 
 exports.index = (req, res, next) => {
 	let userId = req.params.id;
-	GoalUserMap.find({user: userId, public: true}).populate({path: 'goal', populate: {path: 'user', select: ['name', 'avatar']}}).exec((err, goalUserMaps) => {
+	GoalUserMap.find({user: userId, public: true}).populate({path: 'goal', populate: {path: 'user', select: {name: 1, avatar: 1}}}).exec((err, goalUserMaps) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询错误'});
-
 		// 获取每个目标的关注人数
-		goalUserMaps = goalUserMaps.toJSON();
 		let promises = [];
-		for (var i = 0; i < goalUserMaps.length; i++) {
+		for (let i = 0; i < goalUserMaps.length; i++) {
 			promises.push(new Promise((resolve, reject) => {
+				goalUserMaps[i] = goalUserMaps[i].toJSON();
 				GoalUserMap.count({goal: goalUserMaps[i].goal}, (err, count) => {
 					if (err) count = 0;
 					goalUserMaps[i].numberOfPeople = count;
@@ -30,7 +29,7 @@ exports.index = (req, res, next) => {
 				})
 			}))
 		}
-		new Promise.all(promises).then(() => {
+		Promise.all(promises).then(() => {
 			res.json({code: 10000, msg: '', data: goalUserMaps});
 		}, err => {
 			console.log(err);
@@ -43,20 +42,26 @@ exports.save = (req, res, next) => {
 	let goalId = req.params.id,
 			userId = req.user._id;
 	let {begin, plan, isPublic} = req.body;
-	let goalUserMap = new GoalUserMap;
-	goalUserMap.user = userId;
-	goalUserMap.goal = goalId;
-	goalUserMap.begin = begin;
-	goalUserMap.end = 0;
-	goalUserMap.plan = plan;
-	goalUserMap.public = isPublic;
-	goalUserMap.save((err, product) => {
-		if (err) return res.json({code: 10500, msg: '添加目标失败,请检查参数是否合法'});
-		res.json({code: 10000, msg: '', data: product._id});
+
+	GoalUserMap.findOne({user: userId, goal: goalId}, (err, doc) => {
+		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
+		if (doc) return res.json({code: 10000, msg: '', data: doc._id}); // 已添加则直接返回
+
+		let goalUserMap = new GoalUserMap;
+		goalUserMap.user = userId;
+		goalUserMap.goal = goalId;
+		goalUserMap.begin = begin;
+		goalUserMap.end = 0;
+		goalUserMap.plan = plan;
+		goalUserMap.public = isPublic;
+		goalUserMap.save((err, product) => {
+			if (err) return res.json({code: 10500, msg: '添加目标失败,请检查参数是否合法'});
+			res.json({code: 10000, msg: '', data: product._id});
+		})
 	})
 }
 
-exports.update = (req, rex, next) => {
+exports.update = (req, res, next) => {
 	let id = req.params.id,
 			userId = req.user._id;
 	let {begin, plan, isPublic} = req.body;
@@ -74,7 +79,7 @@ exports.update = (req, rex, next) => {
 }
 
 exports.delete = (req, res, next) => {
-	let id = req.params.id;
+	let id = req.params.id,
 			userId = req.user._id;
 	GoalUserMap.remove({_id: id, user: userId}, err => {
 		if (err) return res.json({code: 10500, msg: '删除失败'});

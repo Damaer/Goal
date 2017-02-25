@@ -17,7 +17,7 @@ exports.getToday = getToday;
  * 根据today日期获取当月开始时间
  */
 exports.getMonthBegin = today => {
-	let today = new Date(getToday());
+	today = new Date(today);
 	today.setDate(1);
 	return today.getTime();
 }
@@ -25,8 +25,8 @@ exports.getMonthBegin = today => {
 /**
  * 根据today日期获取当月结束时间
  */
-exports.getMonthEnd = today => {
-	let tmp = new Date(getMonthBegin(today));
+exports.getMonthEnd = monthBegin => {
+	let tmp = new Date(monthBegin);
 	if (tmp.getMonth() == 11) {
 		tmp.setMonth(0);
 		tmp.setFullYear(tmp.getFullYear() + 1);

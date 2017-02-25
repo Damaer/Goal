@@ -11,6 +11,6 @@ exports.save = (req, res, next) => {
 	feedback.content = content;
 	feedback.save(err => {
 		if (err) return res.json({code: 10500, msg: '数据库保存失败,请重新尝试'});
-		res.json({code: 10000, msg});
+		res.json({code: 10000, msg: '反馈成功'});
 	})
 }

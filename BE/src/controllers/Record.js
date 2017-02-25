@@ -1,6 +1,7 @@
 import Record from '../models/Record'
 import GoalUserMap from '../models/GoalUserMap'
 import DailySentence from '../models/DailySentence'
+import 'babel-polyfill'
 import {getToday} from './util/util'
 
 let codeMsg = {
@@ -12,20 +13,22 @@ let codeMsg = {
  * 获取用户当天每日一句信息
  */
 exports.get_daily_sentence_today = (req, res, next) => {
-	let userId = req.user._id
+	let userId = req.user._id,
 			today = getToday();
-	Record.find({date: today, user: userId}, (err, record) => {
+	Record.findOne({date: today, user: userId}, (err, record) => {
 		if (err) return reject({code: 10500, msg: '查询失败'});
 
 		if (!record) {
-			createRecord(userId).then((record, dailySentence) => res.json({code: 10000, msg: '', data: dailySentence})
-				, err => res.json({code: 10500, msg: '查询失败'}));
+			createRecord(userId).then(([record, dailySentence]) => {
+				res.json({code: 10000, msg: '', data: dailySentence});
+			}, err => {
+				res.json({code: 10500, msg: '查询失败'});
+			});
 		} else {
 			DailySentence.findById(record.dailySentence, (err, sentence) => {
 				if (err) return res.json({code: 10500, msg: '查询失败'});
 				if (!sentence) return res.json({code: 10200, msg: '该每日一句已被删除'});
-
-				res.json({code: 10000, msg: '', data: dailySentence});
+				res.json({code: 10000, msg: '', data: sentence});
 			})
 		}
 	})
@@ -38,7 +41,12 @@ exports.get_daily_sentence = (req, res, next) => {
 	let userId = req.user._id;
 	Record.find({user: userId}).populate({path: 'dailySentence'}).exec((err, records) => {
 		if (err) return res.json({code: 10500, msg: '查询失败'});
-		res.json({code: 10000, msg: '', data: records.map(record => record.dailySentence)});
+		res.json({code: 10000, msg: '', data: records.map(record => {
+			return {
+				dailySentence: record.dailySentence,
+				date: record.date
+			}
+		})});
 	})
 }
 
@@ -49,7 +57,12 @@ exports.get_goals_finished_record = (req, res, next) => {
 	let userId = req.user._id;
 	Record.find({user: userId}, (err, records) => {
 		if (err) return res.json({code: 10500, msg: '查询失败'});
-		res.json({code: 10000, msg: '', data: records.map(record => record.goalsFinished)});
+		res.json({code: 10000, msg: '', data: records.map(record => {
+			return {
+				goalsFinished: record.goalsFinished,
+				date: record.date
+			}
+		})});
 	})
 }
 
@@ -58,8 +71,8 @@ exports.get_goals_finished_record = (req, res, next) => {
  */
 exports.mark_goal_finished = (req, res, next) => {
 	let userId = req.user._id,
+			goalId = req.params.id, // GoalUserMap记录的_id值
 			today = getToday();
-	const {goalId} = req.body; // GoalUserMap记录的_id值
 	GoalUserMap.findById(goalId, (err, goal) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
 		if (!goal) return res.json({code: 10200, msg: '要完成目标不存在或已被删除'});
@@ -72,7 +85,7 @@ exports.mark_goal_finished = (req, res, next) => {
 			}
 			new Promise((resolve, reject) => {
 				if (!record) {
-					createRecord(userId).then(record => resolve(record), err => reject(err));
+					createRecord(userId).then(([record, dailySentence]) => resolve(record), err => reject(err));
 				} else {
 					resolve(record);
 				}
@@ -107,7 +120,7 @@ let createRecord = userId => new Promise((resolve, reject) => {
 			if (err) {
 				return reject({code: 10404, msg: '保存失败'});
 			}
-			resolve(product, dailySentence);
+			resolve([product, dailySentence]);
 		})
 	}, err => {
 		reject(err);

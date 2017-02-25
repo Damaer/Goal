@@ -16,28 +16,6 @@ import Analyse from '../controllers/Analyse'
 
 let router = express.Router();
 
-///////////////////admin api////////////
-router.route('/user/count')
-	.get(Authentication.auth, Authentication.auth_admin, User.count)
-router.route('/user')
-	.get(Authentication.auth, Authentication.auth_admin, User.index)
-	.post(Authentication.auth, Authentication.auth_admin, User.save)
-router.route('/user/:id')
-	.get(Authentication.auth, Authentication.auth_admin, User.read)
-	.put(Authentication.auth, Authentication.auth_admin, User.update)
-	.delete(Authentication.auth, Authentication.auth_admin, User.delete)
-
-// dailySentence
-router.route('/dailySentence/count')
-	.get(Authentication.auth, Authentication.auth_admin, DailySentence.count)
-router.route('/dailySentence')
-	.get(Authentication.auth, Authentication.auth_admin, DailySentence.index)
-	.post(Authentication.auth, Authentication.auth_admin, DailySentence.save)
-router.route('/dailySentence/:id')
-	.get(Authentication.auth, Authentication.auth_admin, DailySentence.read)
-	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
-	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
-
 //////////////client api//////////////
 // authentication
 router.route('/login')
@@ -99,6 +77,7 @@ router.route('/comment/goal/:id')
 	.post(Authentication.auth, Comment.save) // 向指定目标id评论
 router.route('/comment/like/:id')
 	.post(Authentication.auth, Comment.like) // 点赞指定评论
+	.delete(Authentication.auth, Comment.unlike) // 取消点赞
 router.route('/comment/:id')
 	.get(Comment.getReplyList) // 获取指定评论的回复列表
 	.post(Authentication.auth, Comment.reply) // 回复评论
@@ -128,5 +107,27 @@ router.route('/analyse')
 // feedback
 router.route('/feedback') // 反馈
 	.post(Feedback.save)
+
+///////////////////admin api////////////
+router.route('/user/count')
+	.get(Authentication.auth, Authentication.auth_admin, User.count)
+router.route('/user')
+	.get(Authentication.auth, Authentication.auth_admin, User.index)
+	.post(Authentication.auth, Authentication.auth_admin, User.save)
+router.route('/user/:id')
+	.get(Authentication.auth, Authentication.auth_admin, User.read)
+	.put(Authentication.auth, Authentication.auth_admin, User.update)
+	.delete(Authentication.auth, Authentication.auth_admin, User.delete)
+
+// dailySentence
+router.route('/dailySentence/count')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.count)
+router.route('/dailySentence')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.index)
+	.post(Authentication.auth, Authentication.auth_admin, DailySentence.save)
+router.route('/dailySentence/:id')
+	.get(Authentication.auth, Authentication.auth_admin, DailySentence.read)
+	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
+	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
 
 module.exports = router;

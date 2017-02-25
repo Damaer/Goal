@@ -7,7 +7,7 @@ exports.analyse = (req, res, next) => {
 	let userId = req.user._id;
 	let today = getToday(),
 			begin = getMonthBegin(today),
-			end = getMonthEnd(today);
+			end = getMonthEnd(begin);
 
 	let promises = [];
 	promises.push(getGoalsFinishedInfo(userId, begin, end));
@@ -17,7 +17,7 @@ exports.analyse = (req, res, next) => {
 	promises.push(getGoalsUnfinished(userId, begin, end));
 	promises.push(getLongestGoal(userId, begin, end));
 
-	new Promise.all(promises).then(data => {
+	Promise.all(promises).then(data => {
 		res.json({code: 10000, msg: '', data: {
 			goalsFinished: data[0],
 			goalsCreated: data[1],
@@ -83,55 +83,56 @@ let getLongestGoal = (userId, begin, end) => new Promise((resolve, reject) => {
 	// 查询[begin, end]每日目标完成情况
 	Record.find({
 		user: userId, date: {$gte: begin, $lte: end}},
-		['date', 'goalsFinished'],
+		{date: 1, goalsFinished: 1},
 		{sort: {date: 1}},
 		(err, records) => {
-		if (err) {
-			console.log(err);
-			records = [];
-		}
-		let goals = {},
-				lastDate;
-		for (var i = 0; i < records.length; i++) {
-			let {date, goalsFinished} = records[i];
-			/*
-				判断记录是否连续(即lastDate == undefined 或者 两者日期相差一天)
-			 */
-			let isContinued = (!lastDate || date.getTime() - lastDate.getTime() == ONE_DAY);
-			lastDate = date;
+			if (err) {
+				console.log(err);
+				records = [];
+			}
+			let goals = {},
+					lastDate;
+			for (var i = 0; i < records.length; i++) {
+				let {date, goalsFinished} = records[i];
+				/*
+					判断记录是否连续(即lastDate == undefined 或者 两者日期相差一天)
+				 */
+				let isContinued = (!lastDate || date.getTime() - lastDate.getTime() == ONE_DAY);
+				lastDate = date;
 
-			// 将不在 goals 数组中的目标添加进去
-			for (var i = 0; i < goalsFinished.length; i++) {
-				if (!goals[goalsFinished[i]]) {
-					goals[goalsFinished[i]] = {
-						current: 0, // 当前连续天数
-						max: 0 // 当前最大连续天数
-					};
+				// 将不在 goals 数组中的目标添加进去
+				for (var i = 0; i < goalsFinished.length; i++) {
+					if (!goals[goalsFinished[i]]) {
+						goals[goalsFinished[i]] = {
+							current: 0, // 当前连续天数
+							max: 0 // 当前最大连续天数
+						};
+					}
+				}
+
+				// 计算连续天数
+				for (let key in goals) {
+					let isExisted = goalsFinished.indexOf(key) != -1;
+					if (isExisted && (goals[key].current == 0 || isContinued)) {
+						goals[key].current++;
+					} else {
+						goals[key].max = Math.max(goals[key].max, goals[key].current);
+						goals[key].current = 0;
+					}
 				}
 			}
 
-			// 计算连续天数
+			// 统计最大天数, 并加入goalsArray
+			let goalsArray = [];
 			for (let key in goals) {
-				let isExisted = goalsFinished.indexOf(key) != -1;
-				if (isExisted && (goals[key].current == 0 || isContinued)) {
-					goals[key].current++;
-				} else {
-					goals[key].max = Math.max(goals[key].max, goals[key].current);
-					goals[key].current = 0;
-				}
+				goalsArray.push({
+					goalId: key, // Goal记录的_id值
+					numOfDay: Math.max(goals[key].max, goals[key].current)// 最大坚持天数
+				})
 			}
-		}
-
-		// 统计最大天数, 并加入goalsArray
-		let goalsArray = [];
-		for (let key in goals) {
-			goalsArray.push({
-				goalId: key, // Goal记录的_id值
-				numOfDay: Math.max(goals[key].max, goals[key].current)// 最大坚持天数
-			})
-		}
-		
-		resolve(goalsArray.sort((g1, g2) => g1.numOfDay < g2.numOfDay)); // 递减排序
+			
+			resolve(goalsArray.sort((g1, g2) => g1.numOfDay < g2.numOfDay)); // 递减排序
+	})
 })
 
 /**
@@ -139,7 +140,7 @@ let getLongestGoal = (userId, begin, end) => new Promise((resolve, reject) => {
  */
 let getGoals = condition => new Promise((resolve, reject) => {
 	GoalUserMap.find(condition)
-		.populate({path: 'goal', populate: {path: 'user', select: ['name', 'avatar']}})
+		.populate({path: 'goal', populate: {path: 'user', select: {name: 1, avatar: 1}}})
 		.exec((err, goalUserMaps) => {
 			if (err) {
 				console.log(err);

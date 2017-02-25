@@ -17,9 +17,10 @@
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity>976170778
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" />
@@ -49,12 +50,10 @@
             android:label="实时统计" />
         <activity
             android:name=".QuickStartActivity"
-            android:label="快速开始">
-        </activity>
+            android:label="快速开始"></activity>
         <activity
             android:name=".QuickStartCountTime"
-            android:label="快速开始倒计时" >
-        </activity>
+            android:label="快速开始倒计时"></activity>
         <activity
             android:name=".AboutActivity"
             android:label="关于" />
@@ -66,14 +65,15 @@
             android:label="程序设置" />
         <activity
             android:name=".EveryGoalActivity"
-            android:label="每个目标">
-        </activity>
+            android:label="每个目标"></activity>
         <activity
             android:name=".noteDetailAndEditActivity"
             android:label="标签详细以及编辑" />
         <activity
             android:name=".EveryUserActivity"
-            android:label="用户">
+            android:label="用户"></activity>
+        <activity android:name=".DetailOfRecordActivity">
+
         </activity>
     </application>
 

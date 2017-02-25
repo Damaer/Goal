@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="30dp">
+        <ImageButton
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            android:background="@mipmap/comeback"
+            android:layout_width="20dp"
+            android:layout_height="20dp" />
+        <TextView
+            android:text="详情"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <View
+        android:background="#808080"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/head_photo"
+            android:layout_margin="8dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <LinearLayout
+            android:layout_margin="8dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/user_name"
+                android:gravity="center_vertical"
+                android:text="用户名"
+                android:textColor="#00CED1"
+                android:layout_width="wrap_content"
+                android:layout_height="18dp" />
+            <TextView
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="2dp"
+                android:id="@+id/goal_name"
+                android:textSize="10dp"
+                android:gravity="center_vertical"
+                android:text="goal#学习Android#"
+                android:textColor="#0000EE"
+                android:layout_width="wrap_content"
+                android:layout_height="12dp" />
+            <TextView
+                android:id="@+id/content_of_record"
+                android:text="我们诚惶诚恐，我们小心翼翼，我们毫无保留，却不一定就能把爱，变成相爱。如果这一次真得背过身我们不再遇见了，那我希望我们可以面对面再背对背，永远不留遗憾，一生山高水阔。只是，后来，我们都甘愿被生活凌迟。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:layout_marginTop="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="18dp">
+                <TextView
+                    android:id="@+id/time_of_send"
+                    android:layout_alignParentLeft="true"
+                    android:text="发送时间"
+                    android:textColor="#008B8B"
+                    android:textSize="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp" />
+                <LinearLayout
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp">
+                    <ImageButton
+                        android:id="@+id/like"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="2dp"
+                        android:background="@mipmap/like"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp" />
+                    <TextView
+                        android:text="("
+                        android:layout_gravity="top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp" />
+                    <TextView
+                        android:id="@+id/sum_of_like"
+                        android:text="1"
+                        android:layout_gravity="top"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp" />
+                    <TextView
+                        android:text=")"
+                        android:layout_gravity="top"
+                        android:layout_marginRight="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp" />
+                    <ImageButton
+                        android:id="@+id/share"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@mipmap/share2"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp" />
+                    <ImageButton
+                        android:id="@+id/reply"
+                        android:layout_gravity="center"
+                        android:background="@mipmap/reply"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="2dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+        <View
+            android:layout_marginTop="16dp"
+            android:background="#808080"
+            android:layout_width="match_parent"
+            android:layout_height="1px">
+        </View>
+        <cn.goal.goal.utils.MylistView_for_goal_comment
+            android:id="@+id/listview_for_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        </cn.goal.goal.utils.MylistView_for_goal_comment>
+    </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

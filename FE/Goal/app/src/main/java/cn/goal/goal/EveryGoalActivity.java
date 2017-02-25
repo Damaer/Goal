@@ -3,17 +3,17 @@ package cn.goal.goal;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import cn.goal.goal.utils.MylistView_for_goal_record;
 
@@ -24,7 +24,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
     private ImageButton go_goal;
     private ScrollView scrollView;
     private  List<Goal_record_class> listems;
-    private Map<String, Object> listem;
+    private PopupMenu mPopupMenu;
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,26 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         comeback=(ImageButton)findViewById(R.id.comeback_from_goal);
         write= (ImageButton) findViewById(R.id.write);
         go_goal= (ImageButton) findViewById(R.id.go_to_goal);
+        mPopupMenu = new PopupMenu(this,write);
+        mPopupMenu.getMenuInflater()
+                .inflate(R.menu.write_and_setting, mPopupMenu.getMenu());
+        write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mPopupMenu.show();
+                mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        String title = item.getTitle().toString();
+                        if(title.equals(""))
+                        {
 
+                        }
+                        return true;
+                    }
+                });
+            }
+        });
         init_listener();
         MyAdapter_for_every_record myadater=new MyAdapter_for_every_record(this,listems,this);
       listView.setAdapter(myadater);
@@ -65,12 +84,6 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-        write.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //如果已经加入目标，则直接进入记录页面，否则，将调用showDialog2()
             }
         });
         go_goal.setOnClickListener(new View.OnClickListener() {

@@ -1,5 +1,6 @@
 package cn.goal.goal;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -62,8 +63,41 @@ public class GoalListFragment extends Fragment {
         mListView.setAdapter(new SimpleAdapter(getContext(), data, R.layout.goal_item,
                 new String[]{"title", "content", "createAt"},
                 new int[]{R.id.title, R.id.content, R.id.createAt}));
-}
+        //长按跳出删除弹窗
+        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                showpopwindow();
+                return false;
+            }
+        });
 
+}
+    public void showpopwindow()
+    {
+                             /*
+                  *这里使用了 android.support.v7.app.AlertDialog.Builder
+                  *可以直接在头部写 import android.support.v7.app.AlertDialog
+                  *那么下面就可以写成 AlertDialog.Builder
+                  */
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+        builder.setTitle("");
+        builder.setMessage("是否要删除该目标");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.show();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.goal_list, container, false);
@@ -89,4 +123,5 @@ public class GoalListFragment extends Fragment {
         // 更新goals数据
         createListView();
     }
+
 }

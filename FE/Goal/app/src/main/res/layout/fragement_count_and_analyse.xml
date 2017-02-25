@@ -472,7 +472,7 @@
 
             </RelativeLayout>
             <TextView
-                android:text="本月坚持最久的目标"
+                android:text="本月专注时长"
                 android:gravity="center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />

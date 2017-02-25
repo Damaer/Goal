@@ -6,15 +6,18 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+
 import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.Note;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.HttpRequest;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
 import static cn.goal.goal.utils.Util.dateToString;
 

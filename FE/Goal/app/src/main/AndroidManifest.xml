@@ -15,6 +15,10 @@
         <activity
             android:name=".BaseActivity"
             android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -62,10 +66,6 @@
             android:label="程序设置" />
         <activity android:name=".EveryGoalActivity"
             android:label="每个目标">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".NoteDetailActivity"

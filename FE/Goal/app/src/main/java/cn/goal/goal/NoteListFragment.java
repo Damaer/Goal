@@ -55,9 +55,10 @@ public class NoteListFragment extends Fragment {
 
         dataList = new ArrayList<>();
         ArrayList<Note> notes = UserService.getNotes();
-        for (int i = 0;i<notes.size();i++) {
+        for (int i = 0;i<notes.size();++i) {
             Map<String, String> map = new HashMap<>();
             Note note = notes.get(i);
+            map.put("id",String.valueOf(note.getId()));
             map.put("text",note.getContent());
             map.put("time",note.getCreateAt());
             dataList.add(map);

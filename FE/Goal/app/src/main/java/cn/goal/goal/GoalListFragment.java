@@ -1,23 +1,21 @@
 package cn.goal.goal;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.Goal;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.Goal;
 
 /**
  * Created by chenlin on 13/02/2017.
@@ -74,6 +72,7 @@ public class GoalListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+                String goalid = goalInfo.get("id");
                 intent.putExtra("goalIndex", UserService.findGoalById(Integer.valueOf(goalInfo.get("id"))));
 
                 startActivity(intent);

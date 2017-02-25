@@ -78,9 +78,9 @@ exports.mark_goal_finished = (req, res, next) => {
 				}
 			}).then(record => {
 				// 目标今日已被标记完成则直接返回完成成功
-				if (record.goalsFinished.indexOf(goalId) !== -1) return res.json({code: 10000, msg: '目标完成成功'});
+				if (record.goalsFinished.indexOf(goal.goal) !== -1) return res.json({code: 10000, msg: '目标完成成功'});
 
-				record.goalsFinished.push(goalId);
+				record.goalsFinished.push(goal.goal); // 存放Goal记录的_id值
 				record.save(err => {
 					if (err) {
 						console.log(err);

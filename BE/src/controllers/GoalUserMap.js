@@ -88,6 +88,7 @@ exports.finish = (req, res, next) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
 		if (!goalUserMap) return res.json({code: 10200, msg: '未找到目标'});
 		goalUserMap.finish = true;
+		goalUserMap.end = Date.now();
 		goalUserMap.save(err => {
 			if (err) return res.json({code: 10500, msg: '数据库出错,请重新尝试'});
 			res.json({code: 10000, msg: ''});
@@ -101,6 +102,7 @@ exports.unfinish = (req, res, next) => {
 		if (err) return res.json({code: 10500, msg: '数据库查询失败'});
 		if (!goalUserMap) return res.json({code: 10200, msg: '未找到目标'});
 		goalUserMap.finish = false;
+		goalUserMap.end = 0;
 		goalUserMap.save(err => {
 			if (err) return res.json({code: 10500, msg: '数据库出错,请重新尝试'});
 			res.json({code: 10000, msg: ''});

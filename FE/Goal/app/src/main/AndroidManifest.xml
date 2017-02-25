@@ -47,12 +47,10 @@
         <activity
             android:name=".Realtime_statisticsActivity"
             android:label="实时统计" />
-
         <activity
             android:name=".QuickStartActivity"
             android:label="快速开始">
         </activity>
-
         <activity
             android:name=".QuickStartCountTime"
             android:label="快速开始倒计时" >
@@ -64,15 +62,19 @@
             android:name=".AccountSafetyActivity"
             android:label="账号安全" />
         <activity
-
             android:name=".SettingsActivity"
             android:label="程序设置" />
-        <activity android:name=".EveryGoalActivity"
+        <activity
+            android:name=".EveryGoalActivity"
             android:label="每个目标">
         </activity>
         <activity
             android:name=".noteDetailAndEditActivity"
-            android:label="标签详细以及编辑"/>
+            android:label="标签详细以及编辑" />
+        <activity
+            android:name=".EveryUserActivity"
+            android:label="用户">
+        </activity>
     </application>
 
 </manifest>

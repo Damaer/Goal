@@ -34,13 +34,26 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         super.onCreate(savedInstanceState);
 
         UserService.initData(getSharedPreferences("user", MODE_PRIVATE), this);
+//      未登录则启动登录界面
+//   if (User.getToken() == null) {
+//      未登录则启动登录界面
+//          if (UserService.getToken() == null) {
+//            startActivity(new Intent(this, LoginActivity.class));
+//        finish();
+//          return;
+//       }
+
+            mFragments[0] = new GoalFragment();
+            mFragments[1] = new NoteListFragment();
+            mFragments[2] = new GoalFragment();
+            mFragments[3] = new PersonFragment();
+
         //      未登录则启动登录界面
         if (UserService.getToken() == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         }
-
         mFragments[0] = new GoalFragment();
         mFragments[1] = new NoteListFragment();
         mFragments[2] = new GoalFragment();

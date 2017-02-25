@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 
 import CommonModule from './CommonModule'
 import Server from './Server'
+import Feedback from './Feedback'
 
 import UserForm from './components/UserForm'
 import SentenceForm from './components/SentenceForm'
@@ -94,10 +95,11 @@ class ModuleController extends Component {
 
 		this.module = {
 			Server: <Server />,
+			Feedback: <Feedback />,
 			CommonModule: <CommonModule 
 				updateModuleState={(state) => this.moduleState[state.moduleName] = state} 
 				changeStateMethod={(method) => this.changeModule = method} 
-				/>,
+				/>
 		}
 	}
 

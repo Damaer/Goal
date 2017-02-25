@@ -7,7 +7,7 @@ exports.get_focus_time = (req, res, next) => {
 	let userId = req.user._id;
 	FocusTime.find({user: userId}, (err, focusTimes) => {
 		if (err) return res.json({code: 10500, msg: '查询失败'});
-		res.json({code: 10000, msg: '', data: focusTimes.reduce((totle, focusTime) => (parseInt(totle) == totle ? totle : totle.length) + focusTime.length)});
+		res.json({code: 10000, msg: '', data: focusTimes.reduce((totle, focusTime) => totle + focusTime.length, 0)});
 	})
 }
 

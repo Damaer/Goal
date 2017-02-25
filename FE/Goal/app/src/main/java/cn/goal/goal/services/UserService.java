@@ -179,15 +179,15 @@ public class UserService {
 
     /**
      * 用户登录
-     * @param username 用户名
+     * @param account 用户邮箱或手机号
      * @param password 密码
      * @return 登录失败返回错误信息，成功返回null
      */
-    public static String login(String username, String password) {
+    public static String login(String account, String password) {
         try {
             HttpRequest request = HttpRequest
                     .post(baseUrl + loginUrl)
-                    .form("username", username)
+                    .form("account", account)
                     .form("password", password);
             JSONObject result = new JSONObject(request.body());
 
@@ -201,7 +201,6 @@ public class UserService {
                 editor.putString("description", data.getString("description"));
                 editor.commit();
 
-                initData(sp, context);
                 return null;
             }
             return result.getString("msg");
@@ -223,13 +222,14 @@ public class UserService {
 
     /**
      * 用户注册
+     * @param account 邮箱或手机号
      * @return 注册成功返回null, 失败返回错误信息
      */
-    public static String register(String username, String password) {
+    public static String register(String account, String password) {
         try {
             HttpRequest request = HttpRequest
                     .post(baseUrl + registerUrl)
-                    .form("name", username)
+                    .form("account", account)
                     .form("password", password);
             JSONObject result = new JSONObject(request.body());
 

@@ -14,7 +14,7 @@ let FeedbackSchema = new Schema({
 		default: false
 	},
 	createAt: {
-		type: Date,
+		type: Number,
 		default: Date.now()
 	}
 })

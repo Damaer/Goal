@@ -20,7 +20,18 @@ let CommentSchema = new Schema({
 		type: ObjectId,
 		ref: 'Comment',
 		default: null
+	},
+	createAt: {
+		type: Number,
+		default: Date.now()
 	}
+})
+
+CommentSchema.pre('save', function(next) {
+	if (this.isNew) {
+		this.createAt = Date.now();
+	}
+	next();
 })
 
 let Comment = mongoose.model('Comment', CommentSchema, 'comment');

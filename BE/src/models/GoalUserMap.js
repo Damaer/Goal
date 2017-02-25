@@ -13,13 +13,15 @@ let GoalUserMapSchema = new Schema({
 		ref: 'Goal'
 	},
 	begin: { // 用户计划开始时间
-		type: Date
+		type: Number,
+		default: Date.now()
 	},
 	plan: { // 用户计划结束时间
-		type: Date
+		type: Number,
+		default: Date.now()
 	},
 	end: { // 用户实际完成时间
-		type: Date,
+		type: Number,
 		default : 0 // 0表示未完成
 	},
 	finish: { // 目标是否已完成
@@ -28,11 +30,11 @@ let GoalUserMapSchema = new Schema({
 	},
 	meta: {
 		createAt: {
-			type: Date,
+			type: Number,
 			default: Date.now()
 		},
 		updateAt: {
-			type: Date,
+			type: Number,
 			default: Date.now()
 		}
 	},

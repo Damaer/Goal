@@ -8,7 +8,7 @@ let FocusTimeSchema = new Schema({
 		type: ObjectId
 	},
 	begin: {
-		type: Date
+		type: Number
 	},
 	length: {
 		type: Number

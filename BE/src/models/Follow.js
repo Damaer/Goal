@@ -13,7 +13,7 @@ let FollowSchema = new Schema({
 		ref: 'User'
 	},
 	createAt: {
-		type: Date,
+		type: Number,
 		default: Date.now()
 	}
 })

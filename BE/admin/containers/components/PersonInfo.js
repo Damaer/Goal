@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import Avatar from 'material-ui/Avatar'
 import { Link } from 'react-router'
+import {baseUrl} from '../../config'
 
 import './style/PersonInfo.scss'
 
@@ -20,7 +21,7 @@ class PersonInfo extends Component {
 		}
 		return (
 			<li className="person-info">
-				<Avatar src={user.avatar} style={avatarStyle} size={100} />
+				<Avatar src={baseUrl + user.avatar} style={avatarStyle} size={100} />
 				<p id="username"><a href="#">{user.username}</a></p>
 				{user.login ? 
 				<Link id="logout" onTouchTap={logout}>logout</Link> :

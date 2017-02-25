@@ -130,4 +130,13 @@ router.route('/dailySentence/:id')
 	.put(Authentication.auth, Authentication.auth_admin, DailySentence.update)
 	.delete(Authentication.auth, Authentication.auth_admin, DailySentence.delete)
 
+// feedback
+router.route('/feedback')
+	.get(Authentication.auth, Authentication.auth_admin, Feedback.index)
+router.route('/feedback/read/:id')
+	.post(Authentication.auth, Authentication.auth_admin, Feedback.mark_read)
+	.delete(Authentication.auth, Authentication.auth_admin, Feedback.mark_unread)
+router.route('/feedback/:id')
+	.delete(Authentication.auth, Authentication.auth_admin, Feedback.delete)
+
 module.exports = router;

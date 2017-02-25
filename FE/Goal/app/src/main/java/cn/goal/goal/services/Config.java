@@ -19,4 +19,6 @@ public class Config {
     public static final String record = "/api/record";
     public static final String recordToday = "/api/record/today";
     public static final String goalsFinished = "/api/record/goalsFinished";
+    public static final String feedback = "/api/feedback";
+    public static final String goalmap = "/api/goalmap";
 }

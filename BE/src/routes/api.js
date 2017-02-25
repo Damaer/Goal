@@ -13,6 +13,7 @@ import Comment from '../controllers/Comment'
 import Feedback from '../controllers/Feedback'
 import FocusTime from '../controllers/FocusTime'
 import Analyse from '../controllers/Analyse'
+import Follow from '../controllers/Follow'
 
 let router = express.Router();
 
@@ -103,6 +104,14 @@ router.route('/focus')
 // analyse
 router.route('/analyse')
 	.get(Authentication.auth, Analyse.analyse);
+
+// follow
+router.route('/follow')
+	.get(Authentication.auth, Follow.get_followers) // 获取关注当前用户的人
+router.route('/follow/user/:id')
+	.get(Follow.get_user_followers)  // 获取关注某人的人
+	.post(Authentication.auth, Follow.follow) // 关注某人
+	.delete(Authentication.auth, Follow.unfollow) // 取消关注某人
 
 // feedback
 router.route('/feedback') // 反馈

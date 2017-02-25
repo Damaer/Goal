@@ -67,8 +67,11 @@
             android:name=".EveryGoalActivity"
             android:label="每个目标"></activity>
         <activity
-            android:name=".noteDetailAndEditActivity"
-            android:label="标签详细以及编辑" />
+            android:name=".NoteDetailActivity"
+            android:label="标签详细"/>
+        <activity
+            android:name=".NoteEditActivity"
+            android:label="标签编辑"/>
         <activity
             android:name=".EveryUserActivity"
             android:label="用户"></activity>

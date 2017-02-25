@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -16,15 +17,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.Note;
+
 /**
  * Created by Tommy on 2017/2/20.
  */
 
-public class NoteListFragment extends Fragment{
+public class NoteListFragment extends Fragment {
     private View view;
     private ListView noteListView;
     private SimpleAdapter noteListAdapter;
-    private List<Map<String,Object>> dataList;
+    private List<Map<String,String>> dataList;
     ImageButton addNoteButton;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -34,30 +38,58 @@ public class NoteListFragment extends Fragment{
 
         addNoteButton = (ImageButton)view.findViewById(R.id.addNoteButton) ;
         noteListView = (ListView) view.findViewById(R.id.note_listView);
-        noteListAdapter = new SimpleAdapter(getContext(),getData(),R.layout.note_list_item,new String[] {"text","pic"},new int[] {R.id.noteList_text,R.id.noteList_img});
 
-        noteListView.setAdapter(noteListAdapter);
+        createListView();
+        addListener();
 
-        addNoteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(),noteDetailAndEditActivity.class);
-                startActivity(intent);
-            }
-        });
         return view;
     }
 
-    private List<Map<String,Object>> getData(){
+    private void createListView(){
+        noteListAdapter = new SimpleAdapter(getContext(),getData(), R.layout.note_list_item,new String[] {"text","time"},new int[] {R.id.noteList_text, R.id.noteList_time});
+
+        noteListView.setAdapter(noteListAdapter);
+    }
+
+    private List<Map<String,String>> getData(){
 
         dataList = new ArrayList<>();
-        for (int i = 0;i<20;i++) {
-            Map<String, Object> map = new HashMap<>();
-            map.put("pic", R.drawable.ic_lightbulb_outline_black_24dp);
-            map.put("text", "blablablablablabalblablablablablablahblahbhlabhahblah          " + i);
-
+        ArrayList<Note> notes = UserService.getNotes();
+        for (int i = 0;i<notes.size();++i) {
+            Map<String, String> map = new HashMap<>();
+            Note note = notes.get(i);
+            map.put("id",String.valueOf(note.getId()));
+            map.put("text",note.getContent());
+            map.put("time",note.getCreateAt());
             dataList.add(map);
         }
         return dataList;
+    }
+
+
+    private void addListener(){
+        addNoteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),NoteEditActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        noteListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, String> noteInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
+                Intent intent = new Intent(getActivity(),NoteDetailActivity.class);
+                String noteid = noteInfo.get("id");
+                int testid = UserService.findNoteById(Integer.valueOf(noteInfo.get("id")));
+                intent.putExtra("noteIndex", UserService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
+                startActivity(intent);
+            }
+        });
+    }
+    public void onResume() {
+        super.onResume();
+        createListView();
     }
 }

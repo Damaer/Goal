@@ -6,15 +6,18 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+
 import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.Note;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.HttpRequest;
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
 
 import static cn.goal.goal.utils.Util.dateToString;
 
@@ -176,15 +179,15 @@ public class UserService {
 
     /**
      * 用户登录
-     * @param username 用户名
+     * @param account 用户邮箱或手机号
      * @param password 密码
      * @return 登录失败返回错误信息，成功返回null
      */
-    public static String login(String username, String password) {
+    public static String login(String account, String password) {
         try {
             HttpRequest request = HttpRequest
                     .post(baseUrl + loginUrl)
-                    .form("username", username)
+                    .form("account", account)
                     .form("password", password);
             JSONObject result = new JSONObject(request.body());
 
@@ -198,7 +201,6 @@ public class UserService {
                 editor.putString("description", data.getString("description"));
                 editor.commit();
 
-                initData(sp, context);
                 return null;
             }
             return result.getString("msg");
@@ -220,13 +222,14 @@ public class UserService {
 
     /**
      * 用户注册
+     * @param account 邮箱或手机号
      * @return 注册成功返回null, 失败返回错误信息
      */
-    public static String register(String username, String password) {
+    public static String register(String account, String password) {
         try {
             HttpRequest request = HttpRequest
                     .post(baseUrl + registerUrl)
-                    .form("name", username)
+                    .form("account", account)
                     .form("password", password);
             JSONObject result = new JSONObject(request.body());
 
@@ -498,7 +501,7 @@ public class UserService {
      * @return noteId在notes数组中的下表Index;
      */
     public static int findNoteById(int noteId) {
-        for (int i = 0; i < notes.size(); ++i) {
+        for (int i = 0; i <notes.size(); ++i) {
             if (notes.get(i).getId() == noteId) return i;
         }
         return -1;

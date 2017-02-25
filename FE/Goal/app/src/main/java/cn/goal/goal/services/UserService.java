@@ -501,7 +501,7 @@ public class UserService {
      * @return noteId在notes数组中的下表Index;
      */
     public static int findNoteById(int noteId) {
-        for (int i = 0; i < notes.size(); ++i) {
+        for (int i = 0; i <notes.size(); ++i) {
             if (notes.get(i).getId() == noteId) return i;
         }
         return -1;

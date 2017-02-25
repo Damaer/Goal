@@ -82,7 +82,8 @@ public class NoteListFragment extends Fragment {
                 HashMap<String, String> noteInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),NoteDetailActivity.class);
                 String noteid = noteInfo.get("id");
-                intent.putExtra("noteIndex", UserService.findGoalById(Integer.valueOf(noteInfo.get("id"))));
+                int testid = UserService.findNoteById(Integer.valueOf(noteInfo.get("id")));
+                intent.putExtra("noteIndex", UserService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
                 startActivity(intent);
             }
         });

@@ -34,7 +34,6 @@ public class GoalListFragment extends Fragment {
             finished = args.getBoolean("data") ? 1 : 0;
         }
     }
-
     private void createListView() {
         data = new ArrayList<>();
         ArrayList<Goal> goals = UserService.getGoals();
@@ -73,6 +72,7 @@ public class GoalListFragment extends Fragment {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
                 String goalid = goalInfo.get("id");
+                int testid = UserService.findGoalById(Integer.valueOf(goalInfo.get("id")));
                 intent.putExtra("goalIndex", UserService.findGoalById(Integer.valueOf(goalInfo.get("id"))));
 
                 startActivity(intent);

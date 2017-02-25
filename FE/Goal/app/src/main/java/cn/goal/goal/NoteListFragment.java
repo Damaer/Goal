@@ -81,6 +81,7 @@ public class NoteListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> noteInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),NoteDetailActivity.class);
+                String noteid = noteInfo.get("id");
                 intent.putExtra("noteIndex", UserService.findGoalById(Integer.valueOf(noteInfo.get("id"))));
                 startActivity(intent);
             }

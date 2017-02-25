@@ -9,6 +9,7 @@ public class Goal_record_class {
     private String user_name;
     private String user_record;
     private String time_of_send;
+    private String goal_name;
     private int ImageId_btn_like;
     private int sum_of_like;
     private int ImageId_btn_share;
@@ -17,6 +18,7 @@ public class Goal_record_class {
     {
         this.user_Image=user_Image;
         this.user_name=user_name;
+        this.goal_name="goal#学习Android#";
         this.user_record="我们诚惶诚恐，我们小心翼翼，我们毫无保留，却不一定就能把爱，变成相爱。如果这一次真得背过身我们不再遇见了，那我希望我们可以面对面再背对背，永远不留遗憾，一生山高水阔。只是，后来，我们都甘愿被生活凌迟。";
         this.time_of_send=time_of_send;
         this.ImageId_btn_like=R.mipmap.like;
@@ -29,6 +31,7 @@ public class Goal_record_class {
      * get方法的实现
      * @return
      */
+    public String getGoal_name(){return goal_name;}
     public int getUser_Image()
     {
         return user_Image;

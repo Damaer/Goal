@@ -11,11 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import cn.qqtheme.framework.picker.TimePicker;
 
 /**
  * Created by chenlin on 13/02/2017.
  */
-public class GoalFragment extends Fragment {
+public class GoalFragment extends Fragment implements View.OnClickListener {
     private View mView;
 
     private TabLayout mTabLayout;
@@ -26,6 +28,7 @@ public class GoalFragment extends Fragment {
     private TabLayout.Tab unfinishedTab;
 
     private FloatingActionButton addGoal;
+    private Button quickStart;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (mView == null) {
@@ -42,15 +45,45 @@ public class GoalFragment extends Fragment {
             unfinishedTab = mTabLayout.getTabAt(1);
 
             addGoal = (FloatingActionButton) mView.findViewById(R.id.add_goal);
-            addGoal.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(getActivity(), GoalAddActivity.class));
-                }
-            });
+            addGoal.setOnClickListener(this);
+
+            quickStart = (Button) mView.findViewById(R.id.quick_start);
+            quickStart.setOnClickListener(this);
         }
 
         return mView;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.add_goal:
+                startActivity(new Intent(getActivity(), GoalAddActivity.class));
+                break;
+            case R.id.quick_start:
+                handleQuickStart();
+                break;
+        }
+    }
+
+    private void handleQuickStart() {
+        TimePicker picker = new TimePicker(getActivity(), TimePicker.HOUR_24);
+        picker.setRangeStart(0, 0);
+        picker.setRangeEnd(23, 0);
+        picker.setTopLineVisible(false);
+        picker.setLineVisible(false);
+        picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
+            @Override
+            public void onTimePicked(String hour, String minute) {
+//                showToast(hour + ":" + minute);
+                Intent intent = new Intent(getContext(), QuickStartCountTime.class);
+                intent.putExtra("hour", hour);
+                intent.putExtra("minute", minute);
+                startActivity(intent);
+            }
+        });
+        picker.show();
+        picker.setSelectedItem(0, 0);
     }
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {

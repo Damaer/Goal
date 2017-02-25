@@ -50,6 +50,9 @@
     <string name="goal_content_hint">内容</string>
     <string name="goal_begin_time_hint">计划开始时间</string>
     <string name="goal_end_time_hint">计划结束时间</string>
+    <string name="goal_record">目标记录</string>
+    <string name="goal_record_send">发表</string>
+    <string name="goal_record_hint">说点什么吧</string>
     <string name="finished">已完成</string>
     <string name="unfinished">未完成</string>
     <string name="finished_at">完成于</string>
@@ -60,6 +63,7 @@
     <string name="menu_mark_finished_today">今日已完成</string>
     <string name="menu_mark_finished">标记目标已完成</string>
     <string name="menu_mark_unfinished">标记目标未完成</string>
+    <string name="menu_record">记录</string>
 
     <string name="delete_goal_dialog_title">删除目标</string>
     <string name="delete_goal_dialog_info">确认删除目标</string>

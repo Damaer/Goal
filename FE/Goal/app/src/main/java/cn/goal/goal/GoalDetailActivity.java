@@ -105,6 +105,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
                 final String menuFinishedToday = getResources().getString(R.string.menu_mark_finished_today);
                 final String menuFinished = getResources().getString(R.string.menu_mark_finished);
                 final String menuUnfinished = getResources().getString(R.string.menu_mark_unfinished);
+                final String menuRecord = getResources().getString(R.string.menu_record);
 
                 if (title.equals(menuEdit)) {
                     handleEdit();
@@ -116,6 +117,8 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
                     handleMarkUnfinished();
                 } else if (title.equals(menuFinished)) {
                     handleMarkFinished();
+                } else if (title.equals(menuRecord)) {
+                    handleRecord();
                 }
                 return true;
             }
@@ -228,6 +231,12 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
         } else {
             Toast.makeText(this, "完成失败:" + result, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void handleRecord() {
+        Intent intent = new Intent(this, GoalRecordActivity.class);
+        intent.putExtra("goalIndex", goalIndex);
+        startActivity(intent);
     }
 
     /**

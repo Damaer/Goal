@@ -104,7 +104,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+                Intent intent = new Intent(getActivity(), EveryGoalActivity.class);
                 String goalid = goalInfo.get("id");
                 int testid = UserService.findGoalById(Integer.valueOf(goalInfo.get("id")));
                 intent.putExtra("goalIndex", UserService.findGoalById(Integer.valueOf(goalInfo.get("id"))));

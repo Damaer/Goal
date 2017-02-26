@@ -10,8 +10,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.object.GoalUserMap;
 
 /**
  * Created by Jeffrey Wang on 17-2-21 0021.
@@ -20,8 +22,8 @@ public class GoalRecordActivity extends AppCompatActivity implements View.OnClic
     ImageButton buttonBack;
     TextView buttonSend;
     EditText contentView;
-    int goalIndex;
-    Goal goal;
+    String goalIndex;
+    GoalUserMap goal;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,15 +33,16 @@ public class GoalRecordActivity extends AppCompatActivity implements View.OnClic
             finish();
             return ;
         }
-        goalIndex = getIntent().getExtras().getInt("goalIndex");
-        goal = UserService.getGoals().get(goalIndex);
+        goalIndex = getIntent().getExtras().getString("goalIndex");
+        goal = GoalUserMapService.getGoal(goalIndex);
         buttonBack= (ImageButton) findViewById(R.id.button_back);
         buttonSend= (TextView) findViewById(R.id.button_record);
         contentView = (EditText) findViewById(R.id.goal_record_content);
         buttonBack.setOnClickListener(this);
         buttonSend.setOnClickListener(this);
     }
-        @Override
+
+    @Override
     public void onClick(View view) {
             switch (view.getId()){
                 case R.id.button_back:

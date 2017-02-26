@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import cn.goal.goal.services.NoteService;
 import cn.goal.goal.services.UserService;
 
 /**
@@ -36,7 +37,7 @@ public class NoteEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                UserService.createNote(
+                NoteService.createNote(
                         editText.getText().toString()
                 );
                 finish();

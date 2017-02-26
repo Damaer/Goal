@@ -273,7 +273,7 @@ public class TypeTransfer {
             try {
                 result.add(data.getString(i));
             } catch (JSONException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
         return result;
@@ -283,7 +283,7 @@ public class TypeTransfer {
         try {
             return data.getString(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
@@ -292,7 +292,7 @@ public class TypeTransfer {
         try {
             return data.getJSONObject(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
@@ -301,7 +301,7 @@ public class TypeTransfer {
         try {
             return data.getJSONArray(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
@@ -310,7 +310,7 @@ public class TypeTransfer {
         try {
             return data.getLong(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return 0;
     }
@@ -319,7 +319,7 @@ public class TypeTransfer {
         try {
             return data.getInt(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return 0;
     }
@@ -328,7 +328,7 @@ public class TypeTransfer {
         try {
             return data.getBoolean(key);
         } catch (JSONException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return false;
     }

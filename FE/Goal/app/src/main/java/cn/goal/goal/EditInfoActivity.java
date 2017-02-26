@@ -18,6 +18,7 @@ import android.widget.*;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.GetAvatarBitmapInterface;
 import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.NetWorkUtils;
 import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Util;
 
@@ -107,7 +108,11 @@ public class EditInfoActivity extends AppCompatActivity {
                     finish();
                     return ;
                 }
-                new UpdateUserInfoTask(newUsername, newDescription).execute();
+                if (NetWorkUtils.isNetworkConnected(EditInfoActivity.this)) {
+                    new UpdateUserInfoTask(newUsername, newDescription).execute();
+                } else {
+                    Toast.makeText(EditInfoActivity.this, "保存失败,当前网络不可用", Toast.LENGTH_SHORT);
+                }
             }
         });
 

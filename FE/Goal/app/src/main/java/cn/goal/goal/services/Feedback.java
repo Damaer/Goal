@@ -19,23 +19,22 @@ public class Feedback {
 
     public static String submitFeedback(String content, String contact) {
         // 提交建议
-        try {
-            HttpRequest request = HttpRequest
-                    .post(apiServer + feedback)
-                    .form("content", content)
-                    .form("contact", contact);
-            JSONObject result = new JSONObject(request.body());
-
-            if (result.getInt("code") == 10000) {
-                return null;
+        HttpRequest request = HttpRequest
+                .post(apiServer + feedback)
+                .form("content", content)
+                .form("contact", contact);
+        if (request.ok()) {
+            try {
+                JSONObject result = new JSONObject(request.body());
+                if (result.getInt("code") == 10000) {
+                    return null;
+                }
+                return result.getString("msg");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return "服务器传输数据错误";
             }
-            return result.getString("msg");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "服务器传输数据错误";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "请检查网络设置";
         }
+        return "请求失败";
     }
 }

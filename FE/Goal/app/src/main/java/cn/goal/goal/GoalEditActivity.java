@@ -7,10 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
-import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.GoalUserMapService;
+import cn.goal.goal.services.object.GoalUserMap;
+import cn.goal.goal.utils.Util;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static cn.goal.goal.utils.Util.dateToString;
 
@@ -28,8 +30,11 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
     RadioButton finishedView; // 已完成
     RadioButton unfinishedView; // 未完成
 
-    int goalIndex;
-    Goal goal;
+    Date begin;
+    Date plan;
+
+    String goalIndex;
+    GoalUserMap goal;
 
     Calendar beginCalendar;
     Calendar planCalendar;
@@ -44,8 +49,8 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
             finish();
             return ;
         }
-        goalIndex = getIntent().getExtras().getInt("goalIndex");
-        goal = UserService.getGoals().get(goalIndex);
+        goalIndex = getIntent().getExtras().getString("goalIndex");
+        goal = GoalUserMapService.getGoal(goalIndex);
 
         buttonBack = (ImageButton) findViewById(R.id.button_back);
         buttonBack.setOnClickListener(this);
@@ -69,13 +74,15 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void renderInitialData() {
-        titleView.setText(goal.getTitle());
-        contentView.setText(goal.getContent());
-        beginView.setText(goal.getBegin());
-        planView.setText(goal.getPlan());
+        titleView.setText(goal.getGoal().getTitle());
+        contentView.setText(goal.getGoal().getContent());
+        begin = goal.getBegin();
+        beginView.setText(Util.dateToString(begin));
+        plan = goal.getPlan();
+        planView.setText(Util.dateToString(plan));
 
-        finishedView.setChecked(goal.getFinished() == 1);
-        unfinishedView.setChecked(goal.getFinished() == 0);
+        finishedView.setChecked(goal.getFinish());
+        unfinishedView.setChecked(goal.getFinish());
     }
 
     @Override
@@ -117,17 +124,13 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
             return ;
         }
 
-        UserService.updateGoal(goal,
-                titleView.getText().toString(),
-                contentView.getText().toString(),
-                beginView.getText().toString(),
-                planView.getText().toString());
+        GoalUserMapService.updateGoal(goal, begin, plan, false);
         // 标记目标完成
-        if (finishedView.isChecked() && goal.getFinished() == 0) {
-            UserService.markGoalFinished(goal);
-        } else if (unfinishedView.isChecked() && goal.getFinished() == 1) {
+        if (finishedView.isChecked() && !goal.getFinish()) {
+            GoalUserMapService.markFinished(goal);
+        } else if (unfinishedView.isChecked() && goal.getFinish()) {
             // 标记目标未完成
-            UserService.markGoalUnfinished(goal);
+            GoalUserMapService.markUnfinished(goal);
         }
 
         finish();
@@ -141,6 +144,7 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
                 beginCalendar.set(Calendar.MONTH, monthOfYear);
                 beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 beginView.setText(dateToString(beginCalendar.getTime()));
+                begin = beginCalendar.getTime();
             }
         }, beginCalendar.get(Calendar.YEAR), beginCalendar.get(Calendar.MONTH), beginCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
@@ -153,6 +157,7 @@ public class GoalEditActivity extends AppCompatActivity implements View.OnClickL
                 planCalendar.set(Calendar.MONTH, monthOfYear);
                 planCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 planView.setText(dateToString(planCalendar.getTime()));
+                plan = planCalendar.getTime();
             }
         }, planCalendar.get(Calendar.YEAR), planCalendar.get(Calendar.MONTH), planCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }

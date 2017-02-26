@@ -9,13 +9,19 @@ public class User {
     private String description;
     private String email;
     private String phone;
+    private String _id;
 
-    public User(String username, String avatar, String description, String email, String phone) {
+    public User(String _id, String username, String avatar, String description, String email, String phone) {
+        this._id = _id;
         this.username = username;
         this.avatar = avatar;
         this.description = description;
         this.email = email;
         this.phone = phone;
+    }
+
+    public String get_id() {
+        return _id;
     }
 
     public void setUsername(String username) {

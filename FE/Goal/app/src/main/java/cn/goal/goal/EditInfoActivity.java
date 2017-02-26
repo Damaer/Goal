@@ -224,7 +224,22 @@ public class EditInfoActivity extends AppCompatActivity {
             super.onPostExecute(s);
             dialog.closeDialog();
             if (s != null) { // 发生错误
-                Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(EditInfoActivity.this);
+                builder.setMessage("更新信息失败，是否重新尝试?");
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        new UpdateUserInfoTask(username, description).execute();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             } else {
                 finish();
             }

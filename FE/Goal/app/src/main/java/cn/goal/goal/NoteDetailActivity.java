@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import cn.goal.goal.services.NoteService;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Note;
 import cn.goal.goal.utils.Share;
@@ -41,7 +42,7 @@ public class NoteDetailActivity extends AppCompatActivity{
             return ;
         }
         noteIndex = getIntent().getExtras().getInt("noteIndex");
-        note = UserService.getNotes().get(noteIndex);
+        note = NoteService.getNotes().get(noteIndex);
         returnButton = (ImageButton)findViewById(R.id.return_button);
         shareButton = (ImageButton)findViewById(R.id.share);
         MenuButton = (ImageButton)findViewById(R.id.menu_more);
@@ -59,7 +60,7 @@ public class NoteDetailActivity extends AppCompatActivity{
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UserService.updateNote(note,editText.getText().toString());
+                NoteService.updateNote(note,editText.getText().toString());
                 finish();
             }
         });
@@ -83,7 +84,7 @@ public class NoteDetailActivity extends AppCompatActivity{
             public boolean onMenuItemClick(MenuItem item) {
                 String title = item.getTitle().toString();
                 if(title.equals("删除便签")){
-                    UserService.deleteNote(note);
+                    NoteService.deleteNote(note);
                     finish();
                 }
                 return false;
@@ -109,7 +110,7 @@ public class NoteDetailActivity extends AppCompatActivity{
 //                        }})
 //                    .setNegativeButton("取消", null)
 //                    .create().show();
-            UserService.updateNote(note,editText.getText().toString());
+            NoteService.updateNote(note,editText.getText().toString());
             finish();
             return false;
         }

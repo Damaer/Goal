@@ -17,18 +17,12 @@
             android:id="@+id/comeback"
             android:layout_marginTop="8dp"
             android:background="@mipmap/comeback"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
-
-        <ImageButton
-            android:id="@+id/reset_time"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/ic_settings_black_24dp"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-
-            />
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
+        <View
+            android:layout_width="80dp"
+            android:layout_height="1dip"
+            android:background="#696969" />
     </RelativeLayout>
 
 

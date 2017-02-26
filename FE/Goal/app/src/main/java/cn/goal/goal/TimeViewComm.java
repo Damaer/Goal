@@ -164,14 +164,14 @@ public class TimeViewComm extends LinearLayout {
         mHours.setText(null);
         mMinutes.setText(null);
         mSeconds.setText(null);
-        spaceOne.setText("完成啦");
+        spaceOne.setText("完成啦!");
+        spaceOne.setTextSize(25);
         spaceTwo.setText(null);
         mHours.setBackground(null);
         mMinutes.setBackground(null);
         mSeconds.setBackground(null);
         calculateSumOfMinutes(hour, minute);
         QuickStartCountTime.cancelCount.setText("确定");
-
     }
 
     private int calculateSumOfMinutes(int hour, int minute){

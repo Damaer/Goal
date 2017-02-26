@@ -52,14 +52,16 @@ public class RecommendFragment extends Fragment {
         dataList = new ArrayList<>();
         for (int i = 0;i<20;i++) {
             Map<String, Object> map = new HashMap<>();
-            map.put("name","name"+i);
-            map.put("portrait",R.mipmap.ic_launcher);
-            map.put("follow_number","2017-2-2");
+            /*
+            * new 一个Recommend，然后添加到map里面去,把用户名称，头像，都放进去；
+             */
+           // Recommend data = new Recommend();
+            map.put("name","name"+i);//getUserName获取用户姓名
+            map.put("portrait",R.mipmap.ic_launcher);//getUserImg获取用户头像
+            map.put("follow_number","2017-2-2");//getCreateAt获取用户时间
             map.put("follow_button","关注");
             map.put("follow_add_button",R.drawable.ic_add_white_24dp);
-            map.put("share_text","你熟悉爱辜负大家发的的李开复哈大姐夫监控卡两地分居漏电开关暗恋看到过暗地里看风景暗恋的看法");
-            map.put("like_button",R.mipmap.like);
-            map.put("share_button",R.mipmap.share2);
+            map.put("share_text","你熟悉爱辜负大家发的的李开复哈大姐夫监控卡两地分居漏电开关暗恋看到过暗地里看风景暗恋的看法");//getContent();获取内容
             dataList.add(map);
         }
         return dataList;

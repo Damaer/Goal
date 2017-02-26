@@ -1,26 +1,44 @@
 package cn.goal.goal;
 // Created by LJF on 2017/2/22.
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Application;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import static android.content.Context.ACTIVITY_SERVICE;
 
 public class TimeViewComm extends LinearLayout {
     protected TextView mHours;
     protected TextView mMinutes;
     protected TextView mSeconds;
+    protected TextView spaceOne;
+    protected TextView spaceTwo;
+    protected Button mCancelCount;
+    public static int SumOfTime;
     private int mTextColor = Color.WHITE;
     private int mBackgroundColor = Color.BLACK;
     private int mSpaceColor = Color.BLACK;
@@ -28,10 +46,13 @@ public class TimeViewComm extends LinearLayout {
     private int mRadius = 5;
     private int mPaddingHorizontal = 4;
     private int mPaddingVertical = 0;
+    private GradientDrawable drawable;
     private DecimalFormat df = new DecimalFormat("00");
     private TimeoutManager mTimeoutManager;
     private TimeoutListener mListener;
     private List<TimePoint> mTimeoutPoints;
+
+    public Button getmCancelCount(){ return mCancelCount; }
 
     public TimeViewComm(Context context) {
         this(context, null);
@@ -41,9 +62,7 @@ public class TimeViewComm extends LinearLayout {
         this(context, attrs, 0);
     }
 
-    public TimeViewComm(Context context, AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
+    public TimeViewComm(Context context, AttributeSet attrs, int defStyleAttr) { this(context, attrs, defStyleAttr, 0); }
 
     public TimeViewComm(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
@@ -67,7 +86,7 @@ public class TimeViewComm extends LinearLayout {
 
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.gravity = Gravity.CENTER;
-        GradientDrawable drawable = new GradientDrawable();
+        drawable = new GradientDrawable();
         drawable.setColor(mBackgroundColor);
         drawable.setCornerRadius(mRadius);
 
@@ -95,13 +114,15 @@ public class TimeViewComm extends LinearLayout {
         mSeconds.setBackground(drawable);
         mSeconds.setPadding(mPaddingHorizontal, mPaddingVertical, mPaddingHorizontal, mPaddingVertical);
 
-        TextView spaceOne = new TextView(context);
+//        mCancelCount = (Button)findViewById(R.id.cancelCount);
+
+        spaceOne = new TextView(context);
         spaceOne.setLayoutParams(layoutParams);
         spaceOne.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         spaceOne.setTextColor(mSpaceColor);
         spaceOne.setText(":");
 
-        TextView spaceTwo = new TextView(context);
+        spaceTwo = new TextView(context);
         spaceTwo.setLayoutParams(layoutParams);
         spaceTwo.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         spaceTwo.setTextColor(mSpaceColor);
@@ -112,10 +133,7 @@ public class TimeViewComm extends LinearLayout {
         addView(mMinutes);
         addView(spaceTwo);
         addView(mSeconds);
-
-        startTime(1, 0, 0);
     }
-
 
     public void startTime(int hour, int minutes, int second) {
         if (null == mTimeoutManager) {
@@ -124,17 +142,45 @@ public class TimeViewComm extends LinearLayout {
                 public void onTimeRun(int hour, int minute, int second) {
                     setTime(df.format(hour), df.format(minute), df.format(second));
                 }
+                public void onTimeRun(String msg){
+                    updateCountTimeUI();
+                }
             });
         } else {
             mTimeoutManager.resetTime(hour, minutes, second);
-            if(hour == 0 && minutes == 0 && second == 0){
-
-            }
         }
     }
 
+    public void updateCountTimeUI(){
+        mHours.setText(null);
+        mMinutes.setText(null);
+        mSeconds.setText(null);
+        spaceOne.setText("完成啦");
+        spaceTwo.setText(null);
+        mHours.setBackground(null);
+        mMinutes.setBackground(null);
+        mSeconds.setBackground(null);
+        calculateSumOfTime();
+        QuickStartCountTime.cancelCount.setText("确定");
+
+    }
+
+    public static int calculateSumOfTime(){
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        int minute = c.get(Calendar.MINUTE);
+        int second = c.get(Calendar.SECOND);
+        int way = c.get(Calendar.DAY_OF_WEEK);
+        if(way == 1 && hour == 0 && minute == 0 && second ==0){
+            SumOfTime = 0;
+        }else {
+            ++SumOfTime;
+        }
+        return SumOfTime;
+    }
 
     protected void setTime(String hour, String minute, String second) {
+
         mHours.setText(hour);
         mMinutes.setText(minute);
         mSeconds.setText(second);
@@ -160,22 +206,9 @@ public class TimeViewComm extends LinearLayout {
 
     private void checkTimeout() {
         if(mHours.getText().equals("00") && mMinutes.getText().equals("00") && mSeconds.getText().equals("00")) {
-            mListener.onTimeout();
+            Toast.makeText(getContext(), "timeout", Toast.LENGTH_SHORT).show();
         }
     }
-
-    public void setOnTimeoutListener(TimeoutListener listener){
-        mListener = listener;
-    }
-
-    public void addTimeoutPoint(int hour, int minute, int second) {
-        if (null == mTimeoutPoints) {
-            mTimeoutPoints = new ArrayList<>();
-        }
-        TimePoint timePoint = new TimePoint(df.format(hour), df.format(minute), df.format(second));
-        mTimeoutPoints.add(timePoint);
-    }
-
 
     private class TimePoint{
         private String hour;
@@ -193,4 +226,21 @@ public class TimeViewComm extends LinearLayout {
         }
     }
 
+    public interface TimeoutListener {
+        void onTimePoint(String hour, String minute, String second);
+        void onTimeout();
+    }
+
+    public void setOnTimeoutListener(TimeoutListener listener){
+        mListener = listener;
+    }
+
+    public void addTimeoutPoint(int hour, int minute, int second) {
+        if (null == mTimeoutPoints) {
+            mTimeoutPoints = new ArrayList<>();
+        }
+        TimePoint timePoint = new TimePoint(df.format(hour), df.format(minute), df.format(second));
+        mTimeoutPoints.add(timePoint);
+    }
 }
+

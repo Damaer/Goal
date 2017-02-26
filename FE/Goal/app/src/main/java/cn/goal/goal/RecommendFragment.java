@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
@@ -23,6 +24,8 @@ public class RecommendFragment extends Fragment {
     private ListView recommendListVIew;
     private SimpleAdapter recommendListAdapter;
     private List<Map<String,Object>> dataList;
+    private Button followButton;
+
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null ){
@@ -30,9 +33,9 @@ public class RecommendFragment extends Fragment {
         }
 
         recommendListVIew = (ListView) view.findViewById(R.id.recommend_listView);
-
+        followButton = (Button)view.findViewById(R.id.follow_button);
         createListView();
-
+        addListener();
         return view;
     }
 
@@ -65,6 +68,21 @@ public class RecommendFragment extends Fragment {
             dataList.add(map);
         }
         return dataList;
+    }
+    private  void  addListener(){
+//        followButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if(follow == false){
+//                    followButton.setBackgroundColor(Integer.parseInt("#66BB6A"));
+//                    follow = true;
+//                }else{
+//                    followButton.setBackgroundColor(Integer.parseInt("#E8F5E9"));
+//                    followButton.setTextColor(Integer.parseInt("#E8F5E9"));
+//                    followButton.setText("已关注");
+//                }
+//            }
+//        });
     }
 
 }

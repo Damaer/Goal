@@ -9,5 +9,5 @@
     <color name="ml_red">#ffff0000</color>
     <color name="divider">#ffdddddd</color>
     <color name="noteBackground">#FFEE58</color>
-
+    <color name="follow">#66BB6A</color>
 </resources>

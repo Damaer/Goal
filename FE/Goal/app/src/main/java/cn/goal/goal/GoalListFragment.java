@@ -68,21 +68,21 @@ public class GoalListFragment extends Fragment {
             mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int position, long l) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setNeutralButton("删除", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            HashMap<String, String> goalInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
-
-                            GoalUserMap goalUserMap = GoalUserMapService.getGoal(goalInfo.get("index"));
-
-                            if (NetWorkUtils.isNetworkConnected(getContext())) {
+//                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                    builder.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            HashMap<String, String> goalInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
+//
+//                            GoalUserMap goalUserMap = GoalUserMapService.getGoal(goalInfo.get("index"));
+//
+//                            if (NetWorkUtils.isNetworkConnected(getContext())) {
 //                                GoalUserMapService.deleteGoal(goalUserMap);
-//                                new FetchGoalsDataTask().execute();
-                            }
-                        }
-                    });
-                    builder.show();
+//
+//                            }
+//                        }
+//                    });
+//                    builder.show();
                     return true;
                 }
         });

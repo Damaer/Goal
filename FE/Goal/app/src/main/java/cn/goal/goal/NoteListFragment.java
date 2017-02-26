@@ -94,10 +94,27 @@ public class NoteListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int position, long id) {
                 new AlertDialog.Builder(getContext())
-                        .setNeutralButton("删除", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("            ", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-//                                map.remove(note.get_id());
+                                HashMap<String, String> noteInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
+                                Note note = NoteService.getNote(Integer.valueOf(noteInfo.get("id")));
+                                NoteService.deleteNote(note);
+                                createListView();
+                            }
+                        })
+                        .setNegativeButton("            ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                HashMap<String, String> noteInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
+                                Note note = NoteService.getNote(Integer.valueOf(noteInfo.get("id")));
+                                NoteService.deleteNote(note);
+                                createListView();
+                            }
+                        })
+                        .setNeutralButton("     删除     ", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
                                 HashMap<String, String> noteInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
                                 Note note = NoteService.getNote(Integer.valueOf(noteInfo.get("id")));
                                 NoteService.deleteNote(note);

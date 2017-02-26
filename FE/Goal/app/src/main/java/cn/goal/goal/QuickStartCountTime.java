@@ -29,7 +29,7 @@ public class QuickStartCountTime extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         int hour = Integer.parseInt(intent.getStringExtra("hour"));
-        int minute = Integer.parseInt(intent.getStringExtra("minute"));
+        final int minute = Integer.parseInt(intent.getStringExtra("minute"));
         if(hour == 0 && minute == 0) {
             finish();
         }else{

@@ -76,10 +76,7 @@ public class UserService {
     }
 
     public static SQLiteDatabase getDB() {
-        if (db == null) {
-            db = new DBHelper(context, "goal", null, 2).getReadableDatabase();
-        }
-        return db;
+        return new DBHelper(context, "goal", null, 2).getReadableDatabase();
     }
 
     /**

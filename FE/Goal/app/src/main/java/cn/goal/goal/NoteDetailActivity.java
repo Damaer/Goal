@@ -74,7 +74,7 @@ public class NoteDetailActivity extends AppCompatActivity{
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Share.shareText(v.getContext(), "share test");
+                Share.shareText(v.getContext(), editText.getText().toString());
             }
         });
 

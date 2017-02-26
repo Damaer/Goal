@@ -9,19 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 
 import java.util.ArrayList;
-
-import cn.goal.goal.services.object.Recommend;
+import java.util.Map;
 
 /**
  * Created by Tommy on 2017/2/26.
  */
 
 public class RecommendAdapter extends BaseAdapter {
-    private ArrayList<Recommend> recommendArrayList;
+    private ArrayList<Map<String,Object>> recommendArrayList;
     private Activity activity;
     private boolean follow;
     private Button followButton;
-    public RecommendAdapter(Activity activity,ArrayList<Recommend>recommendArrrayList){
+    public RecommendAdapter(Activity activity,ArrayList<Map<String,Object>>recommendArrrayList){
         this.activity = activity;
         this.recommendArrayList = recommendArrrayList;
         follow = false;

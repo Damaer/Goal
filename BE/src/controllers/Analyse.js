@@ -92,7 +92,7 @@ let getLongestGoal = (userId, begin, end) => new Promise((resolve, reject) => {
 			}
 			let goals = {},
 					lastDate;
-			for (var i = 0; i < records.length; i++) {
+			for (let i = 0; i < records.length; ++i) {
 				let {date, goalsFinished} = records[i];
 				/*
 					判断记录是否连续(即lastDate == undefined 或者 两者日期相差一天)
@@ -101,7 +101,7 @@ let getLongestGoal = (userId, begin, end) => new Promise((resolve, reject) => {
 				lastDate = date;
 
 				// 将不在 goals 数组中的目标添加进去
-				for (var i = 0; i < goalsFinished.length; i++) {
+				for (let i = 0; i < goalsFinished.length; i++) {
 					if (!goals[goalsFinished[i]]) {
 						goals[goalsFinished[i]] = {
 							current: 0, // 当前连续天数

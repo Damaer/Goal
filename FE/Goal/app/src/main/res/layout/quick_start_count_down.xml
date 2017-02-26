@@ -39,6 +39,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@mipmap/bg_quick"
         >
         <cn.goal.goal.TimeViewComm
             android:id="@+id/time1"

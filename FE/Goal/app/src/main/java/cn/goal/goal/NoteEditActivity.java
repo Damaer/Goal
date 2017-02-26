@@ -3,9 +3,11 @@ package cn.goal.goal;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import cn.goal.goal.services.NoteService;
 import cn.goal.goal.services.UserService;
@@ -36,7 +38,7 @@ public class NoteEditActivity extends AppCompatActivity {
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(editText.getText() != null){
+                if(editText.getText().toString() != null && !editText.getText().toString().equals("")){
                     NoteService.createNote(editText.getText().toString());
                 }
                 finish();

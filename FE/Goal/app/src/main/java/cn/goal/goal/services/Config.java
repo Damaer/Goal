@@ -24,5 +24,5 @@ public class Config {
     public static final String analyseUrl = "/api/analyse";
     public static final String followUrl = "/api/follow";
     public static final String commentUrl = "/api/comment";
-
+    public static final String recommendUrl = "/api/recommend";
 }

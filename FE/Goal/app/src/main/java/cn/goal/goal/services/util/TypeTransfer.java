@@ -192,6 +192,42 @@ public class TypeTransfer {
     }
 
     /**
+     * 将JSONArray转换为ArrayList<Recommend>
+     * @return
+     */
+    public static ArrayList<Recommend> getRecommendArrayFromJSON(JSONArray data) {
+        ArrayList<Recommend> result = new ArrayList<>();
+        if (data == null) return result;
+        for (int i = 0; i < data.length(); ++i) {
+            try {
+                JSONObject comment = data.getJSONObject(i);
+                result.add(getRecommendFromJSON(comment));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将JSONObject转换为Recommend
+     * @param data
+     * @return
+     */
+    public static Recommend getRecommendFromJSON(JSONObject data) {
+        if (data == null) return null;
+        return new Recommend(
+                getStringFromJSON(data, "_id"),
+                getStringFromJSON(data, "content"),
+                getUserFromJSON(getJSONObjectFromJSON(data, "user")),
+                new Date(getLongFromJSON(data, "createAt")),
+                getGoalFromJSON(getJSONObjectFromJSON(data, "goal")),
+                getStringArrayFromJSON(getJSONArrayFromJSON(data, "follower")),
+                getStringArrayFromJSON(getJSONArrayFromJSON(data, "like"))
+        );
+    }
+
+    /**
      * 将JSONArray转换为字符串数组
      * @param data
      * @return

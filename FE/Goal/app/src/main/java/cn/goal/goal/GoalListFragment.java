@@ -39,6 +39,7 @@ public class GoalListFragment extends Fragment {
             finished = args.getBoolean("data");
         }
     }
+
     private void createListView(ArrayList<GoalUserMap> goals) {
         data = new ArrayList<>();
         if (goals == null) {
@@ -61,15 +62,29 @@ public class GoalListFragment extends Fragment {
         }
 
         mListView.setAdapter(new SimpleAdapter(getContext(), data, R.layout.goal_item,
-                new String[]{"title", "content", "createAt"},
-                new int[]{R.id.title, R.id.content, R.id.createAt}));
-        //长按跳出删除弹窗
-        mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showpopwindow();
-                return true;
-            }
+            new String[]{"title", "content", "createAt"},
+            new int[]{R.id.title, R.id.content, R.id.createAt}));
+            //长按跳出删除弹窗
+            mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int position, long l) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setNeutralButton("删除", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            HashMap<String, String> goalInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
+
+                            GoalUserMap goalUserMap = GoalUserMapService.getGoal(goalInfo.get("index"));
+
+                            if (NetWorkUtils.isNetworkConnected(getContext())) {
+//                                GoalUserMapService.deleteGoal(goalUserMap);
+//                                new FetchGoalsDataTask().execute();
+                            }
+                        }
+                    });
+                    builder.show();
+                    return true;
+                }
         });
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,32 +93,11 @@ public class GoalListFragment extends Fragment {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),EveryGoalActivity.class);
                 intent.putExtra("goalIndex", goalInfo.get("index"));
-
                 startActivity(intent);
             }
         });
     }
 
-    public void showpopwindow() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("");
-        builder.setMessage("是否要删除该目标");
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-
-            }
-        });
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        builder.show();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

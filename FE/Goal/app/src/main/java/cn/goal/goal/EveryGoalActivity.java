@@ -85,7 +85,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         });
         init_listener();
         MyAdapter_for_every_record myadater=new MyAdapter_for_every_record(this,listems,this);
-      listView.setAdapter(myadater);
+        listView.setAdapter(myadater);
         listView.setOnItemClickListener(this);
         listView.setOnScrollListener(this);
 

@@ -211,7 +211,7 @@ public class GoalUserMapService {
      */
     public static String deleteGoal(GoalUserMap goalUserMap) {
         HttpRequest request = HttpRequest
-                .delete(apiServer + goalMapUrl + "/" + goalUserMap.get_id())
+                .delete(apiServer + goalMapUrl + "/" +  goalUserMap.get_id())
                 .header("Authorization", UserService.getToken());
         if (request.ok()) {
             try {

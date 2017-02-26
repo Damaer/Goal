@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.goal.goal.services.GoalUserMapService;
+import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.utils.MylistView_for_goal_record;
 
 public class EveryGoalActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener,MyAdapter_for_every_record.Callback {
@@ -25,11 +27,21 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
     private ScrollView scrollView;
     private  List<Goal_record_class> listems;
     private PopupMenu mPopupMenu;
+    private String goalIndex;
+    private GoalUserMap goal; // 存放goal信息
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_every_goal);
+        // 传入数据不正确
+        if (getIntent() == null) {
+            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
+            finish();
+            return ;
+        }
+        goalIndex = getIntent().getExtras().getString("goalIndex");
+        goal = GoalUserMapService.getGoal(goalIndex);
        listems = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
            Goal_record_class one = new Goal_record_class(R.mipmap.ic_launcher,"用户名"+(i+1),"发送时间",i+1);

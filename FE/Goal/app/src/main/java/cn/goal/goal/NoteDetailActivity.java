@@ -46,7 +46,7 @@ public class NoteDetailActivity extends AppCompatActivity{
         returnButton = (ImageButton)findViewById(R.id.return_button);
         shareButton = (ImageButton)findViewById(R.id.share);
         MenuButton = (ImageButton)findViewById(R.id.menu_more);
-                                                      
+
         editText = (EditText)findViewById(R.id.note_content);
         createMenu();
         addListener();
@@ -75,7 +75,7 @@ public class NoteDetailActivity extends AppCompatActivity{
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Share.shareText(v.getContext(), "share test");
+                Share.shareText(v.getContext(), editText.getText().toString());
             }
         });
 

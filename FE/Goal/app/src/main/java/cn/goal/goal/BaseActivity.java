@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
 
         mFragments[0] = new GoalFragment();
         mFragments[1] = new NoteListFragment();
-        mFragments[2] = new GoalFragment();
+        mFragments[2] = new RecommendFragment();
         mFragments[3] = new PersonFragment();
 
         initNavigationBar();

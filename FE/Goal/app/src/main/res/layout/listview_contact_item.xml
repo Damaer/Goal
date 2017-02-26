@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    android:layout_margin="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/user_head_photo_for_contact"
+            android:layout_margin="5dp"
+            android:background="@mipmap/headphoto"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="用户名"
+                android:layout_marginTop="2dp"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/username_for_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/content_of_contact"
+                android:layout_margin="5dp"
+                android:text="岁月如逝，不经意间又走到了冬季。单单就看到的绿肥红瘦而言，就足以让思绪飞舞起来。而南方的冬天，既缺少了北方那银装素裹的大气，又少了万里雪飘的粗犷豪迈，"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/time_of_contact"
+                android:layout_margin="5dp"
+                android:text="2016年4月2日12:00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+</LinearLayout>

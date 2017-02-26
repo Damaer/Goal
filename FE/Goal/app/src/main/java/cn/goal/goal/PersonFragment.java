@@ -41,7 +41,7 @@ public class PersonFragment extends Fragment {
     private TableRow statistics;
     private TableRow settings;
     private TextView description;
-
+    private TableRow contact;
     private User user;
 
     @Nullable
@@ -58,7 +58,7 @@ public class PersonFragment extends Fragment {
         statistics = (TableRow) mView.findViewById(R.id.statistics);
         settings = (TableRow) mView.findViewById(R.id.settings);
         description = (TextView) mView.findViewById(R.id.description);
-
+        contact= (TableRow) mView.findViewById(R.id.contact_us);
         user = UserService.getUserInfo();
         renderInitialData();
         addListener();
@@ -111,6 +111,13 @@ public class PersonFragment extends Fragment {
             public void onClick(View v) {
                 // 启动设置页面
                 startActivityForResult(new Intent(getContext(), SettingsActivity.class), SettingsActivity.LOGOUT);
+            }
+        });
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),ContactActivity.class);
+                startActivity(intent);
             }
         });
     }

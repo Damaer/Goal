@@ -75,7 +75,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(),DetailOfRecordActivity.class);
+                Intent intent = new Intent(getActivity(),EveryGoalActivity.class);
                 intent.putExtra("goalIndex", goalInfo.get("index"));
 
                 startActivity(intent);

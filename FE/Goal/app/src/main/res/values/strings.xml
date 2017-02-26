@@ -43,6 +43,8 @@
     <!-- Strings related to goal -->
     <string name="goal">目标</string>
     <string name="quick_start">快速开始</string>
+    <string name="quick_start_giveup">放弃</string>
+    <string name="quick_start_complete">确定</string>
 
     <string name="add_goal_title">新建目标</string>
     <string name="edit_goal_title">编辑目标</string>

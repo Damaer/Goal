@@ -104,11 +104,11 @@ public class User {
     }
 
     public String getEmail() {
-        return email;
+        return email.equals("null") ? "未绑定" : email;
     }
 
     public String getPhone() {
-        return phone;
+        return phone.equals("null") ? "未绑定" : phone;
     }
 
     public class FetchAvatarTask extends AsyncTask<Void, Void, String> {

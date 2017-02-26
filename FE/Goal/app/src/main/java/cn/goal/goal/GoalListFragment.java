@@ -19,6 +19,7 @@ import java.util.Map;
 
 import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.GoalUserMap;
+import cn.goal.goal.utils.NetWorkUtils;
 import cn.goal.goal.utils.Util;
 
 /**
@@ -75,7 +76,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(),DetailOfRecordActivity.class);
+                Intent intent = new Intent(getActivity(),EveryGoalActivity.class);
                 intent.putExtra("goalIndex", goalInfo.get("index"));
 
                 startActivity(intent);
@@ -108,7 +109,10 @@ public class GoalListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.goal_list, container, false);
         mListView = (ListView) mView.findViewById(R.id.goal_list_view);
-        new FetchGoalsDataTask().execute();
+        if (NetWorkUtils.isNetworkConnected(getContext())) {
+            // 更新goals数据
+            new FetchGoalsDataTask().execute();
+        }
 
         return mView;
     }
@@ -116,8 +120,10 @@ public class GoalListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // 更新goals数据
-        new FetchGoalsDataTask().execute();
+        if (NetWorkUtils.isNetworkConnected(getContext())) {
+            // 更新goals数据
+            new FetchGoalsDataTask().execute();
+        }
     }
 
     class FetchGoalsDataTask extends AsyncTask<Void, Void, ArrayList<GoalUserMap>> {

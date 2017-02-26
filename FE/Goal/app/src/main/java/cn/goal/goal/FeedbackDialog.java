@@ -11,6 +11,7 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.Toast;
 import cn.goal.goal.services.Feedback;
+import cn.goal.goal.utils.NetWorkUtils;
 
 /**
  * Created by chenlin on 18/02/2017.
@@ -56,7 +57,11 @@ public class FeedbackDialog implements View.OnClickListener {
             Toast.makeText(context, "建议不能为空", Toast.LENGTH_SHORT).show();
             return ;
         }
-        new FeedbackTask(suggestion.getText().toString(), contact.getText().toString()).execute();
+        if (NetWorkUtils.isNetworkConnected(context)) {
+            new FeedbackTask(suggestion.getText().toString(), contact.getText().toString()).execute();
+        } else {
+            Toast.makeText(context, "当前网络不可用,请稍后再试.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class FeedbackTask extends AsyncTask<Void, Void, String> {

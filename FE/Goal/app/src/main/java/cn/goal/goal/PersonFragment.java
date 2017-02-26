@@ -1,13 +1,7 @@
 package cn.goal.goal;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,16 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import cn.goal.goal.services.Config;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.GetAvatarBitmapInterface;
 import cn.goal.goal.services.object.User;
-import cn.goal.goal.utils.HttpRequest;
-import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Share;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Created by chenlin on 14/02/2017.
@@ -42,7 +30,7 @@ public class PersonFragment extends Fragment {
     private TableRow statistics;
     private TableRow settings;
     private TextView description;
-
+    private TableRow contact;
     private User user;
 
     @Nullable
@@ -59,7 +47,7 @@ public class PersonFragment extends Fragment {
         statistics = (TableRow) mView.findViewById(R.id.statistics);
         settings = (TableRow) mView.findViewById(R.id.settings);
         description = (TextView) mView.findViewById(R.id.description);
-
+        contact= (TableRow) mView.findViewById(R.id.contact_us);
         user = UserService.getUserInfo();
         renderInitialData();
         addListener();
@@ -125,6 +113,13 @@ public class PersonFragment extends Fragment {
             public void onClick(View v) {
                 // 启动设置页面
                 startActivityForResult(new Intent(getContext(), SettingsActivity.class), SettingsActivity.LOGOUT);
+            }
+        });
+        contact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(),ContactActivity.class);
+                startActivity(intent);
             }
         });
     }

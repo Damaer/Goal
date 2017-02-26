@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import java.util.Calendar;
+
 import cn.qqtheme.framework.picker.TimePicker;
 
 /**
@@ -68,22 +71,52 @@ public class GoalFragment extends Fragment implements View.OnClickListener {
 
     private void handleQuickStart() {
         TimePicker picker = new TimePicker(getActivity(), TimePicker.HOUR_24);
-        picker.setRangeStart(0, 0);
-        picker.setRangeEnd(23, 0);
+        picker.setRangeStart(0, 1);
+        picker.setRangeEnd(23, 59);
+        picker.setTitleText("专注到");
+        picker.setSubmitText("确定");
+        picker.setCancelText("取消");
         picker.setTopLineVisible(false);
         picker.setLineVisible(false);
+        Calendar c = Calendar.getInstance();
+        final int mhour = c.get(Calendar.HOUR_OF_DAY);
+        final int mminute = c.get(Calendar.MINUTE);
+
         picker.setOnTimePickListener(new TimePicker.OnTimePickListener() {
             @Override
             public void onTimePicked(String hour, String minute) {
-//                showToast(hour + ":" + minute);
                 Intent intent = new Intent(getContext(), QuickStartCountTime.class);
-                intent.putExtra("hour", hour);
-                intent.putExtra("minute", minute);
+                int setSubNowHour = Integer.valueOf(hour) - mhour;
+                int setSubNowMinute = Integer.valueOf(minute) - mminute;
+                if(setSubNowHour > 0){
+                    if(setSubNowMinute >= 0) {
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour));
+                    }else{
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute+60));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour-1));
+                    }
+                }else if(setSubNowHour < 0){
+                    if(setSubNowMinute >= 0){
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour+24));
+                    }else{
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute+60));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour+23));
+                    }
+                }else{
+                    if(setSubNowMinute >= 0){
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour));
+                    }else{
+                        intent.putExtra("minute", String.valueOf(setSubNowMinute+60));
+                        intent.putExtra("hour", String.valueOf(setSubNowHour+23));
+                    }
+                }
                 startActivity(intent);
             }
         });
         picker.show();
-        picker.setSelectedItem(0, 0);
     }
 
     class MyFragmentPagerAdapter extends FragmentPagerAdapter {

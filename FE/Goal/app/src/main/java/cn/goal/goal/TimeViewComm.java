@@ -6,11 +6,13 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,7 +29,14 @@ import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import cn.goal.goal.services.FocusTimeService;
+import cn.goal.goal.services.UserService;
+import cn.goal.goal.utils.NetWorkUtils;
 
 import static android.content.Context.ACTIVITY_SERVICE;
 
@@ -38,7 +47,7 @@ public class TimeViewComm extends LinearLayout {
     protected TextView spaceOne;
     protected TextView spaceTwo;
     protected Button mCancelCount;
-    public static int SumOfTime = 0;
+    public static int SumOfMinutes = 0;
     private int mTextColor = Color.WHITE;
     private int mBackgroundColor = Color.BLACK;
     private int mSpaceColor = Color.BLACK;
@@ -165,18 +174,18 @@ public class TimeViewComm extends LinearLayout {
 
     }
 
-    private static int calculateSumOfMinutes(int hour, int minute){
+    private int calculateSumOfMinutes(int hour, int minute){
         Calendar c = Calendar.getInstance();
         int mhour = c.get(Calendar.HOUR_OF_DAY);
         int mminute = c.get(Calendar.MINUTE);
         int msecond = c.get(Calendar.SECOND);
         int mway = c.get(Calendar.DAY_OF_WEEK);
         if(mway == 1 && mhour == 0 && mminute == 0 && msecond ==0){
-            SumOfTime = 0;
+            SumOfMinutes = 0;
         }else {
-            SumOfTime = SumOfTime + hour*60 + minute;
+            SumOfMinutes = SumOfMinutes + hour*60 + minute;
         }
-        return SumOfTime;
+        return SumOfMinutes;
     }
 
     protected void setTime(String hour, String minute, String second) {
@@ -206,7 +215,7 @@ public class TimeViewComm extends LinearLayout {
 
     private void checkTimeout() {
         if(mHours.getText().equals("00") && mMinutes.getText().equals("00") && mSeconds.getText().equals("00")) {
-            Toast.makeText(getContext(), "timeout", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "timeout", Toast.LENGTH_SHORT).show();
         }
     }
 

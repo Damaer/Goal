@@ -16,11 +16,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.GetAvatarBitmapInterface;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Util;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 
 /**
@@ -70,14 +70,18 @@ public class EditInfoActivity extends AppCompatActivity {
     }
 
     private void renderInitialData() {
-        try {
-            Uri uri = Uri.fromFile(new File(user.getAvatar()));
-            ContentResolver cr = getContentResolver();
-            Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
-            avatar.setImageBitmap(RoundCorner.toCircle(image));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        // 获取头像
+        user.setAvatarInterface(new GetAvatarBitmapInterface() {
+            @Override
+            public void getAvatar(Bitmap avatarBitmap) {
+                avatar.setImageBitmap(avatarBitmap);
+            }
+            @Override
+            public void error(String errorInfo) {
+                Toast.makeText(EditInfoActivity.this, "获取头像失败", Toast.LENGTH_SHORT);
+            }
+        });
+        user.getAvatarBitmap(EditInfoActivity.this);
 
         username.setText(user.getUsername());
         description.setText(user.getDescription());

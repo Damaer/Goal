@@ -14,6 +14,8 @@ import Feedback from '../controllers/Feedback'
 import FocusTime from '../controllers/FocusTime'
 import Analyse from '../controllers/Analyse'
 import Follow from '../controllers/Follow'
+import Recommend from '../controllers/Recommend'
+import Message from '../controllers/Message'
 
 let router = express.Router();
 
@@ -112,6 +114,20 @@ router.route('/follow/user/:id')
 	.get(Follow.get_user_followers)  // 获取关注某人的人
 	.post(Authentication.auth, Follow.follow) // 关注某人
 	.delete(Authentication.auth, Follow.unfollow) // 取消关注某人
+
+// recommend
+router.route('/recommend')
+	.get(Authentication.auth, Recommend.get_recommend) // 获取推荐评论
+
+// message
+router.route('/message')
+	.get(Authentication.auth, Message.get_message) // 获取当前用户收到的消息
+router.route('/message/user/:id')
+	.post(Authentication.auth, Message.send_message) // 向指定用户发送消息
+router.route('/message/read/:id')
+	.post(Authentication.auth, Message.mark_read) // 标记已读
+router.route('/message/:id')
+	.delete(Authentication.auth, Message.delete) // 删除短消息
 
 // feedback
 router.route('/feedback') // 反馈

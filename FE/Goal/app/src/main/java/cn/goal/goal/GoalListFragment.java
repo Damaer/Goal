@@ -67,7 +67,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showpopwindow();
-                return false;
+                return true;
             }
         });
 
@@ -75,7 +75,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
-                Intent intent = new Intent(getActivity(), GoalDetailActivity.class);
+                Intent intent = new Intent(getActivity(),DetailOfRecordActivity.class);
                 intent.putExtra("goalIndex", goalInfo.get("index"));
 
                 startActivity(intent);
@@ -90,6 +90,7 @@ public class GoalListFragment extends Fragment {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
 
             }
         });

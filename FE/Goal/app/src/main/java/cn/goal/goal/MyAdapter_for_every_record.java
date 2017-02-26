@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.LauncherApps;
 import android.content.pm.LauncherApps.Callback;
 import android.telecom.Call;
@@ -22,6 +23,7 @@ import cn.goal.goal.Goal_record_class;
 import cn.goal.goal.R;
 
 import static android.R.id.list;
+import static android.R.id.startSelectingText;
 
 /**
  * Created by 97617 on 2017/2/22.
@@ -76,6 +78,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
             holder.sum_of_like = (TextView) view2.findViewById(R.id.sum_of_like);
             holder.share = (ImageButton) view2.findViewById(R.id.share);
             holder.reply = (ImageButton) view2.findViewById(R.id.reply);
+            holder.sum_of_reply= (TextView) view2.findViewById(R.id.sum_of_reply);
             view2.setTag(holder);
         } else {
             holder = (ViewHolder) view2.getTag();
@@ -89,7 +92,11 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         holder.sum_of_like.setText(String.valueOf(list.get(position).getSum_of_like()));
         holder.share.setBackgroundResource(list.get(position).getImageId_btn_share());
         holder.reply.setBackgroundResource(list.get(position).getImageId_btn_reply());
+       holder.sum_of_reply.setText(String.valueOf(list.get(position).getSum_of_reply()));
         holder.headphoto.setOnClickListener(this);
+
+
+
         holder.headphoto.setTag(position);
         holder.user_name.setOnClickListener(this);
         holder.user_name.setTag(position);
@@ -107,6 +114,8 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         holder.share.setTag(position);
         holder.reply.setOnClickListener(this);
         holder.reply.setTag(position);
+        holder.sum_of_reply.setOnClickListener(this);
+        holder.sum_of_reply.setTag(position);
         return view2;
     }
 
@@ -120,6 +129,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         public TextView sum_of_like;
         public ImageButton share;
         public ImageButton reply;
+        public TextView sum_of_reply;
     }
 
     public void onClick(View v) {

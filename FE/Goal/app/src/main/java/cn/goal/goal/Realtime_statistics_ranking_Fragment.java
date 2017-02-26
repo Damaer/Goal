@@ -1,4 +1,5 @@
 package cn.goal.goal;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -6,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -38,6 +40,16 @@ public class Realtime_statistics_ranking_Fragment extends Fragment {
                 ,new int[]{R.id.ranking,R.id.user_photo,R.id.user_name,R.id.goal_value});
         listview= (ListView) view.findViewById(R.id.listview);
         listview.setAdapter(simplead);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //判断点击了哪一个用户
+
+
+                Intent intent2=new Intent(getActivity(),EveryUserActivity.class);
+                startActivity(intent2);
+            }
+        });
         return view;
     }
 }

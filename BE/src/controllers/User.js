@@ -74,6 +74,7 @@ exports.read = (req, res, next) => {
 exports.get_user_info = (req, res, next) => {
 	let user = req.user;
 	res.json({code: 10000, msg: '', data: {
+		_id: user._id,
 		username: user.name,
 		avatar: user.avatar,
 		email: user.email || null,

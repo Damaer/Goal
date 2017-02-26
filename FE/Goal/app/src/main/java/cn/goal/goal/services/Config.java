@@ -14,10 +14,12 @@ public class Config {
     public static final String password = "/api/user/password";
     public static final String email = "/api/user/email";
     public static final String phone = "/api/user/phone";
-    public static final String note = "/api/note";
     public static final String goal  ="/api/goal";
     public static final String record = "/api/record";
-    public static final String recordToday = "/api/record/today";
-    public static final String goalsFinished = "/api/record/goalsFinished";
     public static final String feedback = "/api/feedback";
+    public static final String goalmap = "/api/goalmap";
+    public static final String focusTime = "/api/focus";
+    public static final String analyseUrl = "/api/analyse";
+    public static final String followUrl = "/api/follow";
+    public static final String commentUrl = "/api/comment";
 }

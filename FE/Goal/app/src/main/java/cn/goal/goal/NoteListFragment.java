@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.NoteService;
 import cn.goal.goal.services.object.Note;
 
 /**
@@ -54,7 +54,7 @@ public class NoteListFragment extends Fragment {
     private List<Map<String,String>> getData(){
 
         dataList = new ArrayList<>();
-        ArrayList<Note> notes = UserService.getNotes();
+        ArrayList<Note> notes = NoteService.getNotes();
         for (int i = 0;i<notes.size();++i) {
             Map<String, String> map = new HashMap<>();
             Note note = notes.get(i);
@@ -82,8 +82,8 @@ public class NoteListFragment extends Fragment {
                 HashMap<String, String> noteInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),NoteDetailActivity.class);
                 String noteid = noteInfo.get("id");
-                int testid = UserService.findNoteById(Integer.valueOf(noteInfo.get("id")));
-                intent.putExtra("noteIndex", UserService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
+                int testid = NoteService.findNoteById(Integer.valueOf(noteInfo.get("id")));
+                intent.putExtra("noteIndex", NoteService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
                 startActivity(intent);
             }
         });

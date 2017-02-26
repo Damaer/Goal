@@ -28,7 +28,11 @@ exports.get_daily_sentence_today = (req, res, next) => {
 			DailySentence.findById(record.dailySentence, (err, sentence) => {
 				if (err) return res.json({code: 10500, msg: '查询失败'});
 				if (!sentence) return res.json({code: 10200, msg: '该每日一句已被删除'});
-				res.json({code: 10000, msg: '', data: sentence});
+				res.json({code: 10000, msg: '', data: {
+					date: Date.now(),
+					sentence: sentence.sentence,
+					backImg: sentence.backImg
+				}});
 			})
 		}
 	})

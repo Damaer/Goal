@@ -19,7 +19,7 @@ exports.analyse = (req, res, next) => {
 
 	Promise.all(promises).then(data => {
 		res.json({code: 10000, msg: '', data: {
-			goalsFinished: data[0],
+			goalsFinishedRecord: data[0],
 			goalsCreated: data[1],
 			goalsDoing: data[2],
 			goalsFinished: data[3],
@@ -47,7 +47,7 @@ let getGoalsFinishedInfo = (userId, begin, end) => new Promise((resolve, reject)
 			console.log(err);
 			records = [];
 		}
-		resolve(records => map(record => {
+		resolve(records.map(record => {
 			return {
 				date: record.date,
 				nums: record.goalsFinished.length

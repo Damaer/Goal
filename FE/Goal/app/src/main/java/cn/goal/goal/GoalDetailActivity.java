@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.GoalUserMapService;
+import cn.goal.goal.services.object.GoalFinished;
+import cn.goal.goal.services.object.GoalUserMap;
+import cn.goal.goal.utils.Util;
 
 import java.util.ArrayList;
 
@@ -30,8 +32,8 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
     private ImageButton buttonMenu;
     private PopupMenu mPopupMenu;
 
-    private int goalIndex;
-    private Goal goal; // 存放goal信息
+    private String goalIndex;
+    private GoalUserMap goal; // 存放goal信息
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,8 +46,8 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
             finish();
             return ;
         }
-        goalIndex = getIntent().getExtras().getInt("goalIndex");
-        goal = UserService.getGoals().get(goalIndex);
+        goalIndex = getIntent().getExtras().getString("goalIndex");
+        goal = GoalUserMapService.getGoal(goalIndex);
 
         radioButtonFinished = (RadioButton) findViewById(R.id.radioButtonFinished);
         radioButtonFinished.setOnCheckedChangeListener(this);
@@ -75,13 +77,13 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void render() {
-        title.setText(goal.getTitle());
-        content.setText(goal.getContent());
-        radioButtonFinished.setChecked(goal.getFinished() == 1);
-        radioButtonUnfinished.setChecked(goal.getFinished() == 0);
-        end.setText(goal.getEnd());
-        begin.setText(goal.getBegin());
-        plan.setText(goal.getPlan());
+        title.setText(goal.getGoal().getTitle());
+        content.setText(goal.getGoal().getContent());
+        radioButtonFinished.setChecked(goal.getFinish());
+        radioButtonUnfinished.setChecked(!goal.getFinish());
+        end.setText(Util.dateToString(goal.getEnd()));
+        begin.setText(Util.dateToString(goal.getBegin()));
+        plan.setText(Util.dateToString(goal.getPlan()));
         createAt.setText(String.format(getResources().getString(R.string.create_at), goal.getCreateAt()));
     }
 
@@ -92,9 +94,9 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
 
         mPopupMenu.getMenu().getItem(2).setEnabled(isMarkableToday()); // 设置标记今日已完成菜单
         // 如果目标未完成则设置"标记已完成"菜单为可点击
-        mPopupMenu.getMenu().getItem(3).setEnabled(goal.getFinished() == 0);
+        mPopupMenu.getMenu().getItem(3).setEnabled(!goal.getFinish());
         // 如果目标已完成则设置"标记未完成"菜单为可点击
-        mPopupMenu.getMenu().getItem(4).setEnabled(goal.getFinished() == 1);
+        mPopupMenu.getMenu().getItem(4).setEnabled(goal.getFinish());
 
         mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -172,7 +174,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                UserService.deleteGoal(goal);
+                GoalUserMapService.deleteGoal(goal);
                 finish();
             }
         });
@@ -188,7 +190,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                UserService.markGoalFinished(goal);
+                GoalUserMapService.markFinished(goal);
                 radioButtonFinished.setChecked(true);
                 radioButtonUnfinished.setChecked(false);
                 mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
@@ -208,7 +210,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void handleMarkUnfinished() {
-        String result = UserService.markGoalUnfinished(goal);
+        String result = GoalUserMapService.markUnfinished(goal);
         if (result == null) {
             Toast.makeText(this, "目标标记未完成", Toast.LENGTH_SHORT).show();
             radioButtonFinished.setChecked(false);
@@ -224,7 +226,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void handleMarkFinishedToday() {
-        String result = UserService.markGoalFinishedToday(goal);
+        String result = GoalUserMapService.markGoalFinishedToday(goal);
         if (result == null) {
             Toast.makeText(this, "目标完成！", Toast.LENGTH_SHORT).show();
             mPopupMenu.getMenu().getItem(2).setEnabled(false); // 设置今日标记不可用
@@ -244,10 +246,10 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
      * @return
      */
     private Boolean isMarkableToday() {
-        if (goal.getFinished() == 1) return false;
-        ArrayList<Integer> goalsFinished = UserService.getGoalsFinished();
-        for (int goalId : goalsFinished) {
-            if (goalId == goal.getId()) return false;
+        if (goal.getFinish()) return false;
+        ArrayList<GoalFinished> goalsFinished = GoalUserMapService.getGoalsFinished();
+        for (GoalFinished goalFinished : goalsFinished) {
+            if (goalFinished.getGoal() == goal) return false;
         }
         return true;
     }

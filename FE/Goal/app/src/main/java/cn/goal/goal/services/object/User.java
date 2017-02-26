@@ -128,8 +128,6 @@ public class User {
         @Override
         protected String doInBackground(Void... params) {
             File file = new File(mContext.getExternalCacheDir(), getAvatarFileName(avatar));
-            System.out.println(avatar);
-            System.out.println(getAvatarFileName(avatar));
 
             // 判断头像是否已下载到本地
             if (!file.exists()) {

@@ -97,7 +97,7 @@ let getLongestGoal = (userId, begin, end) => new Promise((resolve, reject) => {
 				/*
 					判断记录是否连续(即lastDate == undefined 或者 两者日期相差一天)
 				 */
-				let isContinued = (!lastDate || date.getTime() - lastDate.getTime() == ONE_DAY);
+				let isContinued = (!lastDate || date - lastDate == ONE_DAY);
 				lastDate = date;
 
 				// 将不在 goals 数组中的目标添加进去

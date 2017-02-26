@@ -22,14 +22,16 @@ public class QuickStartCountTime extends AppCompatActivity {
     public static Button cancelCount;
     private ImageButton setting;
 
-    public Button getCancelCount(){ return cancelCount; }
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         int hour = Integer.parseInt(intent.getStringExtra("hour"));
-        final int minute = Integer.parseInt(intent.getStringExtra("minute"));
+        int minute = Integer.parseInt(intent.getStringExtra("minute"));
         if(hour == 0 && minute == 0) {
             finish();
         }else{
@@ -49,7 +51,7 @@ public class QuickStartCountTime extends AppCompatActivity {
             cancelCount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onBackPressed();
+                    onButtonPressed();
                 }
             });
 
@@ -61,6 +63,44 @@ public class QuickStartCountTime extends AppCompatActivity {
                     onTimePicker();
                 }
             });
+        }
+    }
+
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("确认退出吗？")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+    }
+
+    private void onButtonPressed() {
+        if(cancelCount.getText() == "确定"){
+            finish();
+        }else {
+            new AlertDialog.Builder(this)
+                    .setTitle("确认退出吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
         }
     }
 
@@ -82,24 +122,5 @@ public class QuickStartCountTime extends AppCompatActivity {
         });
         picker.show();
     }
-
-    @Override
-    public void onBackPressed() {
-        new AlertDialog.Builder(this)
-            .setTitle("确认退出吗？")
-            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            })
-            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            }).show();
-    }
-
 
 }

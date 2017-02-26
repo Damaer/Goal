@@ -165,7 +165,7 @@ public class TimeViewComm extends LinearLayout {
         mMinutes.setText(null);
         mSeconds.setText(null);
         spaceOne.setText("完成啦!");
-        spaceOne.setTextSize(25);
+        spaceOne.setTextSize(30);
         spaceTwo.setText(null);
         mHours.setBackground(null);
         mMinutes.setBackground(null);
@@ -185,6 +185,12 @@ public class TimeViewComm extends LinearLayout {
         }else {
             SumOfMinutes = SumOfMinutes + hour*60 + minute;
         }
+//        if(NetWorkUtils.isNetworkConnected(getContext())){
+//            FocusTimeService.addFocusTime(new Date(), TimeViewComm.SumOfMinutes);
+//        }else{
+//            SharedPreferences sp = getContext().getSharedPreferences("sp_focus_time", Context.MODE_PRIVATE);
+//            sp.edit().putInt("focusTime", TimeViewComm.SumOfMinutes).commit();
+//        }
         return SumOfMinutes;
     }
 

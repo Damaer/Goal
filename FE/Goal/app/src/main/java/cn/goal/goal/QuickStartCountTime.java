@@ -63,36 +63,39 @@ public class QuickStartCountTime extends AppCompatActivity {
                 }
             });
 
-//            setting = (ImageButton) findViewById(R.id.reset_time);
-//            setting.setOnClickListener(new View.OnClickListener() {
-//
-//                @Override
-//                public void onClick(View view) {
-//                    onTimePicker();
-//                }
-//            });
+
         }
     }
 
     public void onBackPressed() {
-        new AlertDialog.Builder(this)
-                .setTitle("确认退出吗？")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if(cancelCount.getText().equals("确定")){
+            if(NetWorkUtils.isNetworkConnected(this)){
+                FocusTimeService.addFocusTime(new Date(), TimeViewComm.SumOfMinutes);
+            }else{
+                SharedPreferences sp = getSharedPreferences("sp_focus_time", Context.MODE_PRIVATE);
+                sp.edit().putInt("focusTime", TimeViewComm.SumOfMinutes).commit();
+            }
+            finish();
+        }else {
+            new AlertDialog.Builder(this)
+                    .setTitle("确认退出吗？")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                }).show();
+                        }
+                    }).show();
+        }
     }
 
     private void onButtonPressed() {
-        if(cancelCount.getText() == "确定"){
+        if(cancelCount.getText().equals("确定")){
             if(NetWorkUtils.isNetworkConnected(this)){
                 FocusTimeService.addFocusTime(new Date(), TimeViewComm.SumOfMinutes);
             }else{

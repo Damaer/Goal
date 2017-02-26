@@ -22,8 +22,8 @@
             <!--android:paddingEnd="5dp"/>-->
         <ImageView
             android:id="@+id/portrait_img"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@mipmap/ic_launcher"
             android:layout_alignParentStart="true"
             android:layout_marginEnd="10dp"
@@ -62,7 +62,7 @@
             android:id="@+id/share_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/test_text"
+            android:text="test_text"
             android:textColor="@android:color/black"
             android:layout_below="@id/share_time"
             android:layout_toRightOf="@id/portrait_img"
@@ -80,7 +80,7 @@
             android:background="#66BB6A"
             android:focusable="false"
             android:layout_alignBottom="@+id/portrait_img"
-            android:layout_alignEnd="@+id/share_text"
+            android:layout_alignParentEnd="true"
             android:layout_marginEnd="25dp"
             android:padding="5dp"/>
         <TextView

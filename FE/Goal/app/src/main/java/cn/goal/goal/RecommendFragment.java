@@ -1,5 +1,6 @@
 package cn.goal.goal;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
+import cn.goal.goal.services.RecommendService;
+import cn.goal.goal.services.object.Recommend;
+import cn.goal.goal.utils.NetWorkUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,35 +34,53 @@ public class RecommendFragment extends Fragment {
         }
 
         recommendListVIew = (ListView) view.findViewById(R.id.recommend_listView);
-        createListView();
+        if (NetWorkUtils.isNetworkConnected(getContext())) {
+            new FetchRecommendDataTask().execute();
+        } else {
+            Toast.makeText(getContext(), "无网络连接", Toast.LENGTH_SHORT);
+        }
         return view;
     }
 
-    private void createListView(){
-
-        recommendListAdapter = new RecommendAdapter(getActivity(),getData());
+    private void createListView(ArrayList<Recommend> recommends){
+        if (recommends == null) {
+            Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT);
+            return ;
+        }
+        recommendListAdapter = new RecommendAdapter(getActivity(), recommends);
 
         recommendListVIew.setAdapter(recommendListAdapter);
     }
 
-    private ArrayList<Map<String,Object>> getData(){
-
-        dataList = new ArrayList<>();
-        for (int i = 0;i<20;i++) {
-            Map<String, Object> map = new HashMap<>();
-
-            /*
-            * 个人认为我new 一个Recommend，然后添加到map里面去,把用户名称，头像，都放进去；然后到Adapter类里面去get会不会比较好？
-             */
-           // Recommend data = new Recommend();
-            map.put("name","name"+i);//getUserName获取用户姓名
-            map.put("portrait",R.mipmap.ic_launcher);//getUserImg获取用户头像
-            map.put("follow_number","2017-2-2");//getCreateAt获取用户时间
-            map.put("follow_button","关注");
-            map.put("share_text","你熟悉爱辜负大家发的的李开复哈大姐夫监控卡两地分居漏电开关暗恋看到过暗地里看风景暗恋的看法");//getContent();获取内容
-            dataList.add(map);
+    class FetchRecommendDataTask extends AsyncTask<Void, Void, ArrayList<Recommend>> {
+        private LoadingDialog mLoadingDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(getContext());
         }
-        return dataList;
-    }
 
+        @Override
+        protected ArrayList<Recommend> doInBackground(Void... params) {
+            return RecommendService.getRecommend();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Recommend> recommends) {
+            super.onPostExecute(recommends);
+            cancelDialog();
+            createListView(recommends);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null)
+                mLoadingDialog.closeDialog();
+        }
+    }
 }

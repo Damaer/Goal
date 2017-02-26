@@ -1,46 +1,32 @@
 package cn.goal.goal;
 // Created by LJF on 2017/2/22.
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.widget.Toast;
+
+import static java.security.AccessController.getContext;
 
 public class TimeoutManager {
     private long mLastTime;
     private Timeout mTimeout;
     private OnTimeRunListener mListener;
     private int MSG_GO = 1;
+    private int TIME_OUT = 2;
     private Thread mThread;
 
     public TimeoutManager(int hour, int minute, int second, OnTimeRunListener listener){
         mListener = listener;
         mTimeout = new Timeout(hour, minute, second);
         mLastTime = System.currentTimeMillis();
-
         new Thread(new TimeRun()).start();
     }
 
     public void resetTime(int hour, int minute, int second) {
         mTimeout.resetTime(hour, minute, second);
-    }
-
-    Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            if (msg.what == MSG_GO && null != mListener) {
-                Bundle bundle = msg.getData();
-                mListener.onTimeRun(bundle.getInt("hour"), bundle.getInt("minute"), bundle.getInt("second"));
-            }
-        }
-    };
-
-
-    private void timeRun() {
-        long curTime = System.currentTimeMillis();
-        if (curTime - mLastTime > 1000) {
-            mTimeout.goOneSecond();
-            mLastTime += 1000;
-        }
     }
 
     private class TimeRun implements Runnable {
@@ -56,8 +42,15 @@ public class TimeoutManager {
                 }
             }
         }
-    }
 
+        private void timeRun() {
+            long curTime = System.currentTimeMillis();
+            if (curTime - mLastTime > 1000) {
+                mTimeout.goOneSecond();
+                mLastTime += 1000;
+            }
+        }
+    }
 
     private class Timeout{
         private int hour;
@@ -79,15 +72,16 @@ public class TimeoutManager {
                 return;
             }
             second --;
-
             if (second < 0) {
                 second += 60;
                 minute -= 1;
             }
-
             if (minute <0) {
                 minute += 60;
                 hour -= 1;
+            }
+            if(hour == 0 && minute == 0 && second == 0){
+                updateUI();
             }
             Message message = new Message();
             message.what = MSG_GO;
@@ -97,7 +91,6 @@ public class TimeoutManager {
             bundle.putInt("second", second);
             message.setData(bundle);
             mHandler.sendMessage(message);
-//            Log.d("DEBUG", hour+" : "+minute+" : "+second);
         }
 
         public boolean isFinish() {
@@ -107,6 +100,37 @@ public class TimeoutManager {
 
     public interface OnTimeRunListener{
         void onTimeRun(int hour, int minute, int second);
+        void onTimeRun(String str);
+    }
+
+    // Update UI
+    Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == MSG_GO && mListener != null) {
+                Bundle bundle = msg.getData();
+                mListener.onTimeRun(bundle.getInt("hour"), bundle.getInt("minute"), bundle.getInt("second"));
+            } else if(msg.what == TIME_OUT && mListener != null){
+                Bundle bundle = msg.getData();
+                mListener.onTimeRun(bundle.getString("timeout"));
+            }
+        }
+    };
+
+    public void updateUI(){
+        new Thread(new Runnable(){
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = TIME_OUT;
+                Bundle bundle = new Bundle();
+                String timeout = "timeout";
+                bundle.putString("timeout",  timeout);
+                message.setData(bundle);
+                mHandler.sendMessage(message);
+            }
+        }).start();
+
     }
 
 }

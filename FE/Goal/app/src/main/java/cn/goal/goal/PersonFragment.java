@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.*;
 import cn.goal.goal.services.Config;
 import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.object.GetAvatarBitmapInterface;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.HttpRequest;
 import cn.goal.goal.utils.RoundCorner;
@@ -32,7 +33,7 @@ import java.io.FileNotFoundException;
  */
 public class PersonFragment extends Fragment {
     private View mView;
-    private ImageView avatar;
+    private ImageView avatarView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar toolbar;
     private ImageButton edit;
@@ -49,7 +50,7 @@ public class PersonFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_person, container, false);
 
-        avatar = (ImageView) mView.findViewById(R.id.avatar);
+        avatarView = (ImageView) mView.findViewById(R.id.avatar);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) mView.findViewById(R.id.collapsingToolbarLayout);
         toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
         edit = (ImageButton) mView.findViewById(R.id.edit);
@@ -66,7 +67,20 @@ public class PersonFragment extends Fragment {
     }
 
     private void renderInitialData() {
-        fetchAvatar();
+        // 获取头像
+        user.setAvatarInterface(new GetAvatarBitmapInterface() {
+            @Override
+            public void getAvatar(Bitmap avatar) {
+                avatarView.setImageBitmap(avatar);
+            }
+
+            @Override
+            public void error(String errorInfo) {
+                Toast.makeText(getContext(), errorInfo, Toast.LENGTH_SHORT).show();
+            }
+        });
+        user.getAvatarBitmap(getContext());
+
         // 通过设置CollapsingToolbarLayout改变toolbar标题
         mCollapsingToolbarLayout.setTitle(user.getUsername());
 //        toolbar.setTitle(user.getUsername()); 此方法改变标题无效
@@ -136,68 +150,5 @@ public class PersonFragment extends Fragment {
 
     public void shareText(View view) {
         Share.shareText(getContext(), "分享内容");
-    }
-
-    private void fetchAvatar() {
-        // 判断头像是否已下载到本地
-        String avatar = UserService.getUserInfo().getAvatar();
-        File file = new File(avatar);
-        if (file.exists()) {
-            setAvatar(file);
-            return ;
-        }
-        // 没下载则开启线程下载到本地
-        new FetchAvatarTask(avatar, getContext()).execute();
-    }
-
-    private void setAvatar(File img) {
-        try {
-            Uri uri = Uri.fromFile(img);
-            ContentResolver cr = getContext().getContentResolver();
-            Bitmap image = BitmapFactory.decodeStream(cr.openInputStream(uri));
-            avatar.setImageBitmap(RoundCorner.toCircle(image));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public class FetchAvatarTask extends AsyncTask<Void, Void, File> {
-        private String avatarUrl;
-        Context mContext;
-
-        public FetchAvatarTask(String avatar, Context context) {
-            super();
-            avatarUrl = avatar;
-            mContext = context;
-        }
-
-        @Override
-        protected File doInBackground(Void... params) {
-            try {
-                HttpRequest request = HttpRequest.get(Config.apiServer + avatarUrl);
-                if (request.ok()) {
-                    File file = new File(mContext.getExternalCacheDir(), "avatar");
-                    request.receive(file);
-                    return file;
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(File s) {
-            super.onPostExecute(s);
-            if (s != null) {
-                SharedPreferences sp = mContext.getSharedPreferences("user", mContext.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sp.edit();
-                editor.putString("avatar", s.getAbsolutePath());
-                editor.commit();
-                User user = UserService.getUserInfo();
-                user.setAvatar(s.getAbsolutePath());
-                setAvatar(s);
-            }
-        }
     }
 }

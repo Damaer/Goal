@@ -50,11 +50,16 @@ app.use((req, res, next) => {
 if (app.get('env') === 'dev') {
 	app.set('showStackError', true)
 	app.locals.pretty = true
+    app.use((err, req, res, next) => {
+        res.status(err.status || 500);
+        res.json({code: 10500, msg: err.message});
+    });
+} else {
+    app.use((err, req, res, next) => {
+        res.status(err.status || 500);
+        console.log(err);
+        res.json({code: 10500, msg: "服务器出错"});
+    });
 }
-
-app.use((err, req, res, next) => {
-	res.status(err.status || 500);
-	res.json({msg: err.message, error: err})
-});
 
 module.exports = app;

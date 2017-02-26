@@ -9,7 +9,7 @@ let RecordSchema = new Schema({
 		ref: 'User'
 	},
 	date: {
-		type: Date
+		type: Number
 	},
 	dailySentence: {
 		type: ObjectId,

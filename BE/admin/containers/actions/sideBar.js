@@ -15,6 +15,11 @@ const MENU_LIST = [
 		link: '/admin/DailySentence',
 		icon: 'fa-book',
 		description: 'DailySentence'
+	},
+	{
+		link: '/admin/Feedback',
+		icon: 'fa-book',
+		description: 'Feedback'
 	}
 ]
 

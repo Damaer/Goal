@@ -1,15 +1,21 @@
 package cn.goal.goal;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.*;
-import cn.goal.goal.services.UserService;
+import cn.goal.goal.services.GoalService;
+import cn.goal.goal.services.GoalUserMapService;
+import cn.goal.goal.services.object.Goal;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import static cn.goal.goal.utils.Util.dateToString;
 
@@ -24,6 +30,9 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
     EditText contentView; // 内容
     EditText beginView; // 开始时间
     EditText planView; // 计划结束时间
+
+    Date begin;
+    Date plan;
 
     Calendar beginCalendar;
     Calendar planCalendar;
@@ -89,12 +98,12 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
             return ;
         }
 
-        UserService.createGoal(
+        new CreateGoalTask(
                 titleView.getText().toString(),
                 contentView.getText().toString(),
-                beginView.getText().toString(),
-                planView.getText().toString());
-        finish();
+                begin,
+                plan
+        ).execute();
     }
 
     private void handlePickBeginDate() {
@@ -105,6 +114,7 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
                 beginCalendar.set(Calendar.MONTH, monthOfYear);
                 beginCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 beginView.setText(dateToString(beginCalendar.getTime()));
+                begin = beginCalendar.getTime();
             }
         }, beginCalendar.get(Calendar.YEAR), beginCalendar.get(Calendar.MONTH), beginCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
@@ -117,7 +127,83 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
                 planCalendar.set(Calendar.MONTH, monthOfYear);
                 planCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 planView.setText(dateToString(planCalendar.getTime()));
+                plan = planCalendar.getTime();
             }
         }, planCalendar.get(Calendar.YEAR), planCalendar.get(Calendar.MONTH), planCalendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    class CreateGoalTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog mLoadingDialog;
+        private String title;
+        private String content;
+        private Date begin;
+        private Date plan;
+
+        public CreateGoalTask(String title, String content, Date begin, Date plan) {
+            super();
+            this.title = title;
+            this.content = content;
+            this.begin = begin;
+            this.plan = plan;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(GoalAddActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            Goal goal = GoalService.addGoal(title, content);
+
+            if (goal == null) return null;
+
+            return GoalUserMapService.addGoal(
+                    goal,
+                    begin,
+                    plan,
+                    true
+            );
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s != null) { // 获取失败则提示用户是否重新获取
+                AlertDialog.Builder builder = new AlertDialog.Builder(GoalAddActivity.this);
+                builder.setMessage("添加目标失败，是否重新尝试?");
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        new CreateGoalTask(title, content, begin, plan).execute();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
+                builder.create().show();
+            } else { // 获取成功
+                finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
+        }
     }
 }

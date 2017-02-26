@@ -15,7 +15,7 @@ let GoalSchema = new Schema({
 		type: String
 	},
 	createAt: {
-		type: Date,
+		type: Number,
 		default: Date.now()
 	}
 })

@@ -41,6 +41,7 @@ exports.login = (req, res, next) => {
 				create_access_token(user._id).then(tokenString => {
 					res.header('Authorization', tokenString);
 					res.json({code: 10000, msg: '登录成功', data: {
+						_id: user._id,
 						username: user.name,
 						avatar: user.avatar,
 						description: user.description,

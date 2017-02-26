@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/write"
+        android:title="记录今日"/>
+    <item
+        android:id="@+id/deletegoal"
+        android:title="删除目标"/>
+    <item
+        android:id="@+id/finished_goal"
+        android:title="完成目标"
+        />
+</menu>

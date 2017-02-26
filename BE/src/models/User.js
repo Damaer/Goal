@@ -30,11 +30,11 @@ let UserSchema = new Schema({
 	},
 	meta: {
 		createAt: {
-			type: Date,
+			type: Number,
 			default: Date.now()
 		},
 		updateAt: {
-			type: Date,
+			type: Number,
 			default: Date.now()
 		}
 	},

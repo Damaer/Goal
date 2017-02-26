@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import TextField from 'material-ui/TextField'
 import Avatar from 'material-ui/Avatar'
 
-class UserForm extends Component {
+class SentenceForm extends Component {
 	render() {
 		const {sentence, backImg} = this.props;
 		const {handleChange} = this.props;
@@ -28,4 +28,4 @@ class UserForm extends Component {
 	}
 }
 
-export default UserForm
+export default SentenceForm

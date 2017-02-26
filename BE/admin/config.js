@@ -9,5 +9,8 @@ module.exports = {
 	userDataCountUrl: '/api/user/count',
 	// dailySentence
 	sentenceTableDataUrl: '/api/dailySentence',
-	sentenceDataCountUrl: '/api/dailySentence/count'
+	sentenceDataCountUrl: '/api/dailySentence/count',
+	// feedback
+	feedbackDataUrl: '/api/feedback',
+	feedbackMarkReadUrl: '/api/feedback/read'
 }

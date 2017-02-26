@@ -8,7 +8,23 @@ let FeedbackSchema = new Schema({
 	},
 	contact: {
 		type: String
+	},
+	hasRead: {
+		type: Boolean,
+		default: false
+	},
+	createAt: {
+		type: Number,
+		default: Date.now()
 	}
+})
+
+FeedbackSchema.pre('save', function(next) {
+	if (this.isNew) {
+		this.createAt = Date.now();
+	}
+	
+	next();
 })
 
 let Feedback = mongoose.model('Feedback', FeedbackSchema, 'feedback');

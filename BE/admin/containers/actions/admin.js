@@ -127,7 +127,7 @@ export function login() {
 		};
 		let username = getState().admin.loginState.username;
 		let password = getState().admin.loginState.password;
-		let paramStr = `username=${username}&password=${password}`;
+		let paramStr = `account=${username}&password=${password}`;
 		window.fetch(`${baseUrl}${loginUrl}`, {
 			method: 'POST',
 			headers: {

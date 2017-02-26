@@ -36,10 +36,9 @@ public class NoteEditActivity extends AppCompatActivity {
         buttonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                NoteService.createNote(
-                        editText.getText().toString()
-                );
+                if(editText.getText() != null){
+                    NoteService.createNote(editText.getText().toString());
+                }
                 finish();
             }
         });

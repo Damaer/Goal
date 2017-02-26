@@ -1,5 +1,7 @@
 package cn.goal.goal;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -26,38 +28,40 @@ import cn.goal.goal.services.object.Note;
 
 public class NoteListFragment extends Fragment {
     private View view;
+    private Note note;
     private ListView noteListView;
     private SimpleAdapter noteListAdapter;
     private List<Map<String,String>> dataList;
+    private Map<String, String> map ;
     ImageButton addNoteButton;
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         if (view == null ){
             view = inflater.inflate(R.layout.note_list,container,false);
         }
-
         addNoteButton = (ImageButton)view.findViewById(R.id.addNoteButton) ;
         noteListView = (ListView) view.findViewById(R.id.note_listView);
-
         createListView();
         addListener();
-
         return view;
+
     }
 
     private void createListView(){
-        noteListAdapter = new SimpleAdapter(getContext(),getData(), R.layout.note_list_item,new String[] {"text","time"},new int[] {R.id.noteList_text, R.id.noteList_time});
 
+        noteListAdapter = new SimpleAdapter(getContext(),getData(), R.layout.note_list_item,new String[]
+                {"text","time"},new int[] {R.id.noteList_text, R.id.noteList_time});
         noteListView.setAdapter(noteListAdapter);
+
     }
 
     private List<Map<String,String>> getData(){
-
         dataList = new ArrayList<>();
         ArrayList<Note> notes = NoteService.getNotes();
         for (int i = 0;i<notes.size();++i) {
-            Map<String, String> map = new HashMap<>();
             Note note = notes.get(i);
+            map = new HashMap<>();
             map.put("id",String.valueOf(note.getId()));
             map.put("text",note.getContent());
             map.put("time",note.getCreateAt());
@@ -81,10 +85,26 @@ public class NoteListFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> noteInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),NoteDetailActivity.class);
-                String noteid = noteInfo.get("id");
-                int testid = NoteService.findNoteById(Integer.valueOf(noteInfo.get("id")));
+
                 intent.putExtra("noteIndex", NoteService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
                 startActivity(intent);
+            }
+        });
+        noteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int position, long id) {
+                new AlertDialog.Builder(getContext())
+                        .setNeutralButton("删除", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+//                                map.remove(note.get_id());
+                                HashMap<String, String> noteInfo = (HashMap<String, String>) adapterView.getItemAtPosition(position);
+                                Note note = NoteService.getNote(Integer.valueOf(noteInfo.get("id")));
+                                NoteService.deleteNote(note);
+                                createListView();
+                            }
+                        }).show();
+                return true;
             }
         });
     }

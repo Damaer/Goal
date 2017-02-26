@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,7 +86,29 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
         holder.username_for_contact.setText(list.get(position).getUsername_for_contact());
         holder.time_contact.setText(list.get(position).getTime_of_contact());
         holder.headphoto_ofcontact.setOnClickListener(this);
+        holder.content_of_contact.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(view.getContext());
+                builder.setTitle("");
+                builder.setMessage("删除该信息？");
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        //点击确定之后跳转到
+                    }
+                });
+                builder.show();
+                return true;
+            }
+        });
         holder.headphoto_ofcontact.setTag(position);
         holder.username_for_contact.setOnClickListener(this);
         holder.username_for_contact.setTag(position);

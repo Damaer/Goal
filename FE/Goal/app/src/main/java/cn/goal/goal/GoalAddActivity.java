@@ -27,11 +27,11 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
     ImageButton buttonBack;
     ImageButton buttonConfirm;
 
-    EditText titleView; // 标题
+    AutoCompleteTextView  titleView; // 标题
     EditText contentView; // 内容
     EditText beginView; // 开始时间
     EditText planView; // 计划结束时间
-
+    private ArrayAdapter<String> arrayAdapter;//
     Date begin;
     Date plan;
 
@@ -48,7 +48,11 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
         buttonConfirm = (ImageButton) findViewById(R.id.button_confirm);
         buttonConfirm.setOnClickListener(this);
 
-        titleView = (EditText) findViewById(R.id.title);
+        titleView = (AutoCompleteTextView ) findViewById(R.id.title);
+        //
+        String [] arr={"aa","aab","aad","aaf","aag","aat","aat","aac","asd","dfadf","fd","dsf","rty","ret","tr"};
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,arr);
+        titleView.setAdapter(arrayAdapter);
         contentView = (EditText) findViewById(R.id.content);
         beginView = (EditText) findViewById(R.id.begin);
 

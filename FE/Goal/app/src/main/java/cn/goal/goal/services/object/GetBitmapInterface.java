@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 /**
  * Created by chenlin on 26/02/2017.
  */
-public interface GetAvatarBitmapInterface {
-    void getAvatar(Bitmap avatar);
+public interface GetBitmapInterface {
+    void getImg(Bitmap img);
     void error(String errorInfo);
 }

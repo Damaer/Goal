@@ -25,7 +25,7 @@ public class User {
     private String _id;
     private Bitmap avatarBitmap;
     private Bitmap roundAvatarBitmap;
-    private GetAvatarBitmapInterface avatarInterface;
+    private GetBitmapInterface avatarInterface;
 
     private Boolean isRound;
     private Boolean isFetchingAvatar = false; // 标记是否正在获取头像
@@ -56,14 +56,14 @@ public class User {
         this.isRound = isRound;
         if (avatarBitmap != null) {
             if (avatarInterface != null)
-                avatarInterface.getAvatar(isRound ? roundAvatarBitmap : avatarBitmap);
+                avatarInterface.getImg(isRound ? roundAvatarBitmap : avatarBitmap);
             return ;
         }
         if (isFetchingAvatar) return ;
-        new FetchAvatarTask(avatar, context).execute();
+        new FetchAvatarTask(context).execute();
     }
 
-    public void setAvatarInterface(GetAvatarBitmapInterface avatarInterface) {
+    public void setAvatarInterface(GetBitmapInterface avatarInterface) {
         this.avatarInterface = avatarInterface;
     }
 
@@ -114,7 +114,7 @@ public class User {
     public class FetchAvatarTask extends AsyncTask<Void, Void, String> {
         private Context mContext;
 
-        public FetchAvatarTask(String avatar, Context context) {
+        public FetchAvatarTask(Context context) {
             super();
             mContext = context;
         }
@@ -162,7 +162,7 @@ public class User {
             isFetchingAvatar = false;
             if (avatarInterface != null) {
                 if (s == null) {
-                    avatarInterface.getAvatar(isRound ? roundAvatarBitmap : avatarBitmap);
+                    avatarInterface.getImg(isRound ? roundAvatarBitmap : avatarBitmap);
                 } else {
                     avatarInterface.error(s);
                 }

@@ -73,6 +73,10 @@ public class Realtime_statistics_count_fragment extends Fragment {
      * @param analyse
      */
     private void render(Analyse analyse) {
+        if (analyse == null) {
+            Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT).show();
+            return;
+        }
         renderGoalsFinishedRecord(analyse.getGoalsFinishedRecord());
 
         createdView.setText(String.valueOf(analyse.getGoalsCreated()));

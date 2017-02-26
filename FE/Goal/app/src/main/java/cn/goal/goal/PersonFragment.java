@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.GetAvatarBitmapInterface;
+import cn.goal.goal.services.object.GetBitmapInterface;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.Share;
 
@@ -56,9 +56,9 @@ public class PersonFragment extends Fragment {
 
     private void renderInitialData() {
         // 获取头像
-        user.setAvatarInterface(new GetAvatarBitmapInterface() {
+        user.setAvatarInterface(new GetBitmapInterface() {
             @Override
-            public void getAvatar(Bitmap avatar) {
+            public void getImg(Bitmap avatar) {
                 avatarView.setImageBitmap(avatar);
             }
 

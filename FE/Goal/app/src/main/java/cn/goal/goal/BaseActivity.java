@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import cn.goal.goal.utils.NetWorkUtils;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
@@ -47,6 +49,13 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         mFragments[3] = new PersonFragment();
 
         initNavigationBar();
+
+        /*
+            从服务器上获取用户信息，并判断登录信息是否过期，过期则要求用户重新登录
+         */
+        if (NetWorkUtils.isNetworkConnected(this)) {
+            new FetchUserInfoTask().execute();
+        }
     }
 
     private void initNavigationBar() {
@@ -115,4 +124,40 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         super.onDestroy();
         UserService.getDB().close();
     }
+
+    class FetchUserInfoTask extends AsyncTask<Void, Void, Boolean> {
+        LoadingDialog mLoadingDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(BaseActivity.this);
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            return UserService.fetchUserInfo();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            cancelDialog();
+            if (aBoolean) {
+                // 登录信息过期，启动登录界面
+                startActivity(new Intent(BaseActivity.this, LoginActivity.class));
+                finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) mLoadingDialog.closeDialog();
+        }
+    }
+
 }

@@ -16,8 +16,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.GoalUserMapService;
+import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.utils.MylistView_for_goal_record;
 
 public class EveryGoalActivity extends AppCompatActivity implements AdapterView.OnItemClickListener,AbsListView.OnScrollListener,MyAdapter_for_every_record.Callback {
@@ -28,8 +28,8 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
     private ScrollView scrollView;
     private  List<Goal_record_class> listems;
     private PopupMenu mPopupMenu;
-    private int goalIndex;
-    private Goal goal; // 存放goal信息
+    private String goalIndex;
+    private GoalUserMap goal; // 存放goal信息
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +41,8 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
             finish();
             return ;
         }
-        goalIndex = getIntent().getExtras().getInt("goalIndex");
-        goal = UserService.getGoals().get(goalIndex);
+        goalIndex = getIntent().getExtras().getString("goalIndex");
+        goal = GoalUserMapService.getGoal(goalIndex);
        listems = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
            Goal_record_class one = new Goal_record_class(R.mipmap.ic_launcher,"用户名"+(i+1),"发送时间",i+1);

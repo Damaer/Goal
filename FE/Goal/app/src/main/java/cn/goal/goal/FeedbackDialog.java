@@ -1,7 +1,9 @@
 package cn.goal.goal;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.support.design.widget.TextInputEditText;
 import android.text.TextUtils;
@@ -88,7 +90,22 @@ public class FeedbackDialog implements View.OnClickListener {
                 Toast.makeText(context, "感谢您的支持！", Toast.LENGTH_SHORT).show();
                 closeDialog();
             } else {
-                Toast.makeText(context, "提交失败:" + s, Toast.LENGTH_LONG).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("提交反馈失败，是否重新尝试?");
+                builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        new FeedbackTask(content, contact).execute();
+                    }
+                });
+                builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         }
 

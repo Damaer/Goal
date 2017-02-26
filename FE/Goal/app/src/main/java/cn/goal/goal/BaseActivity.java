@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import cn.goal.goal.utils.NetWorkUtils;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
@@ -52,7 +53,9 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
         /*
             从服务器上获取用户信息，并判断登录信息是否过期，过期则要求用户重新登录
          */
-        new FetchUserInfoTask().execute();
+        if (NetWorkUtils.isNetworkConnected(this)) {
+            new FetchUserInfoTask().execute();
+        }
     }
 
     private void initNavigationBar() {

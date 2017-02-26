@@ -1,13 +1,7 @@
 package cn.goal.goal;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -17,16 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import cn.goal.goal.services.Config;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.GetAvatarBitmapInterface;
 import cn.goal.goal.services.object.User;
-import cn.goal.goal.utils.HttpRequest;
-import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Share;
-
-import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Created by chenlin on 14/02/2017.

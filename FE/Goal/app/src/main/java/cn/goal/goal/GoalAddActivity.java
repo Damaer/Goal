@@ -13,6 +13,7 @@ import android.widget.*;
 import cn.goal.goal.services.GoalService;
 import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.utils.NetWorkUtils;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -98,12 +99,17 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
             return ;
         }
 
-        new CreateGoalTask(
-                titleView.getText().toString(),
-                contentView.getText().toString(),
-                begin,
-                plan
-        ).execute();
+        if (NetWorkUtils.isNetworkConnected(this)) {
+            // 更新goals数据
+            new CreateGoalTask(
+                    titleView.getText().toString(),
+                    contentView.getText().toString(),
+                    begin,
+                    plan
+            ).execute();
+        } else {
+            Toast.makeText(this, "添加失败，当前网络不可用.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void handlePickBeginDate() {

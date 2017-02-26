@@ -224,8 +224,6 @@ public class UserService {
                 // 登录信息过期
                 return true;
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

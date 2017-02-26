@@ -165,7 +165,7 @@ public class TimeViewComm extends LinearLayout {
         mMinutes.setText(null);
         mSeconds.setText(null);
         spaceOne.setText("完成啦!");
-        spaceOne.setTextSize(30);
+        spaceOne.setTextSize(35);
         spaceTwo.setText(null);
         mHours.setBackground(null);
         mMinutes.setBackground(null);

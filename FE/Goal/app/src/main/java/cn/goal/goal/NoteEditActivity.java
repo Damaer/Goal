@@ -37,9 +37,7 @@ public class NoteEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(editText.getText() != null){
-                    NoteService.createNote(
-                            editText.getText().toString()
-                    );
+                    NoteService.createNote(editText.getText().toString());
                 }
                 finish();
             }

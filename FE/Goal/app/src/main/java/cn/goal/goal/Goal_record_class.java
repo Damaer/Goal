@@ -14,6 +14,7 @@ public class Goal_record_class {
     private int sum_of_like;
     private int ImageId_btn_share;
     private int ImageId_btn_reply;
+    private int sum_of_reply;
     public Goal_record_class(int user_Image,String user_name,String time_of_send,int sum_of_like)
     {
         this.user_Image=user_Image;
@@ -25,6 +26,7 @@ public class Goal_record_class {
         this.sum_of_like=sum_of_like;
         this.ImageId_btn_reply=R.mipmap.reply;
         this.ImageId_btn_share=R.mipmap.share2;
+        this.sum_of_reply=sum_of_like;
     }
 
     /**
@@ -58,5 +60,6 @@ public class Goal_record_class {
     public int getImageId_btn_reply(){
         return ImageId_btn_reply;
     }
+    public int getSum_of_reply(){return sum_of_reply;}
 
 }

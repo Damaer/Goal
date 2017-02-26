@@ -16,9 +16,7 @@ public class AgreementActivity extends AppCompatActivity {
         comeback_to_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(AgreementActivity.this,RegisterActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

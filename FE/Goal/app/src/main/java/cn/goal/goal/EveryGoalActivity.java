@@ -41,8 +41,8 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
             finish();
             return ;
         }
-        goalIndex = getIntent().getExtras().getString("goalIndex");
-        goal = GoalUserMapService.getGoal(goalIndex);
+        //goalIndex = getIntent().getExtras().getString("goalIndex");
+        //goal = GoalUserMapService.getGoal(goalIndex);
        listems = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
            Goal_record_class one = new Goal_record_class(R.mipmap.ic_launcher,"用户名"+(i+1),"发送时间",i+1);

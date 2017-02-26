@@ -82,7 +82,7 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
                 jump_to_user();
             }
         });
-        goalname= (TextView) findViewById(R.id.goal_name);
+        goalname= (TextView) findViewById(R.id.goal_name_for_recorddetail);
         goalname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,6 +94,7 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
         reply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                scrollView.smoothScrollTo(0,0);
                 InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
                 rl_comment.setVisibility(View.VISIBLE);
@@ -127,7 +128,9 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
     }
     public void jump_to_goal()
     {
-        finish();
+        Intent intent4=new Intent(this,EveryGoalActivity.class);
+        startActivity(intent4);
+
     }
     @Override
     public void onScrollStateChanged(AbsListView absListView, int position) {

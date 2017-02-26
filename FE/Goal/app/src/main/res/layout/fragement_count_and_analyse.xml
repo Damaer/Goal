@@ -308,14 +308,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:gravity="center_vertical"
-                    android:text="5"
-                    android:textSize="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="36dp"
-                    android:textColor="@color/ml_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        android:gravity="center_vertical"
+                        android:text="5"
+                        android:textSize="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="36dp"
+                        android:textColor="@color/ml_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/created"/>
                 <TextView
                     android:text="个"
                     android:layout_marginRight="16dp"
@@ -351,14 +351,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:gravity="center_vertical"
-                    android:text="5"
-                    android:textSize="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="36dp"
-                    android:textColor="@color/colorPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        android:gravity="center_vertical"
+                        android:text="5"
+                        android:textSize="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="36dp"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/doing"/>
                 <TextView
                     android:text="个"
                     android:layout_marginRight="16dp"
@@ -394,14 +394,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:gravity="center_vertical"
-                    android:text="5"
-                    android:textSize="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="36dp"
-                    android:textColor="@color/ml_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        android:gravity="center_vertical"
+                        android:text="5"
+                        android:textSize="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="36dp"
+                        android:textColor="@color/ml_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/finished"/>
                 <TextView
                     android:text="个"
                     android:layout_marginRight="16dp"
@@ -437,14 +437,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:gravity="center_vertical"
-                    android:text="5"
-                    android:textSize="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="36dp"
-                    android:textColor="@color/ml_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        android:gravity="center_vertical"
+                        android:text="5"
+                        android:textSize="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="36dp"
+                        android:textColor="@color/ml_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/unfinished"/>
                 <TextView
                     android:text="个"
                     android:layout_marginRight="16dp"
@@ -480,14 +480,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <TextView
-                    android:gravity="center_vertical"
-                    android:text="5"
-                    android:textSize="30dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="36dp"
-                    android:textColor="@color/ml_blue"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent" />
+                        android:gravity="center_vertical"
+                        android:text="5"
+                        android:textSize="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="36dp"
+                        android:textColor="@color/ml_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent" android:id="@+id/focusTime"/>
                 <TextView
                     android:text="个"
                     android:layout_marginRight="16dp"

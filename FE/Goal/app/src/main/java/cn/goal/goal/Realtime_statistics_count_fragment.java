@@ -3,29 +3,142 @@ package cn.goal.goal;
 /**
  * Created by 97617 on 2017/2/16.
  */
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
-        import android.support.v4.app.Fragment;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-import android.widget.CalendarView;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import cn.goal.goal.services.AnalyseService;
+import cn.goal.goal.services.object.Analyse;
+import cn.goal.goal.services.object.GoalsFinishedRecord;
+import cn.goal.goal.utils.NetWorkUtils;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import static cn.goal.goal.R.*;
 
 public class Realtime_statistics_count_fragment extends Fragment {
     private TextView time;
+    private TextView createdView;
+    private TextView doingView;
+    private TextView finishedView;
+    private TextView unfinishedView;
+    private TextView focusTimeView;
+    private View view;
+    private ArrayList<ImageView> recordsView;
+
+    private int[] color;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) { // TODO Auto-generated method stub
-        View view = inflater.inflate(layout.fragement_count_and_analyse, null);
+        view = inflater.inflate(layout.fragement_count_and_analyse, null);
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH)+1;
         time=(TextView) view.findViewById(R.id.time);
         time.setText(year+"年"+month+"月");
+        // 获取day1-day32
+        int day1Id = R.id.day1;
+        recordsView = new ArrayList<>();
+        for (int i = 0; i < 32; ++i) {
+            recordsView.add((ImageView) view.findViewById(day1Id + i));
+        }
+
+        // 获取TextView
+        createdView = (TextView) view.findViewById(id.created);
+        doingView = (TextView) view.findViewById(id.doing);
+        finishedView = (TextView) view.findViewById(id.finished);
+        unfinishedView = (TextView) view.findViewById(id.unfinished);
+        focusTimeView = (TextView) view.findViewById(id.focusTime);
+
+        // 创建记录梯度颜色
+        color = new int[]{Color.LTGRAY, Color.RED, Color.GREEN, Color.BLACK, Color.BLUE};
+
+        if (NetWorkUtils.isNetworkConnected(getContext())) {
+            new FetchDataTask().execute();
+        } else {
+            Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT);
+        }
         return view;
     }
 
+    /**
+     * 渲染数据到视图
+     * @param analyse
+     */
+    private void render(Analyse analyse) {
+        renderGoalsFinishedRecord(analyse.getGoalsFinishedRecord());
+
+        createdView.setText(String.valueOf(analyse.getGoalsCreated()));
+        doingView.setText(String.valueOf(analyse.getGoalsDoing()));
+        finishedView.setText(String.valueOf(analyse.getGoalsFinished()));
+        unfinishedView.setText(String.valueOf(analyse.getGoalsUnfinished()));
+        focusTimeView.setText(String.valueOf(analyse.getFocusTime()));
+    }
+
+    private void renderGoalsFinishedRecord(ArrayList<GoalsFinishedRecord> goalsFinishedRecords) {
+        // 将记录清空
+        for (int i = 0; i < 32; ++i) {
+            recordsView.get(i).setBackgroundColor(color[0]);
+        }
+
+        for (GoalsFinishedRecord goalsFinishedRecord : goalsFinishedRecords) {
+            recordsView.get(goalsFinishedRecord.getDate().getDate() - 1).setBackgroundColor(getColor(goalsFinishedRecord.getNumOfGoalFinished()));
+        }
+    }
+
+    private int getColor(int num) {
+        switch (num) {
+            case 0:
+                return color[0];
+            case 1:
+                return color[1];
+            case 2:
+                return color[2];
+            case 5:
+                return color[3];
+            case 8:
+                return color[4];
+            default:
+                return color[0];
+        }
+    }
+
+    class FetchDataTask extends AsyncTask<Void, Void, Analyse> {
+        LoadingDialog mLoadingDialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(getContext());
+        }
+
+        @Override
+        protected Analyse doInBackground(Void... params) {
+            return AnalyseService.getAnalyseOfCurrentMonth();
+        }
+
+        @Override
+        protected void onPostExecute(Analyse analyse) {
+            super.onPostExecute(analyse);
+            cancelDialog();
+            render(analyse);
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null)
+                mLoadingDialog.closeDialog();
+        }
+    }
 }

@@ -11,13 +11,19 @@ public class Analyse {
     private int goalsDoing;
     private int goalsFinished;
     private int goalsUnfinished;
+    private int focusTime;
 
-    public Analyse(ArrayList<GoalsFinishedRecord> goalsFinishedRecord, int goalsCreated, int goalsDoing, int goalsFinished, int goalsUnfinished) {
+    public Analyse(ArrayList<GoalsFinishedRecord> goalsFinishedRecord, int goalsCreated, int goalsDoing, int goalsFinished, int goalsUnfinished, int focusTime) {
         this.goalsFinishedRecord = goalsFinishedRecord;
         this.goalsCreated = goalsCreated;
         this.goalsDoing = goalsDoing;
         this.goalsFinished = goalsFinished;
         this.goalsUnfinished = goalsUnfinished;
+        this.focusTime = focusTime;
+    }
+
+    public int getFocusTime() {
+        return focusTime;
     }
 
     public ArrayList<GoalsFinishedRecord> getGoalsFinishedRecord() {

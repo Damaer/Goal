@@ -31,7 +31,8 @@ public class AnalyseService {
                             data.getJSONArray("goalsCreated").length(),
                             data.getJSONArray("goalsDoing").length(),
                             data.getJSONArray("goalsFinished").length(),
-                            data.getJSONArray("goalsUnfinished").length()
+                            data.getJSONArray("goalsUnfinished").length(),
+                            FocusTimeService.getFocusTime()
                     );
                 }
             } catch (JSONException e) {

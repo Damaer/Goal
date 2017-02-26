@@ -65,7 +65,7 @@ public class GoalListFragment extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 showpopwindow();
-                return false;
+                return true;
             }
         });
 
@@ -83,6 +83,7 @@ public class GoalListFragment extends Fragment {
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+
 
             }
         });

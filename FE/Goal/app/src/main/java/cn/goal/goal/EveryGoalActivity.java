@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -53,6 +54,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         comeback=(ImageButton)findViewById(R.id.comeback_from_goal);
         write= (ImageButton) findViewById(R.id.write);
         go_goal= (ImageButton) findViewById(R.id.go_to_goal);
+        //右上角的菜单选择
         mPopupMenu = new PopupMenu(this,write);
         mPopupMenu.getMenuInflater()
                 .inflate(R.menu.write_and_setting, mPopupMenu.getMenu());
@@ -64,7 +66,15 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         String title = item.getTitle().toString();
-                        if(title.equals(""))
+                        if(title.equals("记录今日"))
+                        {
+                                record();
+                        }
+                        if(title.equals("删除目标"))
+                        {
+                            showDialog_delete();
+                        }
+                        if(title.equals("完成目标"))
                         {
 
                         }
@@ -80,6 +90,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         listView.setOnScrollListener(this);
 
         scrollView = (ScrollView)findViewById(R.id.scrollview);
+        scrollView.smoothScrollTo(0,0);//滚动条一开始移动到顶端
         /*如果用户没有加入这个目标，这把goal图片设置为add.png
         *如果用户今天朝着目标去做了就把他设置为go2.png
         if()
@@ -87,6 +98,13 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
 
         }*/
     }
+    public void record()
+    {
+        Intent intent = new Intent(this,GoalRecordActivity.class);
+        intent.putExtra("goalIndex", goalIndex);
+        startActivity(intent);
+    }
+
     /**
      * 初始化监听事件
      */
@@ -153,6 +171,25 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         });
         builder.show();
     }
+    private void showDialog_delete() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("是否删除这个目标？");
+        builder.setMessage("目标设立不易，且坚持且珍惜");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                go_goal.setBackgroundResource(R.mipmap.go1);
+                //点击确定之后跳转到
+            }
+        });
+        builder.show();
+    }
     @Override
     public void onScrollStateChanged(AbsListView absListView, int position) {
         switch (position)
@@ -174,8 +211,8 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
           */
        @Override
         public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-                Toast.makeText(this, "listview的item被点击了！，点击的位置是-->" + position,
-                              Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(EveryGoalActivity.this,DetailOfRecordActivity.class);
+                startActivity(intent);
             }
 
                /**
@@ -183,10 +220,36 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
           */
 
         public void click(View v) {
-               Toast.makeText(
-                            EveryGoalActivity.this,
-                           "listview的内部的按钮被点击了！，位置是-->" + (Integer) v.getTag() + ",内容是-->"
-                                       + listems.get((Integer) v.getTag()).getGoal_name(),
-                               Toast.LENGTH_SHORT).show();
+            //得到点击的是哪一个用户的名字
+            String username = listems.get((Integer) v.getTag()).getUser_name();
+                switch (v.getId()) {
+                    case R.id.user_name:
+                    case R.id.head_photo:
+
+                        Intent intent=new Intent(this,EveryUserActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.goal_name:
+
+                        break;
+                    case R.id.content_of_record:
+                        Intent intent3=new Intent(this,DetailOfRecordActivity.class);
+                        startActivity(intent3);
+                        break;
+                    case R.id.like:
+
+                        break;
+                    case R.id.share:
+                        //调用分享
+                        break;
+                    case R.id.reply:
+                        Intent intent2=new Intent(this,DetailOfRecordActivity.class);
+                        startActivity(intent2);
+                        break;
+                    default:
+                        break;
+
+
+                }
           }
 }

@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
     private MylistView_for_goal list;
     private ImageButton comeback;
     private ImageButton setting;
+    private ScrollView scrollView;
     private PopupMenu mPopupMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +48,9 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         SimpleAdapter simplead = new SimpleAdapter(this, listems,
                 R.layout.listview_goal_of_user, new String[]{"goalname","time_of_set","sum_of_people"}
                 ,new int[]{R.id.goal_name_of_user,R.id.time_of_setgoal,R.id.sum_of_people});
-        goalname= (TextView) findViewById(R.id.goal_name_of_user);
-        comeback=(ImageButton) findViewById(R.id.comeback_from_user);
+        initlistener();
         setting= (ImageButton) findViewById(R.id.setting_for_user);
+
         mPopupMenu = new PopupMenu(this,setting);
         mPopupMenu.getMenuInflater()
                 .inflate(R.menu.user_setting, mPopupMenu.getMenu());
@@ -74,7 +76,19 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         list.setOnItemClickListener(this);
         list.setAdapter(simplead);
     }
-
+    public void initlistener()
+    {
+        goalname= (TextView) findViewById(R.id.goal_name_of_user);
+        comeback=(ImageButton) findViewById(R.id.comeback_from_user);
+        comeback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        scrollView= (ScrollView) findViewById(R.id.scrollview_for_user);
+        scrollView.smoothScrollTo(0,0);
+    }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 

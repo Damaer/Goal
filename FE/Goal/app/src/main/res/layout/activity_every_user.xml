@@ -28,7 +28,7 @@
             android:layout_marginRight="8dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:background="@mipmap/write"
+            android:background="@mipmap/setting_for_user"
             android:layout_width="20dp"
             android:layout_height="20dp" />
     </RelativeLayout>
@@ -37,7 +37,7 @@
         android:layout_height="1px"
         android:background="#696969" />
     <ScrollView
-        android:id="@+id/scrollview"
+        android:id="@+id/scrollview_for_user"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout

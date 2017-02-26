@@ -9,21 +9,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import cn.goal.goal.services.FollowService;
 import cn.goal.goal.services.UserService;
-import cn.goal.goal.services.object.GetBitmapInterface;
 import cn.goal.goal.services.object.Recommend;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.NetWorkUtils;
 import cn.goal.goal.utils.Util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Tommy on 2017/2/26.

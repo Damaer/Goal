@@ -65,4 +65,8 @@ public class FocusTimeService {
         }
         return "请求失败";
     }
+
+    public static void logout() {
+        focusTime = null;
+    }
 }

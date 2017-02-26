@@ -47,4 +47,8 @@ public class RecommendService {
         }
         return null;
     }
+
+    public static void logout() {
+        recommendArrayList = null;
+    }
 }

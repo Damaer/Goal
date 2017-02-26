@@ -14,7 +14,6 @@ import cn.goal.goal.services.object.Recommend;
 import cn.goal.goal.utils.NetWorkUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

@@ -122,4 +122,8 @@ public class MessageSerivce {
         return "请求失败";
     }
 
+    public static void logout() {
+        messageArrayList = null;
+    }
+
 }

@@ -60,6 +60,13 @@ public class UserService {
         editor.remove("email");
         editor.remove("phone");
         editor.commit();
+
+        // 清空Service现有信息
+        GoalService.logout();
+        RecommendService.logout();
+        GoalUserMapService.logout();
+        FocusTimeService.logout();
+        DailySentenceService.logout();
     }
 
     public static User getUserInfo() {

@@ -267,4 +267,9 @@ public class GoalUserMapService {
         }
         return goalsFinished;
     }
+
+    public static void logout() {
+        goalsFinished = null;
+        goalUserMaps = null;
+    }
 }

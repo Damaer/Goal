@@ -71,4 +71,8 @@ public class GoalService {
         }
         return null;
     }
+
+    public static void logout() {
+        goals = null;
+    }
 }

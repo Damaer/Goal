@@ -44,4 +44,9 @@ public class DailySentenceService {
         }
         return today;
     }
+
+    public static void logout() {
+        today = null;
+    }
+
 }

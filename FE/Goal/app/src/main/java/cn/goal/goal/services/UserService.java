@@ -46,7 +46,7 @@ public class UserService {
         // 如果没有登录账号则直接返回
         if (token == null) return;
 
-        getLocalUserInfo(); // 获取本地用户信息
+        getUserInfo(); // 获取本地用户信息
         NoteService.getLocalNotes(getDB());
     }
 
@@ -62,7 +62,7 @@ public class UserService {
         editor.commit();
     }
 
-    private static void getLocalUserInfo() {
+    public static User getUserInfo() {
         if (userInfo == null) {
             userInfo = new User(
                     sp.getString("_id", null),
@@ -73,6 +73,7 @@ public class UserService {
                     sp.getString("phone", null)
             );
         }
+        return userInfo;
     }
 
     public static SQLiteDatabase getDB() {
@@ -97,12 +98,16 @@ public class UserService {
             if (result.getInt("code") == 10000) {
                 token = request.header("authorization");
                 JSONObject data = result.getJSONObject("data");
+                userInfo = TypeTransfer.getUserFromJSON(data);
+
                 SharedPreferences.Editor editor = sp.edit();
-                editor.putString("_id", data.getString("_id"));
+                editor.putString("_id", userInfo.get_id());
                 editor.putString("token", token);
-                editor.putString("username", data.getString("username"));
-                editor.putString("avatar", data.getString("avatar"));
-                editor.putString("description", data.getString("description"));
+                editor.putString("username", userInfo.getUsername());
+                editor.putString("avatar", userInfo.getAvatar());
+                editor.putString("description", userInfo.getDescription());
+                editor.putString("email", userInfo.getEmail());
+                editor.putString("phone", userInfo.getPhone());
                 editor.commit();
 
                 return null;
@@ -187,33 +192,44 @@ public class UserService {
     }
 
     /**
-     * 获取用户信息
-     * 获取失败返回Null,获取成功返回用户信息HashMap
-     *
+     * 获取服务器上的用户信息并判断登录信息是否过期
+     * 登录信息过期返回true,否则返回false
      * @return
      */
-    public static User getUserInfo() {
-        if (userInfo == null) {
-            try {
-                HttpRequest request = HttpRequest
-                        .get(baseUrl + userInfoUrl)
-                        .header("Authorization", token);
-                JSONObject result = new JSONObject(request.body());
+    public static Boolean fetchUserInfo() {
+        if (userInfo == null) return true;
+        try {
+            HttpRequest request = HttpRequest
+                    .get(baseUrl + userInfoUrl)
+                    .header("Authorization", token);
+            JSONObject result = new JSONObject(request.body());
 
-                if (result.getInt("code") == 10000) {
-                    JSONObject data = result.getJSONObject("data");
-                    userInfo = TypeTransfer.getUserFromJSON(data);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
+            if (result.getInt("code") == 10000) {
+                JSONObject data = result.getJSONObject("data");
+                // 更新当前用户信息
+                userInfo.setUsername(data.getString("username"));
+                userInfo.setAvatar(data.getString("avatar"));
+                userInfo.setEmail(data.getString("email"));
+                userInfo.setPhone(data.getString("phone"));
+                userInfo.setDescription(data.getString("description"));
+
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("username", userInfo.getUsername());
+                editor.putString("avatar", userInfo.getAvatar());
+                editor.putString("description", userInfo.getDescription());
+                editor.putString("email", userInfo.getEmail());
+                editor.putString("phone", userInfo.getPhone());
+                editor.commit();
+            } else if (result.getInt("code") == 10402) {
+                // 登录信息过期
+                return true;
             }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return userInfo;
+        return false;
     }
 
     /**
@@ -308,6 +324,11 @@ public class UserService {
             JSONObject result = new JSONObject(request.body());
 
             if (result.getInt("code") == 10000) {
+                // 保存用户信息到SharedPreferences
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("email", email);
+                editor.commit();
+                userInfo.setEmail(email);
                 return null;
             }
             return result.getString("msg");
@@ -335,6 +356,11 @@ public class UserService {
             JSONObject result = new JSONObject(request.body());
 
             if (result.getInt("code") == 10000) {
+                // 保存用户信息到SharedPreferences
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("phone", phone);
+                editor.commit();
+                userInfo.setEmail(phone);
                 return null;
             }
             return result.getString("msg");

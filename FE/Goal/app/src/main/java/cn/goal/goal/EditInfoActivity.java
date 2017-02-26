@@ -23,6 +23,7 @@ import cn.goal.goal.utils.RoundCorner;
 import cn.goal.goal.utils.Util;
 
 import java.io.FileNotFoundException;
+import java.lang.reflect.Field;
 
 /**
  * Created by chenlin on 12/02/2017.
@@ -48,6 +49,8 @@ public class EditInfoActivity extends AppCompatActivity {
 
     private User user;
     private String newAvatar; // 用户选择头像文件路径
+
+    AlertDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,19 +160,30 @@ public class EditInfoActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView)
                 .setTitle(R.string.edit_email)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("新邮箱" + input.getText());
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                }).create().show();
+                }).create();
+        dialog = builder.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = input.getText().toString();
+                if (!Util.checkEmailFormate(email)) {
+                    input.setError("格式不正确");
+                    return ;
+                }
+                dialog.dismiss();
+                if (NetWorkUtils.isNetworkConnected(EditInfoActivity.this)) {
+                    new UpdateEmailTask(email).execute();
+                } else {
+                    Toast.makeText(EditInfoActivity.this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void handleEditPhone() {
@@ -178,19 +192,30 @@ public class EditInfoActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView)
                 .setTitle(R.string.edit_phone)
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        System.out.println("新手机号" + input.getText());
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton(R.string.confirm, null)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }
-                }).create().show();
+                }).create();
+        dialog = builder.show();
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String phone = input.getText().toString();
+                if (!Util.checkPhoneFormate(phone)) {
+                    input.setError("格式不正确");
+                    return ;
+                }
+                dialog.dismiss();
+                if (NetWorkUtils.isNetworkConnected(EditInfoActivity.this)) {
+                    new UpdatePhoneTask(phone).execute();
+                } else {
+                    Toast.makeText(EditInfoActivity.this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -272,6 +297,92 @@ public class EditInfoActivity extends AppCompatActivity {
         protected void onCancelled() {
             super.onCancelled();
             dialog.closeDialog();
+        }
+    }
+
+    class UpdateEmailTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog mLoadingDialog;
+        String newEmail;
+
+        public UpdateEmailTask(String email) {
+            super();
+            this.newEmail = email;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(EditInfoActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return UserService.updateEmail(newEmail);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s != null) {
+                Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
+            } else {
+                email.setText(newEmail);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null)
+                mLoadingDialog.closeDialog();
+        }
+    }
+
+    class UpdatePhoneTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog mLoadingDialog;
+        String newPhone;
+
+        public UpdatePhoneTask(String phone) {
+            super();
+            this.newPhone = phone;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(EditInfoActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return UserService.updatePhone(newPhone);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s != null) {
+                Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
+            } else {
+                phone.setText(newPhone);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null)
+                mLoadingDialog.closeDialog();
         }
     }
 }

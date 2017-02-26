@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * Created by chenlin on 18/02/2017.
@@ -79,23 +80,23 @@ public class AccountSafetyActivity extends AppCompatActivity implements View.OnC
     }
 
     public void handleBindEmail() {
-
+        Toast.makeText(this, "此功能尚未开发", Toast.LENGTH_SHORT);
     }
 
     public void handleBindPhone() {
-
+        Toast.makeText(this, "此功能尚未开发", Toast.LENGTH_SHORT);
     }
 
     public void handleBindSina() {
-
+        Toast.makeText(this, "此功能尚未开发", Toast.LENGTH_SHORT);
     }
 
     public void handleBindQQ() {
-
+        Toast.makeText(this, "此功能尚未开发", Toast.LENGTH_SHORT);
     }
 
     public void handleBindWechat() {
-
+        Toast.makeText(this, "此功能尚未开发", Toast.LENGTH_SHORT);
     }
 
 }

@@ -8,6 +8,8 @@ import android.provider.MediaStore;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by chenlin on 19/02/2017.
@@ -49,5 +51,25 @@ public class Util {
             }
         }
         return data;
+    }
+
+    /**
+     * 判断字符串email是否为邮箱
+     */
+    public static boolean checkEmailFormate(String email) {
+        String reg = "^\\w+((-\\w+)|(\\.\\w+))*\\@[A-Za-z0-9]+((\\.|-)[A-Za-z0-9]+)*\\.[A-Za-z0-9]+$";
+        Pattern r = Pattern.compile(reg);
+        Matcher m = r.matcher(email);
+        return m.matches();
+    }
+
+    /**
+     * 判断字符串phone是否为手机号
+     */
+    public static boolean checkPhoneFormate(String phone) {
+        String reg = "^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$";
+        Pattern r = Pattern.compile(reg);
+        Matcher m = r.matcher(phone);
+        return m.matches();
     }
 }

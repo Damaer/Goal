@@ -12,8 +12,8 @@ public class Config {
     public static final String avatar = "/api/user/avatar";
     public static final String userInfo = "/api/user/info";
     public static final String password = "/api/user/password";
-    public static final String email = "/api/user/email";
-    public static final String phone = "/api/user/phone";
+    public static final String email = "/api/email";
+    public static final String phone = "/api/phone";
     public static final String goal  ="/api/goal";
     public static final String record = "/api/record";
     public static final String recordToday = "/api/record/today";

@@ -26,6 +26,7 @@ import cn.goal.goal.services.object.Note;
 
 public class NoteListFragment extends Fragment {
     private View view;
+    private Note note;
     private ListView noteListView;
     private SimpleAdapter noteListAdapter;
     private List<Map<String,String>> dataList;
@@ -85,6 +86,13 @@ public class NoteListFragment extends Fragment {
                 int testid = NoteService.findNoteById(Integer.valueOf(noteInfo.get("id")));
                 intent.putExtra("noteIndex", NoteService.findNoteById(Integer.valueOf(noteInfo.get("id"))));
                 startActivity(intent);
+            }
+        });
+        noteListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                return true;
             }
         });
     }

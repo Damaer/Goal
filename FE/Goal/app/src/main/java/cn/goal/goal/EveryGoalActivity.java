@@ -76,7 +76,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                         }
                         if(title.equals("完成目标"))
                         {
-
+                            showDialog_finish();
                         }
                         return true;
                     }
@@ -175,6 +175,25 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
         builder.setTitle("是否删除这个目标？");
         builder.setMessage("目标设立不易，且坚持且珍惜");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                go_goal.setBackgroundResource(R.mipmap.go1);
+                //点击确定之后跳转到
+            }
+        });
+        builder.show();
+    }
+    private void showDialog_finish() {
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this);
+        builder.setTitle("已经完成这个目标？");
+        builder.setMessage("做最好的自己，一步一步，一直在路上，加油！");
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {

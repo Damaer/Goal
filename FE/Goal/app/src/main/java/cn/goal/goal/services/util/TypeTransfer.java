@@ -228,6 +228,40 @@ public class TypeTransfer {
     }
 
     /**
+     * 将JSONArray转换为ArrayList<Message>
+     * @return
+     */
+    public static ArrayList<Message> getMessageArrayFromJSON(JSONArray data) {
+        ArrayList<Message> result = new ArrayList<>();
+        if (data == null) return result;
+        for (int i = 0; i < data.length(); ++i) {
+            try {
+                JSONObject comment = data.getJSONObject(i);
+                result.add(getMessageFromJSON(comment));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将JSONObject转换为Recommend
+     * @param data
+     * @return
+     */
+    public static Message getMessageFromJSON(JSONObject data) {
+        if (data == null) return null;
+        return new Message(
+                getUserFromJSON(getJSONObjectFromJSON(data, "sender")),
+                getStringFromJSON(data, "content"),
+                new Date(getLongFromJSON(data, "createAt")),
+                getBooleanFromJSON(data, "hasRead"),
+                getStringFromJSON(data, "_id")
+        );
+    }
+
+    /**
      * 将JSONArray转换为字符串数组
      * @param data
      * @return

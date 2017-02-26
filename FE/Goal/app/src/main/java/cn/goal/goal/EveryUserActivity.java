@@ -1,14 +1,19 @@
 package cn.goal.goal;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,6 +36,10 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
     private ImageButton setting;
     private ScrollView scrollView;
     private PopupMenu mPopupMenu;
+    private EditText content_of_send;
+    private Button send_comment;
+    private RelativeLayout rl_comment;
+    private TextView hide_down;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,9 +71,13 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         String title = item.getTitle().toString();
-                        if(title.equals(""))
+                        if(title.equals("发信息"))
                         {
 
+                            InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                            rl_comment.setVisibility(View.VISIBLE);
+                            scrollView.smoothScrollTo(0,0);
                         }
                         return true;
                     }
@@ -72,6 +85,23 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
             }
         });
 
+        send_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        hide_down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // 隐藏输入法，然后暂存当前输入框的内容，方便下次使用
+                InputMethodManager im = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(content_of_send.getWindowToken(), 0);
+                rl_comment.setVisibility(View.GONE);
+            }
+        });
         list= (MylistView_for_goal) findViewById(R.id.listview_of_user_goal);
         list.setOnItemClickListener(this);
         list.setAdapter(simplead);
@@ -88,6 +118,10 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         });
         scrollView= (ScrollView) findViewById(R.id.scrollview_for_user);
         scrollView.smoothScrollTo(0,0);
+        rl_comment = (RelativeLayout) findViewById(R.id.rl_comment);
+        content_of_send= (EditText) findViewById(R.id.comment_content);
+        send_comment= (Button) findViewById(R.id.comment_send_message);
+        hide_down= (TextView) findViewById(R.id.hide_down);
     }
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

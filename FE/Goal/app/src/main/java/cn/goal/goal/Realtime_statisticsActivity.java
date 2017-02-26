@@ -91,9 +91,9 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
         tv_tab1 = (TextView) findViewById(R.id.tv_tab1);
         tv_tab2 = (TextView) findViewById(R.id.tv_tab2);
         myViewPager.setCurrentItem(0);
-        tv_tab0.setTextColor(Color.BLUE);
-        tv_tab1.setTextColor(Color.BLACK);
-        tv_tab2.setTextColor(Color.BLACK);
+        tv_tab0.setTextColor(Color.rgb(0,0,0));
+        tv_tab1.setTextColor(Color.rgb(105,105,105));
+        tv_tab2.setTextColor(Color.rgb(105,105,105));
         tv_tab0.setOnClickListener(this);
         tv_tab1.setOnClickListener(this);
         tv_tab2.setOnClickListener(this);
@@ -137,21 +137,21 @@ public class Realtime_statisticsActivity extends FragmentActivity implements OnP
     { // TODO Auto-generated method stub
         switch (position)
         { case 0:
-            tv_tab0.setTextColor(Color.BLUE);
-            tv_tab1.setTextColor(Color.BLACK);
-            tv_tab2.setTextColor(Color.BLACK);
+            tv_tab0.setTextColor(Color.BLACK);
+            tv_tab1.setTextColor(Color.rgb(105,105,105));
+            tv_tab2.setTextColor(Color.rgb(105,105,105));
             movePositionX(0);
             break;
             case 1:
-                tv_tab0.setTextColor(Color.BLACK);
-                tv_tab1.setTextColor(Color.BLUE);
-                tv_tab2.setTextColor(Color.BLACK);
+                tv_tab0.setTextColor(Color.rgb(105,105,105));
+                tv_tab1.setTextColor(Color.BLACK);
+                tv_tab2.setTextColor(Color.rgb(105,105,105));
                 movePositionX(1);
                 break;
             case 2:
-                tv_tab0.setTextColor(Color.BLACK);
-                tv_tab1.setTextColor(Color.BLACK);
-                tv_tab2.setTextColor(Color.BLUE);
+                tv_tab0.setTextColor(Color.rgb(105,105,105));
+                tv_tab1.setTextColor(Color.rgb(105,105,105));
+                tv_tab2.setTextColor(Color.BLACK);
                 movePositionX(2);
                 break;
             default:

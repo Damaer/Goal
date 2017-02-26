@@ -38,7 +38,7 @@ public class TimeViewComm extends LinearLayout {
     protected TextView spaceOne;
     protected TextView spaceTwo;
     protected Button mCancelCount;
-    public static int SumOfTime;
+    public static int SumOfTime = 0;
     private int mTextColor = Color.WHITE;
     private int mBackgroundColor = Color.BLACK;
     private int mSpaceColor = Color.BLACK;
@@ -135,7 +135,7 @@ public class TimeViewComm extends LinearLayout {
         addView(mSeconds);
     }
 
-    public void startTime(int hour, int minutes, int second) {
+    public void startTime(final int hour, final int minutes, int second) {
         if (null == mTimeoutManager) {
             mTimeoutManager = new TimeoutManager(hour, minutes, second, new TimeoutManager.OnTimeRunListener() {
                 @Override
@@ -143,7 +143,7 @@ public class TimeViewComm extends LinearLayout {
                     setTime(df.format(hour), df.format(minute), df.format(second));
                 }
                 public void onTimeRun(String msg){
-                    updateCountTimeUI();
+                    updateCountTimeUI(hour, minutes);
                 }
             });
         } else {
@@ -151,7 +151,7 @@ public class TimeViewComm extends LinearLayout {
         }
     }
 
-    public void updateCountTimeUI(){
+    public void updateCountTimeUI(int hour, int minute){
         mHours.setText(null);
         mMinutes.setText(null);
         mSeconds.setText(null);
@@ -160,21 +160,21 @@ public class TimeViewComm extends LinearLayout {
         mHours.setBackground(null);
         mMinutes.setBackground(null);
         mSeconds.setBackground(null);
-        calculateSumOfTime();
+        calculateSumOfMinutes(hour, minute);
         QuickStartCountTime.cancelCount.setText("确定");
 
     }
 
-    public static int calculateSumOfTime(){
+    private static int calculateSumOfMinutes(int hour, int minute){
         Calendar c = Calendar.getInstance();
-        int hour = c.get(Calendar.HOUR_OF_DAY);
-        int minute = c.get(Calendar.MINUTE);
-        int second = c.get(Calendar.SECOND);
-        int way = c.get(Calendar.DAY_OF_WEEK);
-        if(way == 1 && hour == 0 && minute == 0 && second ==0){
+        int mhour = c.get(Calendar.HOUR_OF_DAY);
+        int mminute = c.get(Calendar.MINUTE);
+        int msecond = c.get(Calendar.SECOND);
+        int mway = c.get(Calendar.DAY_OF_WEEK);
+        if(mway == 1 && mhour == 0 && mminute == 0 && msecond ==0){
             SumOfTime = 0;
         }else {
-            ++SumOfTime;
+            SumOfTime = SumOfTime + hour*60 + minute;
         }
         return SumOfTime;
     }

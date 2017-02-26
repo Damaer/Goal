@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.AbsoluteLayout;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +38,7 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
     private TextView goalname;
     private TextView hide_down;
     private TextView content_of_record;
-    private TextView content_of_send;
+    private EditText content_of_send;
     private Button send_comment;
     private RelativeLayout rl_comment;
     private ImageButton reply;
@@ -101,7 +102,7 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
             }
         });
 
-        content_of_send= (TextView) findViewById(R.id.comment_content);
+        content_of_send= (EditText) findViewById(R.id.comment_content);
         send_comment= (Button) findViewById(R.id.comment_send_message);
         send_comment.setOnClickListener(new View.OnClickListener() {
             @Override

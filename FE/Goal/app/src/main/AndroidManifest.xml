@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -51,11 +52,12 @@
         <activity
             android:name=".QuickStartActivity"
             android:label="快速开始">
-
+            
         </activity>
         <activity
             android:name=".QuickStartCountTime"
-            android:label="快速开始倒计时" >
+            android:label="快速开始倒计时">
+
         </activity>
         <activity
             android:name=".AboutActivity"
@@ -73,16 +75,21 @@
         </activity>
         <activity
             android:name=".NoteDetailActivity"
-            android:label="标签详细"/>
+            android:label="标签详细" />
         <activity
             android:name=".NoteEditActivity"
-            android:label="标签编辑"/>
+            android:label="标签编辑" />
         <activity
             android:name=".EveryUserActivity"
             android:label="用户">
 
         </activity>
         <activity android:name=".DetailOfRecordActivity">
+
+        </activity>
+        <activity
+            android:label="接收信息"
+            android:name=".ContactActivity">
 
         </activity>
     </application>>

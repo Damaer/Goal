@@ -94,9 +94,6 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         holder.reply.setBackgroundResource(list.get(position).getImageId_btn_reply());
        holder.sum_of_reply.setText(String.valueOf(list.get(position).getSum_of_reply()));
         holder.headphoto.setOnClickListener(this);
-
-
-
         holder.headphoto.setTag(position);
         holder.user_name.setOnClickListener(this);
         holder.user_name.setTag(position);

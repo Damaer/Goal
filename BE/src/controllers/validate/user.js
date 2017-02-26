@@ -83,7 +83,7 @@ exports.CemailFormat = CemailFormat;
 let Cemail = _email => new Promise((resolve, reject) => {
 	User.findOne({email: _email.toLowerCase()}, (err, user) => {
 		if (err) return reject({code: 10500, msg: '数据库查询错误'});
-		if (user) return reject({code: 10402, smg: '邮箱已被注册'});
+		if (user) return reject({code: 10402, msg: '邮箱已被注册'});
 		resolve();
 	})
 })
@@ -98,7 +98,7 @@ exports.CphoneFormat = CphoneFormat;
 let Cphone = _phone => new Promise((resolve, reject) => {
 	User.findOne({phone: _phone}, (err, user) => {
 		if (err) return reject({code: 10500, msg: '数据库查询错误'});
-		if (user) return reject({code: 10402, smg: '手机号已被注册'});
+		if (user) return reject({code: 10402, msg: '手机号已被注册'});
 		resolve();
 	})
 })

@@ -12,5 +12,7 @@ module.exports = {
 	sentenceDataCountUrl: '/api/dailySentence/count',
 	// feedback
 	feedbackDataUrl: '/api/feedback',
-	feedbackMarkReadUrl: '/api/feedback/read'
+	feedbackMarkReadUrl: '/api/feedback/read',
+	// upload img
+	uploadUrl: '/api/user/avatar'
 }

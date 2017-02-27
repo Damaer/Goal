@@ -34,7 +34,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
 
     private boolean isJoin; // 判断用户是否添加当前目标
     private boolean finishedToday; // 标记当前目标今日是否已完成
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,6 +98,15 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
             Toast.makeText(EveryGoalActivity.this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (NetWorkUtils.isNetworkConnected(this)) {
+            new FetchCommentsTask(goal).execute();
+        }
+    }
+
     public void record()
     {
         Intent intent = new Intent(this,GoalRecordActivity.class);

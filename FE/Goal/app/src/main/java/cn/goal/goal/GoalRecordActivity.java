@@ -1,5 +1,6 @@
 package cn.goal.goal;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +11,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.goal.goal.services.CommentService;
 import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.GoalUserMap;
+import cn.goal.goal.utils.NetWorkUtils;
+
+import java.util.Date;
 
 /**
  * Created by Jeffrey Wang on 17-2-21 0021.
@@ -67,7 +72,49 @@ public class GoalRecordActivity extends AppCompatActivity implements View.OnClic
         }
 
         // TODO: 17-2-21 0021 调用 UserService 的方法，发送记录
+        if (NetWorkUtils.isNetworkConnected(this)) {
+            new RecordTask().execute();
+        } else {
+            Toast.makeText(GoalRecordActivity.this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
+        }
+    }
 
-        finish();
+    class RecordTask extends AsyncTask<Void, Void, String> {
+        private LoadingDialog mLoadingDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(GoalRecordActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return CommentService.comment(goal.getGoal(), contentView.getText().toString());
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s != null) { // 添加失败
+                Toast.makeText(GoalRecordActivity.this, "记录失败，请重新尝试", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(GoalRecordActivity.this, "记录成功", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
+        }
     }
 }

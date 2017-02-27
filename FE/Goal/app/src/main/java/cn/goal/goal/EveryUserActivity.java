@@ -336,6 +336,10 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         protected void onPreExecute() {
             super.onPreExecute();
             mLoadingDialog = new LoadingDialog().showLoading(EveryUserActivity.this);
+            // 隐藏输入法，然后暂存当前输入框的内容，方便下次使用
+            InputMethodManager im = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(content_of_send.getWindowToken(), 0);
+            rl_comment.setVisibility(View.GONE);
         }
 
         @Override
@@ -349,6 +353,10 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
             cancelDialog();
             if (err != null) {
                 Toast.makeText(EveryUserActivity.this, err, Toast.LENGTH_SHORT).show();
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                rl_comment.setVisibility(View.VISIBLE);
+                scrollView.smoothScrollTo(0,0);
             } else {
                 Toast.makeText(EveryUserActivity.this, "发送消息成功", Toast.LENGTH_SHORT).show();
             }

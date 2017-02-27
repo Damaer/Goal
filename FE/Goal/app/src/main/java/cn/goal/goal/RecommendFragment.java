@@ -36,14 +36,14 @@ public class RecommendFragment extends Fragment {
         if (NetWorkUtils.isNetworkConnected(getContext())) {
             new FetchRecommendDataTask().execute();
         } else {
-            Toast.makeText(getContext(), "无网络连接", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), "无网络连接", Toast.LENGTH_SHORT).show();
         }
         return view;
     }
 
     private void createListView(ArrayList<Recommend> recommends){
         if (recommends == null) {
-            Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), "获取数据失败", Toast.LENGTH_SHORT).show();
             return ;
         }
         recommendListAdapter = new RecommendAdapter(getActivity(), recommends);

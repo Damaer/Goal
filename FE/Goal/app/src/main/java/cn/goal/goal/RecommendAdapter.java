@@ -2,6 +2,7 @@ package cn.goal.goal;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import cn.goal.goal.services.FollowService;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Recommend;
 import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.Meta;
 import cn.goal.goal.utils.NetWorkUtils;
 import cn.goal.goal.utils.Util;
 
@@ -25,7 +27,7 @@ import java.util.ArrayList;
  * Created by Tommy on 2017/2/26.
  */
 
-public class RecommendAdapter extends BaseAdapter {
+public class RecommendAdapter extends BaseAdapter implements View.OnClickListener {
     private ArrayList<Recommend> mRecommendArrayList;
     private Activity mActivity;
     private Button[] followButtons;
@@ -93,10 +95,19 @@ public class RecommendAdapter extends BaseAdapter {
             }
         });
         recommend.getUser().getAvatarBitmap(mActivity);
+        portraitImgs[position].setOnClickListener(this);
+        portraitImgs[position].setTag(position);
+        portraitImgs[position].setTag(position);
         userName.setText(recommend.getUser().getUsername());
+        userName.setOnClickListener(this);
+        userName.setTag(position);
         shareTime.setText(Util.dateToString(recommend.getCreateAt()));
         shareContent.setText(recommend.getContent());
+        shareContent.setOnClickListener(this);
+        shareContent.setTag(position);
         fromWhichGoal.setText(recommend.getGoal().getTitle());
+        fromWhichGoal.setOnClickListener(this);
+        fromWhichGoal.setTag(position);
 
         ArrayList<String> followers = recommend.getFollower();
         if (followers.contains(UserService.getUserInfo().get_id())) { // 当前用户在该用户的关注列表中
@@ -142,6 +153,26 @@ public class RecommendAdapter extends BaseAdapter {
                 }
             }
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Recommend recommend = mRecommendArrayList.get((int) v.getTag());
+        switch (v.getId()) {
+            case R.id.name:
+            case R.id.portrait_img:
+                // 访问用户
+                Meta.otherUser = recommend.getUser();
+                mActivity.startActivity(new Intent(mActivity, EveryUserActivity.class));
+                break;
+            case R.id.share_text:
+            case R.id.from_goal:
+                // 访问Goal
+                Meta.everyGoal = recommend.getGoal();
+                mActivity.startActivity(new Intent(mActivity, EveryGoalActivity.class));
+                break;
+        }
+
     }
 
     private class FollowTask extends AsyncTask<Void, Void, String> {

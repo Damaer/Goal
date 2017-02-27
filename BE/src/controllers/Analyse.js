@@ -1,5 +1,8 @@
 import Record from '../models/Record'
 import GoalUserMap from '../models/GoalUserMap'
+import User from '../models/User'
+import Follow from '../models/Follow'
+import FocusTime from '../models/FocusTime'
 
 import {getToday, getMonthBegin, getMonthEnd, ONE_DAY} from './util/util'
 
@@ -31,6 +34,40 @@ exports.analyse = (req, res, next) => {
 		res.json({code: 10500, msg: '服务器出错'});
 	})
 }
+
+exports.rank = (req, res, next) => {
+	let follower = req.user._id;
+	Follow.find({follower: follower}, null, {populate: {path: 'user', select: {name: 1, avatar: 1}}}, (err, follows) => {
+		if (err) return res.json({code: 10500, msg: '查询失败'});
+		if (!follows) follows = [];
+		let promises = [];
+		for (let i = 0; i < follows.length; ++i) {
+			promises.push(get_focus_time(follows[i].user));
+		}
+		promises.push(get_focus_time(req.user));
+		Promise.all(promises).then(users => {
+			res.json({code: 10000, msg: '', data: users.sort((u1, u2) => u1.focusTime < u2.focusTime)});
+		}, err => {
+			console.log(err);
+			res.json({code: 10500, msg: '查询失败'});
+		})
+	})
+}
+
+let get_focus_time = user => new Promise((resolve, reject) => {
+	let focusTime = 0;
+	FocusTime.find({user: user._id}, (err, focusTimes) => {
+		if (!err) {
+			focusTime = focusTimes.reduce((totle, focusTime) => totle + focusTime.length, 0);
+		}
+		resolve({
+			_id: user._id,
+			name: user.name,
+			avatar: user.avatar,
+			focusTime: focusTime
+		});
+	})
+})
 
 /**
  * 获取[begin, end]目标每日完成数量情况

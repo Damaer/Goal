@@ -110,6 +110,8 @@ router.route('/focus')
 // analyse
 router.route('/analyse')
 	.get(Authentication.auth, Analyse.analyse);
+router.route('/analyse/rank')
+	.get(Authentication.auth, Analyse.rank);
 
 // follow
 router.route('/follow')

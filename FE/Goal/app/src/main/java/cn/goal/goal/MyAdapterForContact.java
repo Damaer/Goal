@@ -2,6 +2,7 @@ package cn.goal.goal;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,31 +10,22 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by 97617 on 2017/2/26.
  */
-import android.content.Context;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.BaseAdapter;
-        import android.widget.ImageButton;
-        import android.widget.ImageView;
-        import android.widget.TextView;
-        import java.util.List;
-        import cn.goal.goal.R;
-        import cn.goal.goal.ContactClass;
+import cn.goal.goal.services.object.Message;
+import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.Util;
 
-
-        import static android.R.id.list;
-        import static android.R.id.startSelectingText;
 public class MyAdapterForContact extends BaseAdapter implements View.OnClickListener {
     private static final String TAG = "CMyAdapter_for_Contact";
     private LayoutInflater mInflaer;
-    private List<ContactClass> list;
+    private ArrayList<Message> list;
     private Callback mcallback;
+    private Context mContext;
+    private ImageView[] avatarArrayView;
 
     /**
      * 自定义接口，用于回调按钮点击事件到Activity
@@ -45,10 +37,12 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
         public void click(View v);
     }
 
-    public MyAdapterForContact(Context context, List<ContactClass> list1, Callback callback) {
-        this.list = list1;
+    public MyAdapterForContact(Context context, ArrayList<Message> data, Callback callback) {
+        this.list = data;
+        mContext = context;
         mInflaer = LayoutInflater.from(context);
         mcallback = callback;
+        avatarArrayView = new ImageView[data.size()];
     }
 
     @Override
@@ -73,19 +67,29 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
         if (view2 == null) {
             view2 = mInflaer.inflate(R.layout.listview_contact_item, null);
             holder = new ViewHolder();
-            holder.headphoto_ofcontact= (ImageView) view2.findViewById(R.id.user_head_photo_for_contact);
+            avatarArrayView[position] = (ImageView) view2.findViewById(R.id.user_head_photo_for_contact);
             holder.username_for_contact=(TextView) view2.findViewById(R.id.username_for_contact);
             holder.content_of_contact = (TextView) view2.findViewById(R.id.content_of_contact);
             holder.time_contact = (TextView) view2.findViewById(R.id.time_of_contact);
             view2.setTag(holder);
         } else {
             holder = (MyAdapterForContact.ViewHolder) view2.getTag();
+            avatarArrayView[position] = (ImageView) view2.findViewById(R.id.user_head_photo_for_contact);
         }
-        holder.headphoto_ofcontact.setBackgroundResource(list.get(position).getheadphoto_for_contact());
-        holder.content_of_contact.setText(list.get(position).getContent_of_contact());
-        holder.username_for_contact.setText(list.get(position).getUsername_for_contact());
-        holder.time_contact.setText(list.get(position).getTime_of_contact());
-        holder.headphoto_ofcontact.setOnClickListener(this);
+        Message message = list.get(position);
+        User sender = message.getSender();
+        sender.setAvatarInterface(new GetBitmapListener(position) {
+            @Override
+            public void getImg(Bitmap img) {
+                super.getImg(img);
+                avatarArrayView[tag].setImageBitmap(img);
+            }
+        });
+        sender.getAvatarBitmap(mContext);
+        holder.content_of_contact.setText(message.getContent());
+        holder.username_for_contact.setText(sender.getUsername());
+        holder.time_contact.setText(Util.dateToString(message.getCreateAt()));
+        avatarArrayView[position].setOnClickListener(this);
         holder.content_of_contact.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -109,7 +113,7 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
                 return true;
             }
         });
-        holder.headphoto_ofcontact.setTag(position);
+        avatarArrayView[position].setTag(position);
         holder.username_for_contact.setOnClickListener(this);
         holder.username_for_contact.setTag(position);
         holder.content_of_contact.setOnClickListener(this);
@@ -120,7 +124,6 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
     }
 
     public class ViewHolder {
-        public ImageView headphoto_ofcontact;
         public TextView username_for_contact;
         public TextView content_of_contact;
         public TextView time_contact;
@@ -128,5 +131,6 @@ public class MyAdapterForContact extends BaseAdapter implements View.OnClickList
     public void onClick(View v) {
         mcallback.click(v);
     }
+
 
 }

@@ -13,7 +13,7 @@
         <ImageView
                 android:id="@+id/user_head_photo_for_contact"
                 android:layout_margin="5dp"
-                android:layout_width="48dp" android:layout_height="48dp"/>
+                android:layout_width="48dp" android:layout_height="48dp" android:scaleType="fitCenter"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"

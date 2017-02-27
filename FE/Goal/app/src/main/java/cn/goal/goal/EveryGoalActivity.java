@@ -97,11 +97,11 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         scrollView.smoothScrollTo(0,0);//滚动条一开始移动到顶端
 
         // 获取所需目标信息
-        if (NetWorkUtils.isNetworkConnected(EveryGoalActivity.this)) {
+        if (NetWorkUtils.isNetworkConnected(this)) {
             new InitDataTask().execute();
             new FetchCommentsTask(goal).execute();
         } else {
-            Toast.makeText(EveryGoalActivity.this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "当前环境无网络连接", Toast.LENGTH_SHORT).show();
         }
     }
 

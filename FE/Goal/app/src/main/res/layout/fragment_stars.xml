@@ -19,7 +19,7 @@
         android:scrollHorizontally="true"
   />
     <ImageView
-        android:background="@mipmap/dark"
+        android:background="@mipmap/sky"
         android:scaleType="fitXY"
         android:layout_margin="8dp"
         android:layout_width="match_parent"

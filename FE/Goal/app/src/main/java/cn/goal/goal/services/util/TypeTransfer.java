@@ -247,7 +247,7 @@ public class TypeTransfer {
     }
 
     /**
-     * 将JSONObject转换为Recommend
+     * 将JSONObject转换为Message
      * @param data
      * @return
      */
@@ -259,6 +259,43 @@ public class TypeTransfer {
                 new Date(getLongFromJSON(data, "createAt")),
                 getBooleanFromJSON(data, "hasRead"),
                 getStringFromJSON(data, "_id")
+        );
+    }
+
+    /**
+     * 将JSONArray转换为ArrayList<Rank>
+     * @return
+     */
+    public static ArrayList<Rank> getRankArrayFromJSON(JSONArray data) {
+        ArrayList<Rank> result = new ArrayList<>();
+        if (data == null) return result;
+        for (int i = 0; i < data.length(); ++i) {
+            try {
+                JSONObject rank = data.getJSONObject(i);
+                result.add(getRankFromJSON(rank));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 将JSONObject转换为Message
+     * @param data
+     * @return
+     */
+    public static Rank getRankFromJSON(JSONObject data) {
+        if (data == null) return null;
+        return new Rank(
+                new User(
+                        getStringFromJSON(data, "_id"),
+                        getStringFromJSON(data, "name"),
+                        getStringFromJSON(data, "avatar"),
+                        null,
+                        null,
+                        null),
+                getIntFromJSON(data, "focusTime")
         );
     }
 

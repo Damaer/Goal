@@ -65,7 +65,7 @@ public class Realtime_statistics_count_fragment extends Fragment {
         if (NetWorkUtils.isNetworkConnected(getContext())) {
             new FetchDataTask().execute();
         } else {
-            Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT);
+            Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
         }
         return view;
     }

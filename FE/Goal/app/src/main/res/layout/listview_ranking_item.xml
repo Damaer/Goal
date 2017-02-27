@@ -17,7 +17,7 @@
         android:id="@+id/user_photo"
         android:layout_width="60dp"
         android:layout_height="60dp"
-    />
+        android:padding="10dp"/>
     <LinearLayout
         android:layout_marginLeft="2dp"
         android:orientation="vertical"

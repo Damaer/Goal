@@ -1,10 +1,13 @@
 package cn.goal.goal.services;
 
 import cn.goal.goal.services.object.Analyse;
+import cn.goal.goal.services.object.Rank;
 import cn.goal.goal.services.util.TypeTransfer;
 import cn.goal.goal.utils.HttpRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by chenlin on 25/02/2017.
@@ -34,6 +37,26 @@ public class AnalyseService {
                             data.getJSONArray("goalsUnfinished").length(),
                             FocusTimeService.getFocusTime()
                     );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 获取排行信息
+     */
+    public static ArrayList<Rank> getRankArrayList() {
+        HttpRequest request = HttpRequest
+                .get(apiServer + analyseUrl + "/rank")
+                .header("Authorization", UserService.getToken());
+        if (request.ok()) {
+            try {
+                JSONObject result = new JSONObject(request.body());
+                if (result.getInt("code") == 10000) {
+                    return TypeTransfer.getRankArrayFromJSON(result.getJSONArray("data"));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

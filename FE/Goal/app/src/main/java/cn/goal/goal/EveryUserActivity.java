@@ -188,7 +188,7 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         // 判断用户是否已被当前用户关注
         for (int i = 0; i < userInfo.getFollowers().size(); ++i) {
             User follower = userInfo.getFollowers().get(i);
-            if (follower.get_id().equals(user.get_id())) {
+            if (follower.get_id().equals(UserService.getUserInfo().get_id())) {
                 mPopupMenu.getMenu().getItem(0).setTitle("取消关注");
             }
         }

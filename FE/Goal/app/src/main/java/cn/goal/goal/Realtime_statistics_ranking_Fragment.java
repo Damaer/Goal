@@ -1,5 +1,6 @@
 package cn.goal.goal;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -7,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.*;
+import cn.goal.goal.services.AnalyseService;
+import cn.goal.goal.services.object.Rank;
+import cn.goal.goal.utils.Meta;
+import cn.goal.goal.utils.NetWorkUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,36 +21,74 @@ import java.util.List;
 import java.util.Map;
 
 public class Realtime_statistics_ranking_Fragment extends Fragment {
-
     private ListView listview;
+    private View view;
+    private ArrayList<Rank> list;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) { // TODO Auto-generated method stub
-        View view = inflater.inflate(R.layout.fragement_ranking, null);
-        List<Map<String, Object>> listems = new ArrayList<Map<String, Object>>();
-        for (int i = 0; i < 10; i++) {
-            Map<String, Object> listem = new HashMap<String, Object>();
-            User_ranking one = new User_ranking(i+1,R.drawable.word,"yonghuming",1.00f);
-            listem.put("rank",one.getrank());
-            listem.put("head", one.getImageId());
-            listem.put("name", "用户名"+i);
-            listem.put("value",one.getGoalvalue());
-            listems.add(listem);
+        view = inflater.inflate(R.layout.fragement_ranking, null);
+
+        if (NetWorkUtils.isNetworkConnected(getContext())) {
+            new FetchRankList().execute();
+        } else {
+            Toast.makeText(getContext(), "当前网络不可用", Toast.LENGTH_SHORT).show();
         }
-        SimpleAdapter simplead = new SimpleAdapter(getActivity(), listems,
-                R.layout.listview_ranking_item, new String[]{"rank", "head", "name","value"}
-                ,new int[]{R.id.ranking,R.id.user_photo,R.id.user_name,R.id.goal_value});
+
+        return view;
+    }
+
+    private void render(ArrayList<Rank> rankArrayList) {
+        list = rankArrayList;
+        RankListAdapter adapter = new RankListAdapter(getContext(), rankArrayList);
         listview= (ListView) view.findViewById(R.id.listview);
-        listview.setAdapter(simplead);
+        listview.setAdapter(adapter);
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //判断点击了哪一个用户
-
-
+                Meta.otherUser = list.get(i).getUser();
                 Intent intent2=new Intent(getActivity(),EveryUserActivity.class);
                 startActivity(intent2);
             }
         });
-        return view;
     }
+
+    class FetchRankList extends AsyncTask<Void, Void, ArrayList<Rank>> {
+        private LoadingDialog mLoadingDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(getContext());
+        }
+
+        @Override
+        protected ArrayList<Rank> doInBackground(Void... params) {
+            return AnalyseService.getRankArrayList();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Rank> s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s == null) { // 获取评论失败
+                Toast.makeText(getContext(), "获取记录列表失败", Toast.LENGTH_SHORT).show();
+            } else {
+                render(s);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
+        }
+    }
+
 }

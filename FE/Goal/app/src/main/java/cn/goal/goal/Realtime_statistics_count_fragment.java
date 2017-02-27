@@ -13,15 +13,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
 import cn.goal.goal.services.AnalyseService;
 import cn.goal.goal.services.object.Analyse;
 import cn.goal.goal.services.object.GoalsFinishedRecord;
 import cn.goal.goal.utils.NetWorkUtils;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
-import static cn.goal.goal.R.*;
+import static cn.goal.goal.R.id;
+import static cn.goal.goal.R.layout;
 
 public class Realtime_statistics_count_fragment extends Fragment {
     private TextView time;
@@ -58,7 +60,7 @@ public class Realtime_statistics_count_fragment extends Fragment {
         focusTimeView = (TextView) view.findViewById(id.focusTime);
 
         // 创建记录梯度颜色
-        color = new int[]{Color.LTGRAY, Color.RED, Color.GREEN, Color.BLACK, Color.BLUE};
+        color = new int[]{Color.rgb(232,245,233), Color.rgb(129,199,132), Color.rgb(102,187,106), Color.rgb(67,160,71), Color.rgb(27,94,32)};
 
         if (NetWorkUtils.isNetworkConnected(getContext())) {
             new FetchDataTask().execute();

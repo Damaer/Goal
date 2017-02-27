@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/quick_start_giveup"
-            android:textSize="30sp"
+            android:textSize="24sp"
             android:textColor="#ffffff"
             android:background="@android:color/holo_green_dark"
             android:layout_marginLeft="18dp"

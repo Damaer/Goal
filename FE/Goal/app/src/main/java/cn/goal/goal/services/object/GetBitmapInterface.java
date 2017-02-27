@@ -1,4 +1,4 @@
-package cn.goal.goal.services.object;
+package cn.goal.goal.Services.object;
 
 import android.graphics.Bitmap;
 

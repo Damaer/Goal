@@ -71,6 +71,20 @@ exports.get_goals_finished_record = (req, res, next) => {
 }
 
 /*
+	获取用户今日已完成目标信息
+ */
+exports.get_goals_finished_record_today = (req, res, next) => {
+	let userId = req.user._id;
+	Record.findOne({user: userId, date: getToday()}, (err, record) => {
+		if (err) return res.json({code: 10500, msg: '查询失败'});
+		res.json({code: 10000, msg: '', data: {
+			goalsFinished: record.goalsFinished,
+			date: record.date
+		}});
+	})
+}
+
+/*
 	标记目标今日已完成
  */
 exports.mark_goal_finished = (req, res, next) => {

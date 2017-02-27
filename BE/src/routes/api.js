@@ -95,6 +95,8 @@ router.route('/record/dailySentence')
 // goalRecord
 router.route('/record/goal')
 	.get(Authentication.auth, Record.get_goals_finished_record) // 获取所有每日完成目标信息
+router.route('/record/goal/today')
+	.get(Authentication.auth, Record.get_goals_finished_record_today)
 router.route('/record/goal/:id')
 	.post(Authentication.auth, Record.mark_goal_finished) // 标记目标已完成
 

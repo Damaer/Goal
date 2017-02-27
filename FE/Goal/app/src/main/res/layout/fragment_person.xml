@@ -57,7 +57,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
     <ImageView
-            app:srcCompat="@mipmap/ic_launcher"
             android:id="@+id/avatar"
             app:layout_anchor="@id/collapsingToolbarLayout"
             app:layout_anchorGravity="bottom|center"

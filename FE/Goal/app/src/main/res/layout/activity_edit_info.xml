@@ -40,14 +40,13 @@
                       android:orientation="vertical" android:padding="10dp">
             <ImageButton
                     android:layout_height="100dp"
-                    app:srcCompat="@mipmap/ic_launcher"
                     android:id="@+id/avatar"
-                    android:background="@android:color/transparent"
                     android:adjustViewBounds="false"
                     android:cropToPadding="false"
                     android:scaleType="fitCenter"
                     android:layout_width="match_parent"
-                    android:layout_gravity="center" android:layout_marginBottom="10dp"/>
+                    android:layout_gravity="center" android:layout_marginBottom="10dp"
+                    android:background="@android:color/transparent"/>
             <TableLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" android:stretchColumns="1">

@@ -10,14 +10,13 @@
         android:layout_height="match_parent">
         <ImageButton
                 android:id="@+id/commentuser_photo"
-                android:background="@mipmap/ic_launcher"
-                android:layout_width="25dp"
-                android:layout_height="25dp" android:scaleType="fitCenter"/>
+                android:scaleType="fitCenter" android:layout_width="32dp" android:layout_height="32dp"
+                android:background="@android:color/transparent"/>
     </LinearLayout>
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_marginLeft="10dp">
         <LinearLayout
             android:layout_marginTop="4dp"
             android:orientation="horizontal"

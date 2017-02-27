@@ -4,6 +4,9 @@ import path from 'path'
 import formidable from 'formidable'
 
 import User from '../models/User'
+import FocusTime from '../models/FocusTime'
+import Follow from '../models/Follow'
+import GoalUserMap from '../models/GoalUserMap'
 import validate from './validate/user'
 
 const uploadConfig = {
@@ -82,6 +85,48 @@ exports.get_user_info = (req, res, next) => {
 		description: user.description,
 		authority: user.authority
 	}});
+}
+
+exports.get_other_user_info = (req, res, next) => {
+	let id = req.params.id;
+	User.findById(id, (err, user) => {
+		if (err) return res.json({code: 10500, msg: '查询用户信息失败'});
+		if (!user) return res.json({code: 10200, msg: '查询用户不存在'});
+		user = {
+			description: user.description
+		};
+		let promises = [];
+		// 获取专注时长
+		promises.push(new Promise((resolve, reject) => {
+			FocusTime.find({user: id}, (err, focusTimes) => {
+				if (err) return reject();
+				user.focusTime = focusTimes.reduce((totle, focusTime) => totle + focusTime.length, 0);
+				resolve();
+			})
+		}))
+		// 获取关注他的人
+		promises.push(new Promise((resolve, reject) => {
+			Follow.find({user: id}).populate({path: 'follower', select: {name: 1, avatar: 1, description: 1}}).exec((err, follows) => {
+				if (err) reject();
+				user.followers = follows.map(follow => follow.follower);
+				resolve();
+			})
+		}))
+		// 获取他的目标个数
+		promises.push(new Promise((resolve, reject) => {
+			GoalUserMap.count({user: id, public: true}, (err, count) => {
+				if (err) return reject();
+				user.numOfGoal = count;
+				resolve();
+			})
+		}))
+
+		Promise.all(promises).then(() => {
+			res.json({code: 10000, msg: '', data: user});
+		}, err => {
+			res.json({code: 10200, msg: '查询失败'})
+		})
+	})
 }
 
 exports.update_user_info = (req, res, nect) => {

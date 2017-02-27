@@ -35,6 +35,8 @@ router.route('/user/avatar')
 router.route('/user/info')
 	.get(Authentication.auth, User.get_user_info)
 	.put(Authentication.auth, User.update_user_info)
+router.route('/user/info/:id')
+	.get(User.get_other_user_info)
 router.route('/user/password')
 	.put(Authentication.auth, User.update_password)
 // email

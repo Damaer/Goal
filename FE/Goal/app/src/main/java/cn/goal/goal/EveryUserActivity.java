@@ -46,8 +46,6 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_every_user);
         goalname= (TextView) findViewById(R.id.goal_name_of_user);
 
-
-
         List<Map<String, Object>> listems = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < 10; i++) {
             Map<String, Object> listem = new HashMap<String, Object>();
@@ -97,7 +95,6 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         hide_down.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 // 隐藏输入法，然后暂存当前输入框的内容，方便下次使用
                 InputMethodManager im = (InputMethodManager)getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(content_of_send.getWindowToken(), 0);

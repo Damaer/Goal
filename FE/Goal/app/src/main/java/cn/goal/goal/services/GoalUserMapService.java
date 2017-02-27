@@ -20,7 +20,7 @@ public class GoalUserMapService {
     public static final String recordUrl = Config.record;
 
     public static ArrayList<GoalUserMap> goalUserMaps; // 当前用户关注目标列表
-    public static ArrayList<GoalFinished> goalsFinished; // 当天已完成目标
+    public static GoalFinished goalsFinished; // 当天已完成目标
 
     /**
      * 获取当前用户关注目标列表
@@ -241,7 +241,7 @@ public class GoalUserMapService {
             try {
                 JSONObject result = new JSONObject(request.body());
                 if (result.getInt("code") == 10000) {
-                    goalsFinished.add(new GoalFinished(goal, new Date()));
+                    goalsFinished.addGoalFinished(goal.getGoal().get_id());
                     return null;
                 }
                 return result.getString("msg");
@@ -257,12 +257,30 @@ public class GoalUserMapService {
      * 获取今日已完成目标
      * @return
      */
-    public static ArrayList<GoalFinished> getGoalsFinished() {
-        if (goalsFinished == null) goalsFinished = new ArrayList<>();
+    public static GoalFinished getGoalsFinished() {
+        if (goalsFinished == null) {
+            HttpRequest request = HttpRequest
+                    .get(apiServer + recordUrl + "/goal/today")
+                    .header("Authorization", UserService.getToken());
+            if (request.ok()) {
+                try {
+                    JSONObject result = new JSONObject(request.body());
+                    if (result.getInt("code") == 10000) {
+                        JSONObject data = result.getJSONObject("data");
+                        goalsFinished = new GoalFinished(
+                                TypeTransfer.getStringArrayFromJSON(data.getJSONArray("goalsFinished")),
+                                new Date(TypeTransfer.getLongFromJSON(data, "date"))
+                        );
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         // 判断是否到了第二天
-        if (goalsFinished.size() > 0) {
-            if (goalsFinished.get(0).getDate().getDate() != new Date().getDate()) {
-                goalsFinished = new ArrayList<>(); // 第二天则清空数组;
+        if (goalsFinished != null) {
+            if (goalsFinished.getDate().getDate() != new Date().getDate()) {
+                goalsFinished.setGoal(new ArrayList<String>()); // 第二天则清空数组;
             }
         }
         return goalsFinished;

@@ -247,10 +247,7 @@ public class GoalDetailActivity extends AppCompatActivity implements View.OnClic
      */
     private Boolean isMarkableToday() {
         if (goal.getFinish()) return false;
-        ArrayList<GoalFinished> goalsFinished = GoalUserMapService.getGoalsFinished();
-        for (GoalFinished goalFinished : goalsFinished) {
-            if (goalFinished.getGoal() == goal) return false;
-        }
-        return true;
+        GoalFinished goalsFinished = GoalUserMapService.getGoalsFinished();
+        return goalsFinished.getGoal().contains(goal.get_id());
     }
 }

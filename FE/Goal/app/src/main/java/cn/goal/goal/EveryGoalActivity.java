@@ -34,7 +34,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
 
     private boolean isJoin; // 判断用户是否添加当前目标
     private boolean finishedToday; // 标记当前目标今日是否已完成
-    //
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -255,7 +255,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         listView.setOnScrollListener(this);
     }
 
-    class InitDataTask extends AsyncTask<Void, Void, ArrayList<GoalFinished>> {
+    class InitDataTask extends AsyncTask<Void, Void, GoalFinished> {
         LoadingDialog mLoadingDialog;
         @Override
         protected void onPreExecute() {
@@ -264,7 +264,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         }
 
         @Override
-        protected ArrayList<GoalFinished> doInBackground(Void... params) {
+        protected GoalFinished doInBackground(Void... params) {
             // 判断当前目标是否被当前用户添加
             ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
             isJoin = goalUserMaps.indexOf(goal) != -1;
@@ -272,7 +272,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         }
 
         @Override
-        protected void onPostExecute(ArrayList<GoalFinished> goalFinisheds) {
+        protected void onPostExecute(GoalFinished goalFinisheds) {
             super.onPostExecute(goalFinisheds);
             cancelDialog();
             if (!isJoin) { // 未添加当前目标
@@ -283,15 +283,15 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                 write.setVisibility(View.VISIBLE);
                 // 判断当前目标今日是否已完成
                 boolean flag = false;
-                System.out.println(goalFinisheds.size());
-                for (int i = 0; i < goalFinisheds.size(); ++i) {
-                    if (goalFinisheds.get(i).getGoal().get_id().equals(goal.get_id())) {
+                for (String goalId : goalFinisheds.getGoal()) {
+                    if (goalId.equals(goal.getGoal().get_id())) {
                         flag = true;
                         break;
                     }
                 }
+
                 finishedToday = flag;
-                go_goal.setImageResource(flag ? R.mipmap.go2 : R.mipmap.go1);
+                go_goal.setImageResource(finishedToday ? R.mipmap.go2 : R.mipmap.go1);
             }
         }
 

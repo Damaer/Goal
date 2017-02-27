@@ -2,6 +2,8 @@ package cn.goal.goal;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -17,15 +19,9 @@ public class LoadingDialog {
         close = false;
         mContext = context;
 
-        new Thread((new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
                 if (!close) {
                     View mView = LayoutInflater.from(mContext)
                             .inflate(R.layout.dialog_loading, null);
@@ -37,7 +33,7 @@ public class LoadingDialog {
                     mDialog.show();
                 }
             }
-        })).start();
+        }, 500);
 
         return this;
     }

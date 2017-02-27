@@ -9,10 +9,10 @@
         android:layout_width="28dp"
         android:layout_height="match_parent">
         <ImageButton
-            android:id="@+id/commentuser_photo"
-            android:background="@mipmap/ic_launcher"
-            android:layout_width="25dp"
-            android:layout_height="25dp" />
+                android:id="@+id/commentuser_photo"
+                android:background="@mipmap/ic_launcher"
+                android:layout_width="25dp"
+                android:layout_height="25dp" android:scaleType="fitCenter"/>
     </LinearLayout>
     <LinearLayout
         android:orientation="vertical"

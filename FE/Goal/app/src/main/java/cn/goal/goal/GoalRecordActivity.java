@@ -24,6 +24,8 @@ import java.util.Date;
  * Created by Jeffrey Wang on 17-2-21 0021.
  */
 public class GoalRecordActivity extends AppCompatActivity implements View.OnClickListener{
+    public static final int REQUEST_RECORD = 1002;
+
     ImageButton buttonBack;
     TextView buttonSend;
     EditText contentView;
@@ -51,6 +53,7 @@ public class GoalRecordActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View view) {
             switch (view.getId()){
                 case R.id.button_back:
+                    setResult(RESULT_CANCELED);
                     finish();
                     break;
                 case R.id.button_record:
@@ -100,7 +103,7 @@ public class GoalRecordActivity extends AppCompatActivity implements View.OnClic
             if (s != null) { // 添加失败
                 Toast.makeText(GoalRecordActivity.this, "记录失败，请重新尝试", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(GoalRecordActivity.this, "记录成功", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
                 finish();
             }
         }

@@ -11,7 +11,6 @@ import android.widget.*;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import cn.goal.goal.services.CommentService;
 import cn.goal.goal.services.GoalUserMapService;
@@ -99,19 +98,11 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (NetWorkUtils.isNetworkConnected(this)) {
-            new FetchCommentsTask(goal).execute();
-        }
-    }
-
     public void record()
     {
         Intent intent = new Intent(this,GoalRecordActivity.class);
         intent.putExtra("goalIndex", goalIndex);
-        startActivity(intent);
+        startActivityForResult(intent, GoalRecordActivity.REQUEST_RECORD);
     }
 
     /**
@@ -249,15 +240,29 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
       */
    @Override
     public void onItemClick(AdapterView<?> arg0, View v, int position, long id) {
-            Intent intent=new Intent(EveryGoalActivity.this,DetailOfRecordActivity.class);
-            startActivity(intent);
-        }
+       Intent intent=new Intent(EveryGoalActivity.this,DetailOfRecordActivity.class);
+       intent.putExtra("commentIndex", position);
+       startActivity(intent);
+   }
 
-           /**
-       * 接口方法，响应ListView按钮点击事件
-      */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GoalRecordActivity.REQUEST_RECORD) {
+            if (resultCode == RESULT_OK) {
+                // 更新信息
+                if (NetWorkUtils.isNetworkConnected(EveryGoalActivity.this)) {
+                    new FetchCommentsTask(goal).execute();
+                }
+            }
+        }
+    }
 
     public void renderCommends(ArrayList<Comment> comments) {
+        // 给所有comment添加上goal信息
+        for (int i = 0; i < comments.size(); ++i) {
+            comments.get(i).goal = goal.getGoal();
+        }
         MyAdapter_for_every_record myadater=new MyAdapter_for_every_record(this,comments);
         listView.setAdapter(myadater);
         listView.setOnItemClickListener(this);

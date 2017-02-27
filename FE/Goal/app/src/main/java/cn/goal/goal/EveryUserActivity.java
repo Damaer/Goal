@@ -46,6 +46,8 @@ public class EveryUserActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_every_user);
         goalname= (TextView) findViewById(R.id.goal_name_of_user);
 
+
+
         List<Map<String, Object>> listems = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < 10; i++) {
             Map<String, Object> listem = new HashMap<String, Object>();

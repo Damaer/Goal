@@ -2,32 +2,22 @@ package cn.goal.goal;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.LauncherApps;
-import android.content.pm.LauncherApps.Callback;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.telecom.Call;
-import android.util.Log;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
-import cn.goal.goal.Goal_record_class;
-import cn.goal.goal.R;
 import cn.goal.goal.services.CommentService;
+import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.Comment;
+import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.Util;
-
-import static android.R.id.list;
-import static android.R.id.startSelectingText;
 
 /**
  * Created by 97617 on 2017/2/22.
@@ -36,7 +26,7 @@ import static android.R.id.startSelectingText;
 public class MyAdapter_for_every_record extends BaseAdapter implements View.OnClickListener{
     private static final String TAG = "CMyAdapter_for_every_record";
     private LayoutInflater mInflaer;
-    private ArrayList<Comment> list;
+    public static ArrayList<Comment> list;
     private ImageView[] headphoto;
     private ImageButton[] likeButtons;
     private TextView[] sumOfLikeViews;
@@ -96,7 +86,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
             @Override
             public void getImg(Bitmap img) {
                 super.getImg(img);
-                headphoto[position].setImageBitmap(img);
+                headphoto[tag].setImageBitmap(img);
                 MyAdapter_for_every_record.this.notifyDataSetChanged();
             }
 
@@ -110,7 +100,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         User user = listItem.getUser();
         user.getAvatarBitmap(mContext);
         holder.user_name.setText(user.getUsername());
-        holder.goal_name.setText(listItem.goalTitle);
+        holder.goal_name.setText(listItem.goal.getTitle());
         holder.content_of_send.setText(listItem.getContent());
         holder.time_of_send.setText(Util.dateToString(listItem.getCreateAt()));
         isLike[position] = listItem.getLike().contains(user.get_id());
@@ -144,13 +134,10 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
     }
 
     public class ViewHolder {
-        public ImageView headphoto;
         public TextView user_name;
         public TextView goal_name;
         public TextView content_of_send;
         public TextView time_of_send;
-        public ImageButton like;
-        public TextView sum_of_like;
         public ImageButton share;
         public ImageButton reply;
         public TextView sum_of_reply;
@@ -165,10 +152,25 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
                 mContext.startActivity(intent);
                 break;
             case R.id.goal_name:
-
+                Intent intent4=new Intent(mContext,EveryGoalActivity.class);
+                // 获取goalUserMap
+                GoalUserMap goalUserMap = null;
+                Goal goal = list.get((int)v.getTag()).goal;
+                ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
+                for (int i = 0; i < goalUserMaps.size(); ++i) {
+                    if (goalUserMaps.get(i).getGoal() == goal) {
+                        goalUserMap = goalUserMaps.get(i);
+                        break;
+                    }
+                }
+                if (goalUserMap == null)
+                    goalUserMap = new GoalUserMap(goal, null, null, null, null, null, null, null, null);
+                intent4.putExtra("goalIndex", GoalUserMapService.getGoalIndex(goalUserMap));
+                mContext.startActivity(intent4);
                 break;
             case R.id.content_of_record:
                 Intent intent3=new Intent(mContext,DetailOfRecordActivity.class);
+                intent3.putExtra("commentIndex", (int)v.getTag());
                 mContext.startActivity(intent3);
                 break;
             case R.id.like:
@@ -179,6 +181,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
                 break;
             case R.id.reply:
                 Intent intent2=new Intent(mContext,DetailOfRecordActivity.class);
+                intent2.putExtra("commentIndex", (int)v.getTag());
                 mContext.startActivity(intent2);
                 break;
             default:

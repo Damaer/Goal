@@ -13,7 +13,7 @@ public class Comment {
     private int numOfReply;
     private Date createAt;
     private ArrayList<String> like;
-    public String goalTitle;
+    public Goal goal;
 
     public Comment(String content, User user, String _id, int numOfReply, Date createAt, ArrayList<String> like) {
         this.content = content;

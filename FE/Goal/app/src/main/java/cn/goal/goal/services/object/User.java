@@ -23,12 +23,12 @@ public class User {
     private String email;
     private String phone;
     private String _id;
-    private Bitmap avatarBitmap;
-    private Bitmap roundAvatarBitmap;
-    private GetBitmapInterface avatarInterface;
+    private transient Bitmap avatarBitmap;
+    private transient Bitmap roundAvatarBitmap;
+    private transient GetBitmapInterface avatarInterface;
 
-    private Boolean isRound;
-    private Boolean isFetchingAvatar = false; // 标记是否正在获取头像
+    private boolean isRound;
+    private boolean isFetchingAvatar = false; // 标记是否正在获取头像
 
     public User(String _id, String username, String avatar, String description, String email, String phone) {
         this._id = _id;

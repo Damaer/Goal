@@ -54,7 +54,8 @@ public class FocusTimeService {
             try {
                 JSONObject result = new JSONObject(request.body());
                 if (result.getInt("code") == 10000) {
-                    focusTime += length;
+                    if (focusTime != null)
+                        focusTime += length;
                     return null;
                 }
                 return result.getString("msg");

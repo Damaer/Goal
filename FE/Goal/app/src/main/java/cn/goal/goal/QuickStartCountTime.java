@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import cn.goal.goal.services.FocusTimeService;
 import cn.goal.goal.utils.NetWorkUtils;
@@ -97,13 +99,13 @@ public class QuickStartCountTime extends AppCompatActivity {
     private void onButtonPressed() {
         if(cancelCount.getText().equals("确定")){
             if(NetWorkUtils.isNetworkConnected(this)){
-                FocusTimeService.addFocusTime(new Date(), TimeViewComm.SumOfMinutes);
-            }else{
-                SharedPreferences sp = getSharedPreferences("sp_focus_time", Context.MODE_PRIVATE);
-                sp.edit().putInt("focusTime", TimeViewComm.SumOfMinutes).commit();
+                new UploadFocusTimeTask().execute();
+            } else {
+                // 无网状态先保存到本地
+                saveInLocal();
             }
             finish();
-        }else {
+        } else {
             new AlertDialog.Builder(this)
                     .setTitle("确认放弃吗？")
                     .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -121,4 +123,46 @@ public class QuickStartCountTime extends AppCompatActivity {
         }
     }
 
+    class UploadFocusTimeTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog mLoadingDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(QuickStartCountTime.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return FocusTimeService.addFocusTime(new Date(), TimeViewComm.SumOfMinutes);
+        }
+
+        @Override
+        protected void onPostExecute(String err) {
+            super.onPostExecute(err);
+            cancelDialog();
+            if (err != null) {
+                saveInLocal();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
+        }
+    }
+
+    private void saveInLocal() {
+        SharedPreferences sp = getSharedPreferences("user", Context.MODE_PRIVATE);
+        HashSet<String> focusTime = (HashSet<String>) sp.getStringSet("focus_time", new HashSet<String>());
+        focusTime.add(String.valueOf(new Date().getTime()) + "-" + String .valueOf(TimeViewComm.SumOfMinutes));
+        sp.edit().putStringSet("focus_time", focusTime).apply();
+    }
 }

@@ -60,6 +60,7 @@ public class UserService {
         editor.remove("description");
         editor.remove("email");
         editor.remove("phone");
+        editor.remove("focus_time");
         editor.commit();
 
         // 清空Service现有信息

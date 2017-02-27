@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -14,11 +15,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import cn.goal.goal.services.FocusTimeService;
 import cn.goal.goal.utils.NetWorkUtils;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import cn.goal.goal.services.UserService;
+
+import java.util.Date;
+import java.util.HashSet;
 
 /**
  * Created by chenlin on 12/02/2017.
@@ -144,8 +149,21 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
             cancelDialog();
             if (aBoolean) {
                 // 登录信息过期，启动登录界面
+                UserService.removeLocalInfo();
                 startActivity(new Intent(BaseActivity.this, LoginActivity.class));
                 finish();
+            } else {
+                // 将专注时间上传到服务器上
+                SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+                HashSet<String> focusTime = (HashSet<String>) sp.getStringSet("focus_time", null);
+                if (focusTime != null) {
+                    for (String row : focusTime) {
+                        String[] split = row.split("-");
+                        if (split.length == 2) {
+                            new UploadFocusTimeTask(new Date(Long.valueOf(split[0])), Integer.valueOf(split[1]));
+                        }
+                    }
+                }
             }
         }
 
@@ -157,6 +175,53 @@ public class BaseActivity extends AppCompatActivity implements BottomNavigationB
 
         private void cancelDialog() {
             if (mLoadingDialog != null) mLoadingDialog.closeDialog();
+        }
+    }
+
+    class UploadFocusTimeTask extends AsyncTask<Void, Void, String> {
+        LoadingDialog mLoadingDialog;
+        private Date begin;
+        private int length;
+
+        public UploadFocusTimeTask(Date begin, int length) {
+            super();
+            this.begin = begin;
+            this.length = length;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(BaseActivity.this);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return FocusTimeService.addFocusTime(begin, length);
+        }
+
+        @Override
+        protected void onPostExecute(String err) {
+            super.onPostExecute(err);
+            cancelDialog();
+            if (err == null) {
+                SharedPreferences sp = getSharedPreferences("user", MODE_PRIVATE);
+                HashSet<String> focusTime = (HashSet<String>) sp.getStringSet("focus_time", new HashSet<String>());
+                focusTime.remove(String.valueOf(begin.getTime()) + "-" + String.valueOf(length));
+                sp.edit().putStringSet("focus_time", focusTime).apply();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
         }
     }
 

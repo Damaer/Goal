@@ -15,8 +15,9 @@ public class GoalUserMap {
     private Date begin;
     private Date plan;
     private Date end;
+    private int numberOfPeople;
 
-    public GoalUserMap(Goal goal, String _id, Boolean isPublic, Date createAt, Date updateAt, Boolean finish, Date begin, Date plan, Date end) {
+    public GoalUserMap(Goal goal, String _id, Boolean isPublic, Date createAt, Date updateAt, Boolean finish, Date begin, Date plan, Date end, int numberOfPeople) {
         this.goal = goal;
         this._id = _id;
         this.isPublic = isPublic;
@@ -26,6 +27,11 @@ public class GoalUserMap {
         this.begin = begin;
         this.plan = plan;
         this.end = end;
+        this.numberOfPeople = numberOfPeople;
+    }
+
+    public int getNumberOfPeople() {
+        return numberOfPeople;
     }
 
     public Goal getGoal() {

@@ -17,6 +17,7 @@ import cn.goal.goal.services.object.Comment;
 import cn.goal.goal.services.object.Goal;
 import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.Meta;
 import cn.goal.goal.utils.Util;
 
 /**
@@ -100,7 +101,7 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         User user = listItem.getUser();
         user.getAvatarBitmap(mContext);
         holder.user_name.setText(user.getUsername());
-        holder.goal_name.setText(listItem.goal.getTitle());
+        holder.goal_name.setText(null); //设置不显示目标标题 listItem.goal.getTitle()
         holder.content_of_send.setText(listItem.getContent());
         holder.time_of_send.setText(Util.dateToString(listItem.getCreateAt()));
         isLike[position] = listItem.getLike().contains(user.get_id());
@@ -148,25 +149,26 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
         switch (v.getId()) {
             case R.id.user_name:
             case R.id.head_photo:
+                Meta.otherUser = list.get((int)v.getTag()).getUser();
                 Intent intent=new Intent(mContext,EveryUserActivity.class);
                 mContext.startActivity(intent);
                 break;
             case R.id.goal_name:
-                Intent intent4=new Intent(mContext,EveryGoalActivity.class);
-                // 获取goalUserMap
-                GoalUserMap goalUserMap = null;
-                Goal goal = list.get((int)v.getTag()).goal;
-                ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
-                for (int i = 0; i < goalUserMaps.size(); ++i) {
-                    if (goalUserMaps.get(i).getGoal() == goal) {
-                        goalUserMap = goalUserMaps.get(i);
-                        break;
-                    }
-                }
-                if (goalUserMap == null)
-                    goalUserMap = new GoalUserMap(goal, null, null, null, null, null, null, null, null);
-                intent4.putExtra("goalIndex", GoalUserMapService.getGoalIndex(goalUserMap));
-                mContext.startActivity(intent4);
+//                Intent intent4=new Intent(mContext,EveryGoalActivity.class);
+//                // 获取goalUserMap
+//                GoalUserMap goalUserMap = null;
+//                Goal goal = list.get((int)v.getTag()).goal;
+//                ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
+//                for (int i = 0; i < goalUserMaps.size(); ++i) {
+//                    if (goalUserMaps.get(i).getGoal() == goal) {
+//                        goalUserMap = goalUserMaps.get(i);
+//                        break;
+//                    }
+//                }
+//                if (goalUserMap == null)
+//                    goalUserMap = new GoalUserMap(goal, null, null, null, null, null, null, null, null, 0);
+//                intent4.putExtra("goalIndex", GoalUserMapService.getGoalIndex(goalUserMap));
+//                mContext.startActivity(intent4);
                 break;
             case R.id.content_of_record:
                 Intent intent3=new Intent(mContext,DetailOfRecordActivity.class);

@@ -17,6 +17,7 @@ import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.Comment;
 import cn.goal.goal.services.object.GoalFinished;
 import cn.goal.goal.services.object.GoalUserMap;
+import cn.goal.goal.utils.Meta;
 import cn.goal.goal.utils.MylistView_for_goal_record;
 import cn.goal.goal.utils.NetWorkUtils;
 
@@ -39,13 +40,19 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_every_goal);
         // 传入数据不正确
-        if (getIntent() == null) {
-            Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
-            finish();
-            return ;
+        if (getIntent() == null || getIntent().getExtras() == null) {
+            if (Meta.everyGoal != null) {
+                isJoin = false;
+                goal = new GoalUserMap(Meta.everyGoal, null, null, null, null, null, null, null, null, 0);
+            } else {
+                Toast.makeText(this, "传入数据错误", Toast.LENGTH_SHORT).show();
+                finish();
+                return ;
+            }
+        } else {
+            goalIndex = getIntent().getExtras().getString("goalIndex");
+            goal = GoalUserMapService.getGoal(goalIndex);
         }
-        goalIndex = getIntent().getExtras().getString("goalIndex");
-        goal = GoalUserMapService.getGoal(goalIndex);
 
         listView= (MylistView_for_goal_record)findViewById(R.id.every_record_listview);
         titleView = (TextView)findViewById(R.id.title);
@@ -57,7 +64,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         mPopupMenu = new PopupMenu(this,write);
         mPopupMenu.getMenuInflater()
                 .inflate(R.menu.write_and_setting, mPopupMenu.getMenu());
-        mPopupMenu.getMenu().getItem(2).setEnabled(!goal.getFinish());
+        mPopupMenu.getMenu().getItem(2).setEnabled(goal.getFinish() == null || goal.getFinish() == false);
         mPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -121,7 +128,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
             public void onClick(View view) {
                 if (!isJoin) {
                     showDialog2();
-                } else if (!finishedToday && !goal.getFinish()) {
+                } else if (!finishedToday && (goal.getFinish() == null || goal.getFinish() == false)) {
                     showDialog1();
                 }
             }
@@ -280,8 +287,14 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         @Override
         protected GoalFinished doInBackground(Void... params) {
             // 判断当前目标是否被当前用户添加
+            isJoin = false;
             ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
-            isJoin = goalUserMaps.indexOf(goal) != -1;
+            for (int i = 0; i < goalUserMaps.size(); ++i) {
+                GoalUserMap goalUserMap = goalUserMaps.get(i);
+                if (goalUserMap.getGoal().get_id().equals(goal.getGoal().get_id())) {
+                    isJoin = true;
+                }
+            }
             return isJoin ? GoalUserMapService.getGoalsFinished() : null;
         }
 
@@ -525,8 +538,8 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                 Toast.makeText(EveryGoalActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
                 isJoin = true;
                 write.setVisibility(View.VISIBLE);
-                new InitDataTask().execute(); // 刷新数据
                 go_goal.setImageResource(R.mipmap.go1);
+                new InitDataTask().execute(); // 刷新数据
             }
         }
 

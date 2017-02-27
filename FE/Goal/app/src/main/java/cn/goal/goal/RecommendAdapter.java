@@ -121,10 +121,12 @@ public class RecommendAdapter extends BaseAdapter {
     private void addFollow(String author, String _id) {
         Recommend recommend;
         for (int i = 0; i < len; ++i) {
-            recommend = mRecommendArrayList.get(i);
-            if (author.equals(recommend.getUser().get_id())) {
-                recommend.getFollower().add(_id);
-                followButtons[i].setText("已关注");
+            if (followButtons[i] != null) {
+                recommend = mRecommendArrayList.get(i);
+                if (author.equals(recommend.getUser().get_id())) {
+                    recommend.getFollower().add(_id);
+                    followButtons[i].setText("已关注");
+                }
             }
         }
     }
@@ -132,10 +134,12 @@ public class RecommendAdapter extends BaseAdapter {
     private void removeFollow(String author, String _id) {
         Recommend recommend;
         for (int i = 0; i < len; ++i) {
-            recommend = mRecommendArrayList.get(i);
-            if (author.equals(recommend.getUser().get_id())) {
-                recommend.getFollower().remove(_id);
-                followButtons[i].setText("关注");
+            if (followButtons[i] != null) {
+                recommend = mRecommendArrayList.get(i);
+                if (author.equals(recommend.getUser().get_id())) {
+                    recommend.getFollower().remove(_id);
+                    followButtons[i].setText("关注");
+                }
             }
         }
     }

@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/attention"
-        android:title="关注他"/>
+        android:title="关注"/>
     <item
         android:id="@+id/sendmessage"
         android:title="发信息"/>

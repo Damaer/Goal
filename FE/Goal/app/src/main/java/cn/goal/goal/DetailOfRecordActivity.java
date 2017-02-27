@@ -20,9 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.goal.goal.services.CommentService;
+import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Comment;
 import cn.goal.goal.services.object.GetBitmapInterface;
+import cn.goal.goal.utils.Meta;
 import cn.goal.goal.utils.MylistView_for_goal_comment;
 import cn.goal.goal.utils.NetWorkUtils;
 import cn.goal.goal.utils.Util;
@@ -177,13 +179,13 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
     }
     public void jump_to_user()
     {
+        Meta.otherUser = record.getUser();
         Intent intent=new Intent(this,EveryUserActivity.class);
         startActivity(intent);
     }
     public void jump_to_goal()
     {
-        Intent intent4=new Intent(this,EveryGoalActivity.class);
-        startActivity(intent4);
+        finish();
     }
     @Override
     public void onScrollStateChanged(AbsListView absListView, int position) {
@@ -217,8 +219,6 @@ public class DetailOfRecordActivity extends AppCompatActivity implements Adapter
     public void click(View v) {
         switch (v.getId())
         {
-            case R.id.commentuser_photo:
-            case R.id.user_reply:
             case R.id.user_replyed:
                 jump_to_user();
                 break;

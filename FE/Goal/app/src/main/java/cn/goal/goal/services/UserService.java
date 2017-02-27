@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
+import cn.goal.goal.services.object.UserInfo;
 import cn.goal.goal.services.util.TypeTransfer;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -376,5 +377,33 @@ public class UserService {
             e.printStackTrace();
             return "请检查网络设置";
         }
+    }
+
+    /**
+     * 获取其他用户信息
+     * 包括个人描述、专注时长、关注他的人、目标数量
+     * @param user
+     * @return
+     */
+    public static UserInfo getOtherUserInfo(User user) {
+        try {
+            HttpRequest request = HttpRequest
+                    .get(baseUrl + userInfoUrl + "/" + user.get_id());
+            if (request.ok()) {
+                JSONObject result = new JSONObject(request.body());
+                if (result.getInt("code") == 10000) {
+                    JSONObject data = result.getJSONObject("data");
+                    return new UserInfo(
+                            data.getString("description"),
+                            data.getInt("focusTime"),
+                            data.getInt("numOfGoal"),
+                            TypeTransfer.getUserArrayFromJSON(data.getJSONArray("followers"))
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

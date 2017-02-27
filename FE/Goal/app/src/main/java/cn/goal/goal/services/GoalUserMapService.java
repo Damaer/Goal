@@ -108,7 +108,8 @@ public class GoalUserMapService {
                             false,
                             begin,
                             plan,
-                            new Date(0)
+                            new Date(0),
+                            1
                     ));
                     return null;
                 }

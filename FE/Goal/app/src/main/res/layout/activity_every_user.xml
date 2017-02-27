@@ -49,7 +49,6 @@
                 android:id="@+id/user_head_photo"
                 android:layout_gravity="center"
                 android:gravity="center_horizontal"
-                android:background="@mipmap/headphoto"
                 android:layout_width="80dp"
                 android:layout_height="80dp" />
             <TextView

@@ -1,6 +1,7 @@
 package cn.goal.goal;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 
 import cn.goal.goal.services.object.Comment;
 import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.Meta;
 import cn.goal.goal.utils.Util;
 
 /**
@@ -116,6 +118,14 @@ public class MyAdapter_for_every_comment extends BaseAdapter implements View.OnC
     }
 
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.commentuser_photo:
+            case R.id.user_reply:
+                Meta.otherUser = list.get((int)v.getTag()).getUser();
+                Intent intent=new Intent(mContext,EveryUserActivity.class);
+                mContext.startActivity(intent);
+                break;
+        }
         mcallback.click(v);
     }
 }

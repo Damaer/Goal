@@ -124,7 +124,8 @@ public class TypeTransfer {
                 getBooleanFromJSON(data, "finish"),
                 new Date(getLongFromJSON(data, "begin")),
                 new Date(getLongFromJSON(data, "plan")),
-                new Date(getLongFromJSON(data, "end"))
+                new Date(getLongFromJSON(data, "end")),
+                getIntFromJSON(data, "numberOfPeople")
         );
     }
 

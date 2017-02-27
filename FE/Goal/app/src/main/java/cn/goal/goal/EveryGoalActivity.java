@@ -108,8 +108,12 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
     public void record()
     {
         Intent intent = new Intent(this,GoalRecordActivity.class);
-        intent.putExtra("goalIndex", goalIndex);
-        startActivityForResult(intent, GoalRecordActivity.REQUEST_RECORD);
+        if (goalIndex == null) {
+            Toast.makeText(EveryGoalActivity.this, "获取数据失败,请尝试重启程序", Toast.LENGTH_SHORT).show();
+        } else {
+            intent.putExtra("goalIndex", goalIndex);
+            startActivityForResult(intent, GoalRecordActivity.REQUEST_RECORD);
+        }
     }
 
     /**
@@ -539,6 +543,16 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                 isJoin = true;
                 write.setVisibility(View.VISIBLE);
                 go_goal.setImageResource(R.mipmap.go1);
+
+                // 获取goalIndex
+                ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
+                for (int i = 0; i < goalUserMaps.size(); ++i) {
+                    GoalUserMap goalUserMap = goalUserMaps.get(i);
+                    if (goalUserMap.getGoal().get_id().equals(goal.getGoal().get_id())) {
+                        goalIndex = String.valueOf(i);
+                    }
+                }
+
                 new InitDataTask().execute(); // 刷新数据
             }
         }

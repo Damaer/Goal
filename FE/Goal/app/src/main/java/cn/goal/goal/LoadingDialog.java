@@ -37,7 +37,7 @@ public class LoadingDialog {
                     mDialog.show();
                 }
             }
-        }));
+        })).start();
 
         return this;
     }

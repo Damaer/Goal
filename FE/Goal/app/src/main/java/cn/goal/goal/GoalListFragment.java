@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.widget.Toast;
 import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.utils.NetWorkUtils;
@@ -31,6 +32,8 @@ public class GoalListFragment extends Fragment {
     private ListView mListView;
 
     ArrayList<Map<String, String>> data;
+
+    private String deleteGoalIndex;
 
     @Override
     public void setArguments(Bundle args) {
@@ -67,6 +70,7 @@ public class GoalListFragment extends Fragment {
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                deleteGoalIndex = ((HashMap<String, String>) adapterView.getItemAtPosition(i)).get("index");
                 showpopwindow();
                 return true;
             }
@@ -92,14 +96,12 @@ public class GoalListFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
-
             }
         });
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
-
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                new DeleteGoalTask(GoalUserMapService.getGoal(deleteGoalIndex)).execute();
             }
         });
         builder.show();
@@ -163,6 +165,50 @@ public class GoalListFragment extends Fragment {
                 builder.create().show();
             } else { // 获取成功
                 createListView(s);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            cancelDialog();
+        }
+
+        private void cancelDialog() {
+            if (mLoadingDialog != null) {
+                mLoadingDialog.closeDialog();
+            }
+        }
+    }
+
+    class DeleteGoalTask extends AsyncTask<Void, Void, String> {
+        private LoadingDialog mLoadingDialog;
+        private GoalUserMap goal;
+
+        public DeleteGoalTask(GoalUserMap goal) {
+            super();
+            this.goal = goal;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mLoadingDialog = new LoadingDialog().showLoading(getContext());
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return GoalUserMapService.deleteGoal(goal);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            cancelDialog();
+            if (s != null) { // 删除失败
+                Toast.makeText(getContext(), s, Toast.LENGTH_SHORT).show();
+            } else { // 删除成功
+                new FetchGoalsDataTask().execute();
             }
         }
 

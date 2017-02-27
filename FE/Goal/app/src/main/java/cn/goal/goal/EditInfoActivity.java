@@ -327,6 +327,7 @@ public class EditInfoActivity extends AppCompatActivity {
             if (s != null) {
                 Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
             } else {
+                Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                 email.setText(newEmail);
             }
         }
@@ -371,6 +372,7 @@ public class EditInfoActivity extends AppCompatActivity {
                 Toast.makeText(EditInfoActivity.this, s, Toast.LENGTH_SHORT).show();
             } else {
                 phone.setText(newPhone);
+                Toast.makeText(EditInfoActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
             }
         }
 

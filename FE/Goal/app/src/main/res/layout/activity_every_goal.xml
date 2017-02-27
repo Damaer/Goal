@@ -18,10 +18,10 @@
             android:layout_width="20dp"
             android:layout_height="20dp" />
         <TextView
-            android:text="goal名称"
-            android:layout_centerInParent="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:text="goal名称"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/title"/>
         <ImageButton
             android:id="@+id/write"
             android:layout_marginRight="8dp"
@@ -45,12 +45,12 @@
             android:layout_width="match_parent"
             android:layout_height="128dp">
             <ImageButton
-                android:id="@+id/go_to_goal"
-                android:layout_gravity="center"
-                android:gravity="center_horizontal"
-                android:background="@mipmap/go1"
-                android:layout_width="100dp"
-                android:layout_height="100dp" />
+                    android:id="@+id/go_to_goal"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:background="@mipmap/go1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp" android:scaleType="fitCenter"/>
             <TextView
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="16dp"
@@ -71,9 +71,6 @@
                 android:layout_height="wrap_content">
 
             </cn.goal.goal.utils.MylistView_for_goal_record>
-            <ProgressBar
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

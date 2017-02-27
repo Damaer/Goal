@@ -1,5 +1,7 @@
 package cn.goal.goal;
 
+import cn.goal.goal.services.object.Comment;
+
 /**
  * Created by 97617 on 2017/2/21.
  */
@@ -15,7 +17,7 @@ public class Goal_record_class {
     private int ImageId_btn_share;
     private int ImageId_btn_reply;
     private int sum_of_reply;
-    public Goal_record_class(int user_Image,String user_name,String time_of_send,int sum_of_like)
+    public Goal_record_class(Comment comment)
     {
         this.user_Image=user_Image;
         this.user_name=user_name;

@@ -220,14 +220,12 @@ public class MyAdapter_for_every_record extends BaseAdapter implements View.OnCl
                 Toast.makeText(mContext, (like ? "" : "取消") + "点赞成功", Toast.LENGTH_SHORT).show();
                 isLike[index] = like;
                 // 添加下面这句会导致视图不刷新
-                sumOfLikeViews[index].setText(
-                        String.valueOf(
-                                (Integer.valueOf(sumOfLikeViews[index].getText().toString()) + (like ? 1 : -1))
-                        )
-                );
-                sumOfLikeViews[index].postInvalidate();
+//                sumOfLikeViews[index].setText(
+//                        String.valueOf(
+//                                (Integer.valueOf(sumOfLikeViews[index].getText().toString()) + (like ? 1 : -1))
+//                        )
+//                );
                 likeButtons[index].setBackgroundResource(like ? R.mipmap.liked : R.mipmap.like);
-                MyAdapter_for_every_record.this.notifyDataSetChanged();
             }
         }
 

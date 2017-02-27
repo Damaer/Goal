@@ -42,6 +42,7 @@ public class GoalListFragment extends Fragment {
             finished = args.getBoolean("data");
         }
     }
+
     private void createListView(ArrayList<GoalUserMap> goals) {
         data = new ArrayList<>();
         if (goals == null) {
@@ -64,9 +65,8 @@ public class GoalListFragment extends Fragment {
         }
 
         mListView.setAdapter(new SimpleAdapter(getContext(), data, R.layout.goal_item,
-                new String[]{"title", "content", "createAt"},
-                new int[]{R.id.title, R.id.content, R.id.createAt}));
-        //长按跳出删除弹窗
+        new String[]{"title", "content", "createAt"},
+        new int[]{R.id.title, R.id.content, R.id.createAt}));
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -75,14 +75,12 @@ public class GoalListFragment extends Fragment {
                 return true;
             }
         });
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, String> goalInfo = (HashMap<String, String>) parent.getItemAtPosition(position);
                 Intent intent = new Intent(getActivity(),EveryGoalActivity.class);
                 intent.putExtra("goalIndex", goalInfo.get("index"));
-
                 startActivity(intent);
             }
         });

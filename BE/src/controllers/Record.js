@@ -78,8 +78,8 @@ exports.get_goals_finished_record_today = (req, res, next) => {
 	Record.findOne({user: userId, date: getToday()}, (err, record) => {
 		if (err) return res.json({code: 10500, msg: '查询失败'});
 		res.json({code: 10000, msg: '', data: {
-			goalsFinished: record.goalsFinished,
-			date: record.date
+			goalsFinished: [],
+			date: getToday
 		}});
 	})
 }

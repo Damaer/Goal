@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.goal.goal.A_Word_EverydayActivity">
+    tools:context="cn.goal.goal.Activity.AWordEverydayActivity">
     <RelativeLayout
         android:layout_width="fill_parent"
         android:paddingLeft="4dp"

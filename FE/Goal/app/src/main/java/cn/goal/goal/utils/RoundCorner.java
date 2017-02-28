@@ -1,4 +1,4 @@
-package cn.goal.goal.utils;
+package cn.goal.goal.Utils;
 
 import android.graphics.*;
 

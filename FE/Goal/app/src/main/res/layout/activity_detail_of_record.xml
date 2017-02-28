@@ -139,12 +139,12 @@
             android:layout_width="match_parent"
             android:layout_height="1px">
         </View>
-        <cn.goal.goal.utils.MylistView_for_goal_comment
+        <cn.goal.goal.Utils.MylistView_for_goal_comment
             android:id="@+id/listview_for_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        </cn.goal.goal.utils.MylistView_for_goal_comment>
+        </cn.goal.goal.Utils.MylistView_for_goal_comment>
 
     </LinearLayout>
 

@@ -1,14 +1,14 @@
-package cn.goal.goal.services;
+package cn.goal.goal.Services;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import cn.goal.goal.services.object.Note;
+import cn.goal.goal.Services.object.Note;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import static cn.goal.goal.utils.Util.dateToString;
+import static cn.goal.goal.Utils.Util.dateToString;
 
 /**
  * Created by chenlin on 25/02/2017.

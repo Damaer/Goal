@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.goal.goal.EveryUserActivity">
+    tools:context="cn.goal.goal.Activity.EveryUserActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp">
@@ -128,12 +128,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
                 android:background="#DCDCDC" />
-            <cn.goal.goal.utils.MylistView_for_goal
+            <cn.goal.goal.Utils.MylistView_for_goal
                 android:id="@+id/listview_of_user_goal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            </cn.goal.goal.utils.MylistView_for_goal>
+            </cn.goal.goal.Utils.MylistView_for_goal>
         </LinearLayout>
     </ScrollView>
     <RelativeLayout

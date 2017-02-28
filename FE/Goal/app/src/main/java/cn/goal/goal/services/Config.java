@@ -1,4 +1,4 @@
-package cn.goal.goal.services;
+package cn.goal.goal.Services;
 
 /**
  * Created by chenlin on 15/02/2017.

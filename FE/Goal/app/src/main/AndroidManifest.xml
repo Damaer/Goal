@@ -10,12 +10,12 @@
     <application
         android:largeHeap="true"
         android:allowBackup="true"
-        android:icon="@mipmap/go2"
+        android:icon="@mipmap/ic_launcher_web"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".BaseActivity"
+            android:name=".Activity.BaseActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,71 +24,71 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activity.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".AgreementActivity" />
-        <activity android:name=".A_Word_EverydayActivity" />
+        <activity android:name=".Activity.AgreementActivity" />
+        <activity android:name=".Activity.AWordEverydayActivity" />
         <activity
-            android:name=".GoalAddActivity"
+            android:name=".Activity.GoalAddActivity"
             android:label="新建目标" />
         <activity
-            android:name=".GoalEditActivity"
+            android:name=".Activity.GoalEditActivity"
             android:label="编辑目标" />
         <activity
-            android:name=".GoalDetailActivity"
+            android:name=".Activity.GoalDetailActivity"
             android:label="查看目标" />
         <activity
-            android:name=".GoalRecordActivity"
+            android:name=".Activity.GoalRecordActivity"
             android:label="目标记录" />
         <activity
-            android:name=".EditInfoActivity"
+            android:name=".Activity.EditInfoActivity"
             android:label="编辑个人信息" />
         <activity
-            android:name=".Realtime_statisticsActivity"
+            android:name=".Activity.Realtime_statisticsActivity"
             android:label="实时统计" />
         <activity
-            android:name=".QuickStartActivity"
+            android:name=".Activity.QuickStartActivity"
             android:label="快速开始">
 
         </activity>
         <activity
-            android:name=".QuickStartCountTime"
+            android:name=".Manager.QuickStartCountTime"
             android:label="快速开始倒计时">
         </activity>
         <activity
-            android:name=".AboutActivity"
+            android:name=".Activity.AboutActivity"
             android:label="关于" />
         <activity
-            android:name=".AccountSafetyActivity"
+            android:name=".Activity.AccountSafetyActivity"
             android:label="账号安全" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".Activity.SettingsActivity"
             android:label="程序设置" />
         <activity
-            android:name=".EveryGoalActivity"
+            android:name=".Activity.EveryGoalActivity"
             android:label="每个目标">
 
         </activity>
         <activity
-            android:name=".NoteDetailActivity"
+            android:name=".Activity.NoteDetailActivity"
             android:label="标签详细" />
         <activity
-            android:name=".NoteEditActivity"
+            android:name=".Activity.NoteEditActivity"
             android:label="标签编辑" />
         <activity
-            android:name=".EveryUserActivity"
+            android:name=".Activity.EveryUserActivity"
             android:label="用户">
         </activity>
-        <activity android:name=".DetailOfRecordActivity">
+        <activity android:name=".Activity.DetailOfRecordActivity">
 
         </activity>
         <activity
             android:label="接收信息"
-            android:name=".ContactActivity">
+            android:name=".Activity.ContactActivity">
 
         </activity>
     </application>>

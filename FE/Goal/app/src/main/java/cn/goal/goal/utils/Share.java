@@ -1,10 +1,8 @@
-package cn.goal.goal.utils;
+package cn.goal.goal.Utils;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Environment;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.goal.goal.ContactActivity">
+    tools:context="cn.goal.goal.Activity.ContactActivity">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"

@@ -1,7 +1,7 @@
 package cn.goal.goal;
 
 import android.graphics.Bitmap;
-import cn.goal.goal.services.object.GetBitmapInterface;
+import cn.goal.goal.Services.object.GetBitmapInterface;
 
 /**
  * Created by chenlin on 27/02/2017.

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
 
-    tools:context="cn.goal.goal.AgreementActivity">
+    tools:context="cn.goal.goal.Activity.AgreementActivity">
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="center_vertical"

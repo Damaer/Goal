@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="cn.goal.goal.QuickStartCountTime">
+    tools:context="cn.goal.goal.Manager.QuickStartCountTime">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
 
         >
-        <cn.goal.goal.TimeViewComm
+        <cn.goal.goal.Manager.TimeViewComm
             android:id="@+id/time1"
             android:layout_marginTop="211dp"
             android:layout_gravity="center"

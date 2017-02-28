@@ -78,8 +78,8 @@ exports.get_goals_finished_record_today = (req, res, next) => {
 	Record.findOne({user: userId, date: getToday()}, (err, record) => {
 		if (err) return res.json({code: 10500, msg: '查询失败'});
 		res.json({code: 10000, msg: '', data: {
-			goalsFinished: [],
-			date: getToday
+			goalsFinished: record ? record.goalsFinished : [],
+			date: getToday()
 		}});
 	})
 }
@@ -108,6 +108,7 @@ exports.mark_goal_finished = (req, res, next) => {
 					resolve(record);
 				}
 			}).then(record => {
+				console.log(record);
 				// 目标今日已被标记完成则直接返回完成成功
 				if (record.goalsFinished.indexOf(goal.goal) !== -1) return res.json({code: 10000, msg: '目标完成成功'});
 

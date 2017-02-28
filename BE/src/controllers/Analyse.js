@@ -96,22 +96,22 @@ let getGoalsFinishedInfo = (userId, begin, end) => new Promise((resolve, reject)
 /*
 	获取[begin, end]创建目标
  */
-let getGoalsCreated = (userId, begin, end) => getGoals({"meta.createAt": {$gte: begin, $lte: end}});
+let getGoalsCreated = (userId, begin, end) => getGoals({user: userId, "meta.createAt": {$gte: begin, $lte: end}});
 
 /*
  获取正在进行的目标数量
  */
-let getGoalsDoing = userId => getGoals({finish: false});
+let getGoalsDoing = userId => getGoals({user: userId, finish: false});
 
 /*
 	获取本月标记目标完成数量
  */
-let getGoalsFinished = (userId, begin, end) => getGoals({end: {$gte: begin, $lte: end}});
+let getGoalsFinished = (userId, begin, end) => getGoals({user: userId, end: {$gte: begin, $lte: end}});
 
 /*
 	获取本月关注且未完成的目标
  */
-let getGoalsUnfinished = (userId, begin, end) => getGoals({"meta.createAt": {$gte: begin, $lte: end}, finish: false});
+let getGoalsUnfinished = (userId, begin, end) => getGoals({user: userId, "meta.createAt": {$gte: begin, $lte: end}, finish: false});
 
 /*
 	获取本月坚持最久的目标

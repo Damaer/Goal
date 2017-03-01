@@ -1,9 +1,9 @@
-package cn.goal.goal.Services;
+package cn.goal.goal.services;
 
-import cn.goal.goal.Services.object.Message;
-import cn.goal.goal.Services.object.User;
-import cn.goal.goal.Services.util.TypeTransfer;
-import cn.goal.goal.Utils.HttpRequest;
+import cn.goal.goal.services.object.Message;
+import cn.goal.goal.services.object.User;
+import cn.goal.goal.services.utils.TypeTransfer;
+import cn.goal.goal.utils.HttpRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,7 +1,7 @@
-package cn.goal.goal.Services;
+package cn.goal.goal.services;
 
-import cn.goal.goal.Services.object.DailySentence;
-import cn.goal.goal.Utils.HttpRequest;
+import cn.goal.goal.services.object.DailySentence;
+import cn.goal.goal.utils.HttpRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 

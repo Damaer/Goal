@@ -1,4 +1,4 @@
-package cn.goal.goal.Utils;
+package cn.goal.goal.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

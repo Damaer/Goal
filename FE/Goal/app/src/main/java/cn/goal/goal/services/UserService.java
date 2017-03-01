@@ -1,18 +1,18 @@
-package cn.goal.goal.Services;
+package cn.goal.goal.services;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
-import cn.goal.goal.Services.object.UserInfo;
-import cn.goal.goal.Services.util.TypeTransfer;
+import cn.goal.goal.services.object.UserInfo;
+import cn.goal.goal.services.utils.TypeTransfer;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
-import cn.goal.goal.Services.object.User;
-import cn.goal.goal.Utils.HttpRequest;
+import cn.goal.goal.services.object.User;
+import cn.goal.goal.utils.HttpRequest;
 
 /**
  * Created by chenlin on 15/02/2017.

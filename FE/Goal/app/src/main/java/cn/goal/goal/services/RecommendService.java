@@ -1,8 +1,8 @@
-package cn.goal.goal.Services;
+package cn.goal.goal.services;
 
-import cn.goal.goal.Services.object.Recommend;
-import cn.goal.goal.Services.util.TypeTransfer;
-import cn.goal.goal.Utils.HttpRequest;
+import cn.goal.goal.services.object.Recommend;
+import cn.goal.goal.services.utils.TypeTransfer;
+import cn.goal.goal.utils.HttpRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 

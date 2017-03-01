@@ -1,4 +1,4 @@
-package cn.goal.goal.Services;
+package cn.goal.goal.services;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

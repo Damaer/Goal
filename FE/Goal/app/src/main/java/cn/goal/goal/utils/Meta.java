@@ -1,7 +1,7 @@
-package cn.goal.goal.Utils;
+package cn.goal.goal.utils;
 
-import cn.goal.goal.Services.object.Goal;
-import cn.goal.goal.Services.object.User;
+import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.object.User;
 
 /**
  * Created by chenlin on 27/02/2017.

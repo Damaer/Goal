@@ -1,4 +1,4 @@
-package cn.goal.goal.Services.object;
+package cn.goal.goal.services.object;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
-import cn.goal.goal.Services.Config;
-import cn.goal.goal.Utils.HttpRequest;
-import cn.goal.goal.Utils.RoundCorner;
+import cn.goal.goal.services.Config;
+import cn.goal.goal.utils.HttpRequest;
+import cn.goal.goal.utils.RoundCorner;
 
 import java.io.File;
 import java.io.FileNotFoundException;

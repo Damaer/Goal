@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
-            android:name=".Activity.BaseActivity"
+            android:name=".activity.BaseActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,71 +24,71 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name=".activity.LoginActivity"
             android:label="@string/app_name" />
         <activity
-            android:name=".Activity.RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.AgreementActivity" />
-        <activity android:name=".Activity.AWordEverydayActivity" />
+        <activity android:name=".activity.AgreementActivity" />
+        <activity android:name=".activity.AWordEverydayActivity" />
         <activity
-            android:name=".Activity.GoalAddActivity"
+            android:name=".activity.GoalAddActivity"
             android:label="新建目标" />
         <activity
-            android:name=".Activity.GoalEditActivity"
+            android:name=".activity.GoalEditActivity"
             android:label="编辑目标" />
         <activity
-            android:name=".Activity.GoalDetailActivity"
+            android:name=".activity.GoalDetailActivity"
             android:label="查看目标" />
         <activity
-            android:name=".Activity.GoalRecordActivity"
+            android:name=".activity.GoalRecordActivity"
             android:label="目标记录" />
         <activity
-            android:name=".Activity.EditInfoActivity"
+            android:name=".activity.EditInfoActivity"
             android:label="编辑个人信息" />
         <activity
-            android:name=".Activity.Realtime_statisticsActivity"
+            android:name=".activity.RealtimeStatisticsActivity"
             android:label="实时统计" />
         <activity
-            android:name=".Activity.QuickStartActivity"
+            android:name=".activity.QuickStartActivity"
             android:label="快速开始">
 
         </activity>
         <activity
-            android:name=".Manager.QuickStartCountTime"
+            android:name=".manager.QuickStartCountTime"
             android:label="快速开始倒计时">
         </activity>
         <activity
-            android:name=".Activity.AboutActivity"
+            android:name=".activity.AboutActivity"
             android:label="关于" />
         <activity
-            android:name=".Activity.AccountSafetyActivity"
+            android:name=".activity.AccountSafetyActivity"
             android:label="账号安全" />
         <activity
-            android:name=".Activity.SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="程序设置" />
         <activity
-            android:name=".Activity.EveryGoalActivity"
+            android:name=".activity.EveryGoalActivity"
             android:label="每个目标">
 
         </activity>
         <activity
-            android:name=".Activity.NoteDetailActivity"
+            android:name=".activity.NoteDetailActivity"
             android:label="标签详细" />
         <activity
-            android:name=".Activity.NoteEditActivity"
+            android:name=".activity.NoteEditActivity"
             android:label="标签编辑" />
         <activity
-            android:name=".Activity.EveryUserActivity"
+            android:name=".activity.EveryUserActivity"
             android:label="用户">
         </activity>
-        <activity android:name=".Activity.DetailOfRecordActivity">
+        <activity android:name=".activity.DetailOfRecordActivity">
 
         </activity>
         <activity
             android:label="接收信息"
-            android:name=".Activity.ContactActivity">
+            android:name=".activity.ContactActivity">
 
         </activity>
     </application>>

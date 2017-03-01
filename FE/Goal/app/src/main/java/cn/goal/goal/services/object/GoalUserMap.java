@@ -1,4 +1,4 @@
-package cn.goal.goal.Services.object;
+package cn.goal.goal.services.object;
 
 import java.util.Date;
 

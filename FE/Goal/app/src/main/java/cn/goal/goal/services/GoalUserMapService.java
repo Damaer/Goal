@@ -85,9 +85,9 @@ public class GoalUserMapService {
 
     /**
      * 添加目标
-     * @return 成功返回null, 失败返回错误信息
+     * @return 成功返回goalUserMap, 失败返回null
      */
-    public static String addGoal(Goal goal, Date begin, Date plan, Boolean isPublic) {
+    public static GoalUserMap addGoal(Goal goal, Date begin, Date plan, Boolean isPublic) {
         HttpRequest request = HttpRequest
                 .post(apiServer + goalMapUrl + "/goal/" + goal.get_id())
                 .header("Authorization", UserService.getToken())
@@ -99,7 +99,7 @@ public class GoalUserMapService {
                 JSONObject result = new JSONObject(request.body());
                 if (result.getInt("code") == 10000) {
                     if (goalUserMaps == null) goalUserMaps = new ArrayList<>();
-                    goalUserMaps.add(new GoalUserMap(
+                    GoalUserMap goalUserMap = new GoalUserMap(
                             goal,
                             result.getString("data"),
                             isPublic,
@@ -110,16 +110,15 @@ public class GoalUserMapService {
                             plan,
                             new Date(0),
                             1
-                    ));
-                    return null;
+                    );
+                    goalUserMaps.add(goalUserMap);
+                    return goalUserMap;
                 }
-                return result.getString("msg");
             } catch (JSONException e) {
                 e.printStackTrace();
-                return "服务器传输数据错误";
             }
         }
-        return ("请求失败");
+        return null;
     }
 
     /**

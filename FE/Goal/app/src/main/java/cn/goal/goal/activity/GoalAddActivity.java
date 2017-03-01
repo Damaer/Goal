@@ -16,6 +16,7 @@ import cn.goal.goal.R;
 import cn.goal.goal.services.GoalService;
 import cn.goal.goal.services.GoalUserMapService;
 import cn.goal.goal.services.object.Goal;
+import cn.goal.goal.services.object.GoalUserMap;
 import cn.goal.goal.utils.NetWorkUtils;
 
 import java.util.Calendar;
@@ -145,7 +146,7 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
         }, planCalendar.get(Calendar.YEAR), planCalendar.get(Calendar.MONTH), planCalendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    class CreateGoalTask extends AsyncTask<Void, Void, String> {
+    class CreateGoalTask extends AsyncTask<Void, Void, GoalUserMap> {
         LoadingDialog mLoadingDialog;
         private String title;
         private String content;
@@ -167,7 +168,7 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected GoalUserMap doInBackground(Void... params) {
             Goal goal = GoalService.addGoal(title, content);
 
             if (goal == null) return null;
@@ -181,10 +182,10 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(GoalUserMap s) {
             super.onPostExecute(s);
             cancelDialog();
-            if (s != null) { // 获取失败则提示用户是否重新获取
+            if (s == null) { // 获取失败则提示用户是否重新获取
                 AlertDialog.Builder builder = new AlertDialog.Builder(GoalAddActivity.this);
                 builder.setMessage("添加目标失败，是否重新尝试?");
                 builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -202,7 +203,7 @@ public class GoalAddActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
                 builder.create().show();
-            } else { // 获取成功
+            } else { // 创建成功
                 finish();
             }
         }

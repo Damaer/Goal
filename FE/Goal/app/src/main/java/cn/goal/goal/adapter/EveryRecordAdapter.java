@@ -17,6 +17,7 @@ import cn.goal.goal.GetBitmapListener;
 import cn.goal.goal.dialog.LoadingDialog;
 import cn.goal.goal.R;
 import cn.goal.goal.services.CommentService;
+import cn.goal.goal.services.UserService;
 import cn.goal.goal.services.object.Comment;
 import cn.goal.goal.services.object.User;
 import cn.goal.goal.utils.Meta;
@@ -37,7 +38,7 @@ public class EveryRecordAdapter extends BaseAdapter implements View.OnClickListe
     private Context mContext;
 
     public EveryRecordAdapter(Context context, ArrayList<Comment> data) {
-        this.list = data;
+        list = data;
         mContext = context;
         mInflaer = LayoutInflater.from(context);
         headphoto = new ImageView[data.size()];
@@ -106,7 +107,7 @@ public class EveryRecordAdapter extends BaseAdapter implements View.OnClickListe
         holder.goal_name.setText(null); //设置不显示目标标题 listItem.goal.getTitle()
         holder.content_of_send.setText(listItem.getContent());
         holder.time_of_send.setText(Util.dateToString(listItem.getCreateAt()));
-        isLike[position] = listItem.getLike().contains(user.get_id());
+        isLike[position] = listItem.getLike().contains(UserService.getUserInfo().get_id());
         likeButtons[position].setBackgroundResource(isLike[position] ? R.mipmap.liked : R.mipmap.like);
         sumOfLikeViews[position].setText(String.valueOf(listItem.getLike().size()));
         holder.share.setBackgroundResource(R.mipmap.share);

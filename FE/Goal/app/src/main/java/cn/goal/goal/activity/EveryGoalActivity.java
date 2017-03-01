@@ -521,7 +521,7 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
-    class AddGoalTask extends AsyncTask<Void, Void, String> {
+    class AddGoalTask extends AsyncTask<Void, Void, GoalUserMap> {
         private LoadingDialog mLoadingDialog;
 
         @Override
@@ -531,15 +531,15 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
         }
 
         @Override
-        protected String doInBackground(Void... params) {
+        protected GoalUserMap doInBackground(Void... params) {
             return GoalUserMapService.addGoal(goal.getGoal(), new Date(), new Date(), true);
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected void onPostExecute(GoalUserMap s) {
             super.onPostExecute(s);
             cancelDialog();
-            if (s != null) { // 添加失败
+            if (s == null) { // 添加失败
                 Toast.makeText(EveryGoalActivity.this, "添加失败，请重新尝试", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(EveryGoalActivity.this, "添加成功", Toast.LENGTH_SHORT).show();
@@ -547,14 +547,9 @@ public class EveryGoalActivity extends AppCompatActivity implements AdapterView.
                 write.setVisibility(View.VISIBLE);
                 go_goal.setImageResource(R.mipmap.go1);
 
-                // 获取goalIndex
-                ArrayList<GoalUserMap> goalUserMaps = GoalUserMapService.getGoals();
-                for (int i = 0; i < goalUserMaps.size(); ++i) {
-                    GoalUserMap goalUserMap = goalUserMaps.get(i);
-                    if (goalUserMap.getGoal().get_id().equals(goal.getGoal().get_id())) {
-                        goalIndex = String.valueOf(i);
-                    }
-                }
+                // 获取goalUserMap及goalIndex
+                goal = s;
+                goalIndex = GoalUserMapService.getGoalIndex(goal);
 
                 new InitDataTask().execute(); // 刷新数据
             }

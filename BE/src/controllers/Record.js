@@ -20,7 +20,11 @@ exports.get_daily_sentence_today = (req, res, next) => {
 
 		if (!record) {
 			createRecord(userId).then(([record, dailySentence]) => {
-				res.json({code: 10000, msg: '', data: dailySentence});
+				res.json({code: 10000, msg: '', data: {
+					date: Date.now(),
+					sentence: dailySentence.sentence,
+					backImg: dailySentence.backImg
+				}});
 			}, err => {
 				res.json({code: 10500, msg: '查询失败'});
 			});

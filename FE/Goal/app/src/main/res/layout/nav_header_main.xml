@@ -14,6 +14,7 @@
         android:gravity="bottom">
 
     <ImageView
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -23,14 +24,18 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="Android Studio"
+            android:gravity="center"
+            android:paddingTop="6dp"
+            android:text="执笔绘繁华"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
 
     <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="android.studio@android.com"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/gray"
+            android:gravity="center"
+            android:text="每一次坚持，都成就将来的我。"
             android:id="@+id/textView"/>
 
 </LinearLayout>

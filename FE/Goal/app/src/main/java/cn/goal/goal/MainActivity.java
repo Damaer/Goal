@@ -1,9 +1,14 @@
 package cn.goal.goal;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.View;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationItemView;
+import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -13,8 +18,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+
+    private ViewPager viewPager;
+    private BottomNavigationView bottomNavigationView;
+    private MenuItem currentBottomMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +43,19 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
+        disableShiftingMode(bottomNavigationView);  // Close ShiftingMode effect
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                return onBottomNavigationItemSelected(item);
+            }
+        });
+
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.addOnPageChangeListener(this);
+        setupViewPager(viewPager);
     }
 
     @Override
@@ -87,5 +113,97 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (currentBottomMenuItem != null) {
+            currentBottomMenuItem.setChecked(false);
+        } else {
+            bottomNavigationView.getMenu().getItem(0).setChecked(false);
+        }
+
+        currentBottomMenuItem = bottomNavigationView.getMenu().getItem(position);
+        currentBottomMenuItem.setChecked(true);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private boolean onBottomNavigationItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.bottom_nav_goal:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.bottom_nav_note:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.bottom_nav_task:
+                viewPager.setCurrentItem(2);
+                break;
+            case R.id.bottom_nav_discover:
+                viewPager.setCurrentItem(3);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(BaseFragment.newInstance("目标页面"));
+        adapter.addFragment(BaseFragment.newInstance("标签页面"));
+        adapter.addFragment(BaseFragment.newInstance("任务页面"));
+        adapter.addFragment(BaseFragment.newInstance("发现页面"));
+
+        viewPager.setAdapter(adapter);
+    }
+
+    private void disableShiftingMode(BottomNavigationView bottomNavigationView) {
+        BottomNavigationMenuView menuView = (BottomNavigationMenuView) bottomNavigationView.getChildAt(0);
+        try {
+            Field shiftingMode = menuView.getClass().getDeclaredField("mShiftingMode");
+            shiftingMode.setAccessible(true);
+            shiftingMode.setBoolean(menuView, false);
+            shiftingMode.setAccessible(false);
+
+            for (int i = 0; i < menuView.getChildCount(); i++) {
+                BottomNavigationItemView itemView = (BottomNavigationItemView) menuView.getChildAt(i);
+                itemView.setShiftingMode(false);
+                itemView.setChecked(itemView.getItemData().isChecked());
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    class ViewPagerAdapter extends FragmentPagerAdapter {
+        private final List<Fragment> mFragmentList = new ArrayList<>();
+
+        private ViewPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return mFragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return mFragmentList.size();
+        }
+
+        private void addFragment(Fragment fragment) {
+            mFragmentList.add(fragment);
+        }
     }
 }

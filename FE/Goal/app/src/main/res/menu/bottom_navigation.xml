@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+            android:id="@+id/bottom_nav_goal"
+            android:icon="@drawable/ic_menu_goal"
+            android:title="@string/bottom_navigation_goal"/>
+    <item
+            android:id="@+id/bottom_nav_note"
+            android:icon="@drawable/ic_menu_note"
+            android:title="@string/bottom_navigation_note"/>
+    <item
+            android:id="@+id/bottom_nav_task"
+            android:icon="@drawable/ic_menu_task"
+            android:title="@string/bottom_navigation_task"/>
+    <item
+            android:id="@+id/bottom_nav_discover"
+            android:icon="@drawable/ic_menu_discover"
+            android:title="@string/bottom_navigation_discover"/>
+</menu>

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
@@ -97,17 +98,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_daily_sentence) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_statistics) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_contact) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings) {
 
         }
 

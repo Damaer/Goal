@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import cn.goal.goal.util.DisplayUtil;
 
 public class UserAgreementActivity extends AppCompatActivity {
 
@@ -17,9 +18,8 @@ public class UserAgreementActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_agreement);
-        Window window = getWindow();
-        //设置透明状态栏,这样才能让 ContentView 向上
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        DisplayUtil.setTranslucentStatus(this);
 
     }
 }

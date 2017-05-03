@@ -13,7 +13,8 @@
     <android.support.v4.view.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_nav_bar_height"/>
 
     <android.support.design.widget.BottomNavigationView
             android:id="@+id/bottomNavigation"
@@ -21,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:menu="@menu/bottom_navigation"
-            app:itemBackground="@drawable/bottom_nav_background"
+            android:background="@drawable/side_nav_bar"
             app:itemTextColor="@drawable/bottom_navigation_selector"
             app:itemIconTint="@drawable/bottom_navigation_selector" />
 </RelativeLayout>

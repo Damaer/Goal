@@ -6,9 +6,14 @@
     <color name="gray">#686868</color>
     <color name="lintgray">#C7C7C7</color>
     <color name="white">#ffffff</color>
+    <color name="lintblue">#556699cc</color>
     <color name="purple">#887cd6</color>
     <color name="lintpurple">#55887cd6</color>
     <color name="background">#ffffff</color>
+
     <color name="divider">#dddddd</color>
     <color name="warning">#ff4081</color>
+
+    <color name="lintword_bg">#55C9C9C9</color>
+
 </resources>

@@ -18,4 +18,8 @@
         <item name="colorControlActivated">@color/purple</item>
     </style>
 
+    <style name="AppTheme.FitsSystemWindows">
+        <item name="android:fitsSystemWindows">true</item>
+    </style>
+
 </resources>

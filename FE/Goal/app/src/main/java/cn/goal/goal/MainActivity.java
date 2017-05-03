@@ -1,6 +1,5 @@
 package cn.goal.goal;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
@@ -16,8 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
+import cn.goal.goal.util.DisplayUtil;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.addOnPageChangeListener(this);
         setupViewPager(viewPager);
+
+        DisplayUtil.setTranslucentStatus(this);
     }
 
     @Override
@@ -97,17 +99,15 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_daily_sentence) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_statistics) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_contact) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_settings) {
 
         }
 

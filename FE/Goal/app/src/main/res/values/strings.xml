@@ -10,4 +10,10 @@
     <string name="bottom_navigation_note">便签</string>
     <string name="bottom_navigation_task">任务</string>
     <string name="bottom_navigation_discover">发现</string>
+
+    <string name="nav_menu_home">主页</string>
+    <string name="nav_menu_daily_sentence">每日一句</string>
+    <string name="nav_menu_statistics">实时统计</string>
+    <string name="nav_menu_contact">连接你我</string>
+    <string name="nav_menu_setting">设置/帮助</string>
 </resources>

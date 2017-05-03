@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import cn.goal.goal.util.DisplayUtil;
 
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
@@ -24,11 +25,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Window window = getWindow();
-        //设置透明状态栏,这样才能让 ContentView 向上
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        //需要设置这个 flag 才能调用 setStatusBarColor 来设置状态栏颜色
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+        DisplayUtil.setTranslucentStatus(this);
+
         init();
     }
     public void init() {

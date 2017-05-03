@@ -1,16 +1,11 @@
 package cn.goal.goal;
-
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
-
+import cn.goal.goal.util.DisplayUtil;
 public class UserAgreementActivity extends AppCompatActivity implements View.OnClickListener {
     public ImageButton comeback_from_useragreement;
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -18,9 +13,8 @@ public class UserAgreementActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_agreement);
-        Window window = getWindow();
-        //设置透明状态栏,这样才能让 ContentView 向上
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        DisplayUtil.setTranslucentStatus(this);
 
     }
     public void init(){

@@ -80,7 +80,7 @@ public class SettingsListItemView extends RelativeLayout {
 
         // 设置 ripple 效果
         if (Build.VERSION.SDK_INT >= 21) {
-            this.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.ripple_bg));
+            this.setBackgroundResource(R.drawable.ripple_bg);
         }
     }
 

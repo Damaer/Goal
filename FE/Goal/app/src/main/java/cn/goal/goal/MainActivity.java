@@ -1,10 +1,13 @@
 package cn.goal.goal;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -60,6 +63,14 @@ public class MainActivity extends AppCompatActivity
         setupViewPager(viewPager);
 
         DisplayUtil.setTranslucentStatus(this);
+
+        // 判断如果sdk < 21，实现沉浸式需要将appBarLayout背景设置为透明，设置drawer背景作为appBarLayout背景
+        if (Build.VERSION.SDK_INT < 21) {
+            AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
+            appBarLayout.setBackgroundColor(Color.TRANSPARENT);
+
+            drawer.setBackgroundResource(R.drawable.side_nav_bar);
+        }
     }
 
     @Override

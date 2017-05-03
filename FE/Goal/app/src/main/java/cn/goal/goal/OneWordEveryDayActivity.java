@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -24,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-public class OneWordEveryDayActivity extends Activity  {
+public class OneWordEveryDayActivity extends AppCompatActivity {
     public ImageButton comback;
     private FrameLayout mCardMainContainer;
     private LinearLayout mCardFontContainer;

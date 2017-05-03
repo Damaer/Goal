@@ -34,7 +34,12 @@
                   android:theme="@style/AppTheme.NoActionBar"
                   android:label="@string/settings_activity_title">
         </activity>
-        <activity android:name=".OneWordEveryDayActivity">
+        <activity android:name=".AccountSafetyActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:label="@string/account_safety_title">
+        </activity>
+        <activity android:name=".OneWordEveryDayActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

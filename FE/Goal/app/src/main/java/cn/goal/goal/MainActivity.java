@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_daily_sentence) {
-
+            startActivity(new Intent(this, OneWordEveryDayActivity.class));
         } else if (id == R.id.nav_statistics) {
 
         } else if (id == R.id.nav_contact) {

@@ -24,6 +24,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import cn.goal.goal.util.DisplayUtil;
 
 public class OneWordEveryDayActivity extends AppCompatActivity {
     public ImageButton comback;
@@ -58,9 +59,7 @@ public class OneWordEveryDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one_word_every_day);
         initView();
-        Window window = getWindow();
-        //设置透明状态栏,这样才能让 ContentView 向上
-        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        DisplayUtil.setTranslucentStatus(this);
         mNormal = (ImageView) findViewById(R.id.normal);
         mWave1 = (ImageView) findViewById(R.id.wave1);
         mWave2 = (ImageView) findViewById(R.id.wave2);

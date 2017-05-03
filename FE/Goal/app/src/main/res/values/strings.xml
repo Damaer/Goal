@@ -25,4 +25,20 @@
     <string name="settings_other_about">关于</string>
     <string name="settings_other_feedback">意见反馈</string>
     <string name="settings_logout">退出账号</string>
+
+    <string name="account_safety_title">账号安全</string>
+    <string name="account_safety_unbind">未绑定</string>
+    <string name="account_safety_goal">Goal账户</string>
+    <string name="account_safety_goal_email">邮箱</string>
+    <string name="account_safety_goal_bind_email">绑定邮箱</string>
+    <string name="account_safety_goal_phone">手机号</string>
+    <string name="account_safety_goal_bind_phone">绑定手机号</string>
+    <string name="account_safety_3rd">第三方账号</string>
+    <string name="account_safety_weibo">微博</string>
+    <string name="account_safety_bind_weibo">绑定微博</string>
+    <string name="account_safety_wechat">微信</string>
+    <string name="account_safety_bind_wechat">绑定微信</string>
+    <string name="account_safety_qq">QQ</string>
+    <string name="account_safety_bind_qq">绑定QQ</string>
+    <string name="account_safety_change_password">更改密码</string>
 </resources>

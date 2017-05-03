@@ -1,5 +1,6 @@
 package cn.goal.goal;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.account_safety:
+                startActivity(new Intent(this, AccountSafetyActivity.class));
                 break;
             case R.id.other_about:
                 break;

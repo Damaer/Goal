@@ -22,4 +22,11 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="ListTitle" parent="@android:style/TextAppearance.Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">17sp</item>
+    </style>
+
 </resources>

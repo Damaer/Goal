@@ -109,4 +109,12 @@ public class SettingsListItemView extends RelativeLayout {
     public void setMTitle(String title){
         mTitleView.setText(title);
     }
+
+    /**
+     * 设置 action 文本
+     * @param title
+     */
+    public void setActionTitle(String title) {
+        mActionView.setText(title);
+    }
 }

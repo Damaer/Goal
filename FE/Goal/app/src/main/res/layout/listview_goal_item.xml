@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="10dp"
+    android:background="@drawable/shape_card_goal_item"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+            android:id="@+id/goal_name"
+            android:layout_marginTop="10dp"
+            android:textAlignment="center"
+            android:text="英语四级考试"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_marginRight="2dp"
+        android:layout_marginLeft="2dp"
+        android:id="@+id/goal_image"
+        android:src="@drawable/word"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY" />
+    <LinearLayout
+            android:layout_margin="4dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/goal_type_image"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/privateicon"
+                android:layout_width="10dp"
+                android:layout_height="10dp" />
+            <TextView
+                android:text="1999人"
+                android:textSize="10sp"
+                android:textColor="@color/lintgray"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/goal_num_0f_people" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/goal_date"
+                    android:text="2017年5月4日"
+                    android:textSize="10sp"
+                    android:textColor="@color/lintgray"
+                    android:gravity="center_vertical"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>

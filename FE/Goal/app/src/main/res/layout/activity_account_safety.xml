@@ -5,9 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="cn.goal.goal.MainActivity">
+        tools:context="cn.goal.goal.SettingsActivity">
     <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar_layout"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:theme="@style/AppTheme.AppBarOverlay"
@@ -26,6 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/background">
-        <include layout="@layout/content_main"/>
+        <include layout="@layout/content_account_settings"/>
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

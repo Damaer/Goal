@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SettingsListItemView">
+        <attr name="title" format="string" />
+        <attr name="subTitle" format="string" />
+        <attr name="titleColor" format="integer" />
+        <attr name="subTitleColor" format="integer" />
+        <attr name="bottomLine" format="boolean" />
+        <attr name="actionTitle" format="string" />
+        <attr name="actionColor" format="integer" />
+    </declare-styleable>
+</resources>

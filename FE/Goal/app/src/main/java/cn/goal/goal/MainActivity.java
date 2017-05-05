@@ -111,11 +111,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_daily_sentence) {
-            startActivity(new Intent(this, OneWordEveryDayActivity.class));
+                startActivity(new Intent(MainActivity.this,OneWordEveryDayActivity.class));
         } else if (id == R.id.nav_statistics) {
 
         } else if (id == R.id.nav_contact) {
@@ -182,7 +181,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(BaseFragment.newInstance("目标页面"));
+        adapter.addFragment(new GoalFragment());
         adapter.addFragment(BaseFragment.newInstance("标签页面"));
         adapter.addFragment(BaseFragment.newInstance("任务页面"));
         adapter.addFragment(BaseFragment.newInstance("发现页面"));

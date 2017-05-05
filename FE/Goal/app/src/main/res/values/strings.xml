@@ -1,22 +1,18 @@
 <resources>
     <string name="app_name">Goal</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
-
     <string name="bottom_navigation_goal">目标</string>
     <string name="bottom_navigation_note">便签</string>
     <string name="bottom_navigation_task">任务</string>
     <string name="bottom_navigation_discover">发现</string>
-
     <string name="nav_menu_home">主页</string>
     <string name="nav_menu_daily_sentence">每日一句</string>
     <string name="nav_menu_statistics">实时统计</string>
     <string name="nav_menu_contact">连接你我</string>
-    <string name="nav_menu_setting">设置</string>
-
+    <string name="nav_menu_setting">设置/帮助</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="settings_activity_title">设置</string>
     <string name="settings_account">账号设置</string>
     <string name="settings_account_safety">账号安全</string>
@@ -25,7 +21,6 @@
     <string name="settings_other_about">关于</string>
     <string name="settings_other_feedback">意见反馈</string>
     <string name="settings_logout">退出账号</string>
-
     <string name="account_safety_title">账号安全</string>
     <string name="account_safety_unbind">未绑定</string>
     <string name="account_safety_goal">Goal账户</string>

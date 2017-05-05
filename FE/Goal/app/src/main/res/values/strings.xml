@@ -41,4 +41,8 @@
     <string name="account_safety_qq">QQ</string>
     <string name="account_safety_bind_qq">绑定QQ</string>
     <string name="account_safety_change_password">更改密码</string>
+
+    <string name="person_info_follow">关注</string>
+    <string name="person_info_followed">已关注</string>
+    <string name="person_info_edit">编辑</string>
 </resources>

@@ -38,6 +38,10 @@
                   android:theme="@style/AppTheme.NoActionBar"
                   android:label="@string/account_safety_title">
         </activity>
+        <activity android:name=".PersonInfoActivity"
+                  android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
         <activity android:name=".OneWordEveryDayActivity"
                   android:theme="@style/AppTheme.NoActionBar">
 

@@ -16,7 +16,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         init();
     }
 
@@ -55,7 +54,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         feedback.setOnClickListener(this);
         SettingsListItemView logout = (SettingsListItemView) findViewById(R.id.logout);
         logout.setOnClickListener(this);
-
         DisplayUtil.setTranslucentStatus(this);
     }
 

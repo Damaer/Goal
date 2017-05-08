@@ -1,4 +1,5 @@
 package cn.goal.goal;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class GoalFragment extends Fragment implements RecyclerAdapter.OnItemClic
     private RecyclerView mRecyclerView;
     public RecyclerAdapter adapter;
     public View view;
+    public ImageButton addgoal;
     public GoalFragment() {
 
     }
@@ -34,6 +37,7 @@ public class GoalFragment extends Fragment implements RecyclerAdapter.OnItemClic
         return view;
     }
     public void initView(){
+        addgoal= (ImageButton) view.findViewById(R.id.addgoal);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.goallistview);
         //
 
@@ -59,6 +63,7 @@ public class GoalFragment extends Fragment implements RecyclerAdapter.OnItemClic
     }
     public void onItemClick(int position, Testgoal model) {
         Log.e(TAG, "onItemClick: " + position);
+        startActivity(new Intent(this.getContext(),EveryGoalActivity.class));
     }
     /**
      * 开启动画

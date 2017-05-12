@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@drawable/qucikstart"
+    android:id="@+id/activity_qucik_start"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.goal.goal.QucikStartActivity">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+        <RelativeLayout
+            android:layout_marginTop="25dp"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="30dp">
+            <ImageButton
+                android:id="@+id/comeback"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/ic_comeback"
+                android:layout_marginLeft="16dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+            <ImageButton
+                android:id="@+id/setting"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/setting_quick_start"
+                android:layout_marginRight="16dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.github.lzyzsd.circleprogress.DonutProgress
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:id="@+id/donut_progress"
+                android:layout_width="230dp"
+                android:layout_height="230dp"
+                android:clickable="false"
+                app:paddingStart="0dp"
+                app:donut_unfinished_color="@color/lintgray"
+                app:donut_finished_color="@color/white"
+                app:donut_finished_stroke_width="3dp"
+                app:donut_unfinished_stroke_width="3dp"
+                app:donut_progress="0"
+                app:donut_text_size="30dp"
+                app:donut_text_color="@color/white"
+                app:donut_text="25:00" />
+                <Button
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="50dp"
+                    android:id="@+id/button"
+                    android:text="开始"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/bottom_bg_quickstart"
+                    android:layout_width="80dp"
+                    android:layout_height="35dp" />
+            <TextView
+                android:layout_marginTop="60dp"
+                android:gravity="center"
+                android:textColor="@color/lintgray"
+                android:text="每一次专注，都是沉醉个人世界的最佳时机。"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

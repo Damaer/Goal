@@ -11,6 +11,10 @@
                 android:icon="@drawable/ic_menu_daily_sentence"
                 android:title="@string/nav_menu_daily_sentence"/>
         <item
+            android:id="@+id/nav_attention"
+            android:icon="@drawable/ic_menu_attention"
+            android:title="专注当下"/>
+        <item
                 android:id="@+id/nav_statistics"
                 android:icon="@drawable/ic_menu_statistics"
                 android:title="@string/nav_menu_statistics"/>

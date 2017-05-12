@@ -20,6 +20,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.*;
+import android.widget.ImageView;
 import cn.goal.goal.util.DisplayUtil;
 
 import java.lang.reflect.Field;
@@ -27,11 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+        implements NavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener, View.OnClickListener {
 
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private MenuItem currentBottomMenuItem;
+    private ImageView avatarImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        avatarImageView = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatarImageView);
+        avatarImageView.setOnClickListener(this);
         navigationView.setCheckedItem(R.id.nav_home);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_daily_sentence) {
                 startActivity(new Intent(MainActivity.this,OneWordEveryDayActivity.class));
+        } else if(id==R.id.nav_attention) {
+            startActivity(new Intent(MainActivity.this,QucikStartActivity.class));
         } else if (id == R.id.nav_statistics) {
 
         } else if (id == R.id.nav_contact) {
@@ -144,6 +150,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    /**
+     * 头像被点击
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        startActivity(new Intent(this, PersonInfoActivity.class));
     }
 
     private boolean onBottomNavigationItemSelected(MenuItem item) {
@@ -194,7 +209,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    class ViewPagerAdapter extends FragmentPagerAdapter {
+    private class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
 
         private ViewPagerAdapter(FragmentManager fragmentManager) {

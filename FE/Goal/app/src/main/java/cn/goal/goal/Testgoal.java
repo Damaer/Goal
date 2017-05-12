@@ -11,7 +11,7 @@ public class Testgoal {
         goalname="四级英语考试";
         goaldate="2017年2月30日";
         goalimage=R.drawable.word;
-        goaltype=R.drawable.privateicon;
+        goaltype=R.drawable.ic_private;
     }
     public String getGoalname()
     {

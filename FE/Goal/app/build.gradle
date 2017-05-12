@@ -28,6 +28,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.github.glomadrian:Grav:1.1'
+    //右上角弹出设置框
+    compile 'com.zaaach:toprightmenu:1.0'
+    //圆形进度条
+    compile 'com.github.lzyzsd:circleprogress:1.2.1'
+    // 自动绑定视图组件到代码
+    compile 'com.jakewharton:butterknife:7.0.1'
+    // 圆角化图片
     compile 'com.makeramen:roundedimageview:2.3.0'
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'

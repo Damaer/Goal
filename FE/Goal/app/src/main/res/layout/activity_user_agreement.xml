@@ -24,7 +24,7 @@
                 android:id="@+id/comeback_from_useragreement"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/comeback"
+                android:background="@drawable/ic_comeback"
                 android:layout_width="26dp"
                 android:layout_height="26dp" />
             <RelativeLayout

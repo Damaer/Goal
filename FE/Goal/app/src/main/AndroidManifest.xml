@@ -15,7 +15,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,26 +26,42 @@
         <activity
             android:name=".RegisterActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".UserAgreementActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".SettingsActivity"
             android:label="@string/settings_activity_title"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".AccountSafetyActivity"
             android:label="@string/account_safety_title"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
         <activity
             android:name=".OneWordEveryDayActivity"
             android:theme="@style/AppTheme.NoActionBar">
+
         </activity>
-        <activity android:name=".EveryGoalActivity"
+        <activity
+            android:name=".EveryGoalActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".PersonInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
+            android:name=".QucikStartActivity"
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>

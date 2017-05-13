@@ -121,6 +121,8 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_daily_sentence) {
             startActivityDelay(OneWordEveryDayActivity.class, 200);
+        } else if(id == R.id.nav_attention) {
+            startActivityDelay(QucikStartActivity.class, 200);
         } else if (id == R.id.nav_statistics) {
 
         } else if (id == R.id.nav_contact) {

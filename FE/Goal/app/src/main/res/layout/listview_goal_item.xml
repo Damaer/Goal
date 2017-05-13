@@ -30,7 +30,7 @@
                 android:id="@+id/goal_type_image"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="5dp"
-                android:background="@drawable/privateicon"
+                android:background="@drawable/ic_private"
                 android:layout_width="10dp"
                 android:layout_height="10dp" />
             <TextView

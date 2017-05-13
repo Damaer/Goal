@@ -24,7 +24,7 @@
                 android:id="@+id/comeback_from_word"
                 android:layout_marginLeft="10dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/comeback"
+                android:background="@drawable/ic_comeback"
                 android:layout_width="26dp"
                 android:layout_height="26dp" />
             <RelativeLayout
@@ -43,7 +43,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_gravity="center_vertical"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/share"
+                    android:background="@drawable/ic_share"
                     android:layout_width="26dp"
                     android:layout_height="26dp" />
             </RelativeLayout>

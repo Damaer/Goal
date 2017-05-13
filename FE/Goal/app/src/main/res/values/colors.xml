@@ -10,12 +10,14 @@
     <color name="purple">#887cd6</color>
     <color name="lintpurple">#55887cd6</color>
     <color name="background">#ffffff</color>
-
+    <color name="quickstart_page1">#88B452CD</color>
+    <color name="quickstart_page2">#88EE82EE</color>
+    <color name="quickstart_page3">#88CDC5BF</color>
+    <color name="quickstart_page4">#99887cd6</color>
     <color name="divider">#dddddd</color>
     <color name="warning">#ff4081</color>
-
     <color name="lintword_bg">#55C9C9C9</color>
-
     <color name="transparent">#00000000</color>
+    <color name="green">#76EE00</color>
 
 </resources>

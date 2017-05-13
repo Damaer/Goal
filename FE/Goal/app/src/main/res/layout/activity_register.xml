@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:src="@drawable/people"
+                    android:src="@drawable/ic_people"
                     android:layout_marginLeft="14dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="22dp"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:src="@drawable/lock"
+                    android:src="@drawable/ic_lock"
                     android:layout_marginLeft="12dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="25dp"
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp">
                 <ImageView
-                    android:src="@drawable/lock"
+                    android:src="@drawable/ic_lock"
                     android:layout_marginLeft="12dp"
                     android:layout_gravity="center_vertical"
                     android:layout_width="25dp"
@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content">
                 <ImageButton
                     android:id="@+id/wechat"
-                    android:background="@drawable/wechat"
+                    android:background="@drawable/ic_wechat"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
                 <TextView
@@ -214,7 +214,7 @@
                 android:layout_height="wrap_content">
                 <ImageButton
                     android:id="@+id/qq"
-                    android:background="@drawable/qq"
+                    android:background="@drawable/ic_qq"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
                 <TextView
@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content">
                 <ImageButton
                     android:id="@+id/weibo"
-                    android:background="@drawable/weibo"
+                    android:background="@drawable/ic_weibo"
                     android:layout_width="40dp"
                     android:layout_height="40dp" />
                 <TextView

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
@@ -35,13 +37,15 @@ public class MainActivity extends AppCompatActivity
     private MenuItem currentBottomMenuItem;
     private ImageView avatarImageView;
 
+    DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -110,21 +114,21 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        drawer.closeDrawer(GravityCompat.START);
+
         int id = item.getItemId();
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_daily_sentence) {
-                startActivity(new Intent(MainActivity.this,OneWordEveryDayActivity.class));
+            startActivityDelay(OneWordEveryDayActivity.class, 200);
         } else if (id == R.id.nav_statistics) {
 
         } else if (id == R.id.nav_contact) {
 
         } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
+            startActivityDelay(SettingsActivity.class, 250);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
         return false;
     }
 
@@ -156,7 +160,8 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onClick(View v) {
-        startActivity(new Intent(this, PersonInfoActivity.class));
+        drawer.closeDrawer(GravityCompat.START);
+        startActivityDelay(PersonInfoActivity.class, 250);
     }
 
     private boolean onBottomNavigationItemSelected(MenuItem item) {
@@ -177,6 +182,17 @@ public class MainActivity extends AppCompatActivity
                 break;
         }
         return true;
+    }
+
+    private void startActivityDelay(final Class activity, long delay) {
+        new Handler().postDelayed(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(new Intent(MainActivity.this, activity));
+                    }
+                }
+        , delay);
     }
 
     private void setupViewPager(ViewPager viewPager) {
